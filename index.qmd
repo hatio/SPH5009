@@ -1,12 +1,13 @@
 # Welcome
 
-This is a companion exercise book for [SPH5009](https://canvas.nus.edu.sg/courses/96080) at the NUS Saw Swee Hock School of Public Health.
-Each numbered section corresponds to a week of the course. Contents are dynamically being built and adjusted as our course progresses to reflect the learnings in class.
+This is an exercise book for [SPH5009](https://canvas.nus.edu.sg/courses/96080) at the NUS Saw Swee Hock School of Public Health.
+Each numbered section corresponds to a week of the course. Contents are being dynamically built and adjusted as our course progresses to reflect the learnings in class.
 
 ## Setup before first day of class
 
-Follow these [instructions](https://cerm-nus.github.io/r-intro/chapters/setup.html#r-first-then-rstudio)
-for setting up R and Rstudio.
+Follow these [instructions](https://cerm-nus.github.io/r-intro/chapters/setup.html#r-first-then-rstudio) in **Section 1.1** to install *R* and *Rstudio*.
+Once installed, check out **Section 1.2** to familiarize yourself with the Rstudio interface. 
+
 
 ## Using the book
 

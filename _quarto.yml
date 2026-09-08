@@ -13,12 +13,12 @@ project:
   # Shipping our own would overwrite the id and break that check.
   execute-dir: project
   post-render:
-    # Records which commit produced the site, so scripts/check-pages-sync.sh
-    # can tell whether what is published still matches main.
-    - scripts/stamp-build.sh
-    # Writes redirect stubs at the old flat page URLs (pre-subdirectory), so
-    # links in slides and bookmarks keep working after the move.
-    - scripts/make-redirects.sh
+    # # Records which commit produced the site, so scripts/check-pages-sync.sh
+    # # can tell whether what is published still matches main.
+    # - scripts/stamp-build.sh
+    # # Writes redirect stubs at the old flat page URLs (pre-subdirectory), so
+    # # links in slides and bookmarks keep working after the move.
+    # - scripts/make-redirects.sh
     # The page-footer's raw HTML carries relative logo srcs that only resolve
     # at the site root; this rewrites them per page depth.
     - scripts/fix-footer-paths.sh
@@ -67,7 +67,7 @@ book:
     - part: "5 - Coding support tools"
       chapters:
         - chapters/assist.qmd
-
+  
   page-footer:
     border: true
     left: |
@@ -118,7 +118,7 @@ execute:
 
 crossref:
   exr-title: "Exercise"
-  appendix-title: "Appendix"
+  # appendix-title: "Appendix"
 
 knitr:
   opts_chunk:

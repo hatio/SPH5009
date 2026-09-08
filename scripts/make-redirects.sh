@@ -41,4 +41,4 @@ HTML
 }
 
 for name in $chapters;   do stub "$name" "chapters/$name.html";   done
-for name in $appendices; do stub "$name" "appendices/$name.html"; done
+#for name in $appendices; do stub "$name" "appendices/$name.html"; done

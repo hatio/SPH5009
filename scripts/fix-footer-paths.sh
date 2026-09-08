@@ -20,5 +20,5 @@ cd "$(dirname "$0")/.."
 out="${QUARTO_PROJECT_OUTPUT_DIR:-_book}"
 [ -d "$out" ] || { echo "fix-footer-paths: no output directory at $out" >&2; exit 1; }
 
-find "$out/chapters" "$out/appendices" -name '*.html' -exec \
+find "$out/chapters" -name '*.html' -exec \
   sed -i '' 's|src="assets/logos/|src="../assets/logos/|g' {} +
