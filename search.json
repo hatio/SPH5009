@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Public health coding with R",
     "section": "",
-    "text": "Welcome\nThis is a companion exercise book for SPH5009 at the NUS Saw Swee Hock School of Public Health. Each numbered section corresponds to a week of the course. Contents are dynamically being built and adjusted as our course progresses to reflect the learnings in class.",
+    "text": "Welcome\nThis is an exercise book for SPH5009 at the NUS Saw Swee Hock School of Public Health. Each numbered section corresponds to a week of the course. Contents are being dynamically built and adjusted as our course progresses to reflect the learnings in class.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
@@ -14,7 +14,7 @@
     "href": "index.html#setup-before-first-day-of-class",
     "title": "Public health coding with R",
     "section": "Setup before first day of class",
-    "text": "Setup before first day of class\nFollow these instructions for setting up R and Rstudio.",
+    "text": "Setup before first day of class\nFollow these instructions in Section 1.1 to install R and Rstudio. Once installed, check out Section 1.2 to familiarize yourself with the Rstudio interface.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
     ]
