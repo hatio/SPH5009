@@ -1,0 +1,7 @@
+#  Best Practices in Using Coding Support Tools {#assist}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

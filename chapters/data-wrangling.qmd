@@ -1,0 +1,7 @@
+# Data wrangling {#data-wrangling}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

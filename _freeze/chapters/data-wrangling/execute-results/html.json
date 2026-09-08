@@ -1,0 +1,15 @@
+{
+  "hash": "f293d540e90316bfcd4a337cee5ace0d",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Data wrangling {#data-wrangling}\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

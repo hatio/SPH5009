@@ -1,0 +1,7 @@
+#  Real-world public health analytical workflows {#workflow}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

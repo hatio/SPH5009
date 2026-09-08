@@ -1,0 +1,15 @@
+{
+  "hash": "8bd2aec0a77b58fb3fddf7073d83d323",
+  "result": {
+    "engine": "knitr",
+    "markdown": "#  Best Practices in Using Coding Support Tools {#assist}\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

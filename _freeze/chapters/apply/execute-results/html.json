@@ -1,0 +1,15 @@
+{
+  "hash": "aabff182d9ae3780bd71a154f20f7969",
+  "result": {
+    "engine": "knitr",
+    "markdown": "#  Real-world public health analytical workflows {#workflow}\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

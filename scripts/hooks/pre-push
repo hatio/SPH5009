@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+#
+# Reminds you to republish when you push commits that change the site.
+#
+# Enable with:
+#   git config core.hooksPath scripts/hooks
+#
+# Non-blocking on purpose. Pushing source before publishing is a normal thing
+# to do, and a hook that refused it would just get bypassed with --no-verify.
+
+set -uo pipefail
+
+[ "$(git rev-parse --abbrev-ref HEAD)" = "main" ] || exit 0
+
+SITE_SOURCES=('*.qmd' '_quarto.yml' '_common.R' 'R/' 'scss/' 'data/' 'assets/')
+
+while read -r _local_ref local_sha _remote_ref remote_sha; do
+  [ "$local_sha" = "0000000000000000000000000000000000000000" ] && continue
+
+  if [ "$remote_sha" = "0000000000000000000000000000000000000000" ]; then
+    range="$local_sha"
+  else
+    range="$remote_sha..$local_sha"
+  fi
+
+  changed=$(git diff --name-only "$range" -- "${SITE_SOURCES[@]}" 2>/dev/null)
+  if [ -n "$changed" ]; then
+    printf '\n  These commits change the site:\n'
+    printf '    %s\n' $changed
+    printf '\n  The live site will not update until you run:  ./scripts/publish.sh\n\n'
+  fi
+done
+
+exit 0

@@ -1,0 +1,7 @@
+# Statistical tests {#stat-tests}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

@@ -1,0 +1,17 @@
+{
+  "hash": "4b03794c27478acf879a7e2a3b3763c4",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Feeling at home with R {#feel-home}\n\n\n\n\n\n",
+    "supporting": [
+      "feel-home_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hash": "8e81f1b8e82702c3b2f96b396b3d74ae",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# From code to workflow {#workflow}\n\n\n\n\n\n",
+    "supporting": [
+      "workflow_files"
+    ],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

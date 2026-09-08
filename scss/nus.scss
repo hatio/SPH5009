@@ -1,0 +1,256 @@
+/*-- scss:defaults --*/
+
+// Layered on bootswatch "litera": a book face with generous line height, and
+// one of the few bundled themes that does not fetch anything from
+// fonts.googleapis.com. The book should render the same on a plane.
+
+// ---- Brand ------------------------------------------------------------------
+// #003D7C and #EF7C00 are the official NUS values. The lockup in the footer is
+// the supplied artwork, unmodified — its own blue is a little hotter than the
+// official one, which is why it only ever sits on white and never beside a
+// blue field where the two would be compared.
+$nus-blue:        #003D7C;
+$nus-blue-dark:   #00284F;
+$nus-blue-mid:    #265C94;
+$nus-blue-pale:   #EAF0F7;
+
+// NUS Orange is 2.78:1 on white. It fails AA as text at any size, so it is
+// split in two: the brand value for decoration that carries no glyphs, and a
+// darkened variant for anything a reader has to actually read.
+$nus-orange:      #EF7C00;   // rules, accent bars, fills 4px and up. NEVER text.
+$nus-orange-text: #A65200;   // 5.49:1
+
+$ghn-teal:        #00738A;   // advice / hints
+$crimson:         #9B1B30;
+$amber:           #8A5A00;
+
+$ink:             #1F2933;   // CERM black, softened
+$muted:           #5A6672;
+$rule:            #DDE3EA;
+
+// ---- Bootstrap --------------------------------------------------------------
+$primary:         $nus-blue;
+$secondary:       $muted;
+$success:         $ghn-teal;
+$info:            $nus-blue-mid;     // 6.91:1. Bootstrap emits .text-info.
+$warning:         $nus-orange-text;  // NOT $nus-orange — that leaks 2.78:1 into
+                                     // .text-warning, .link-warning, .btn-*.
+$danger:          $crimson;
+
+$body-color:      $ink;
+$body-bg:         #FFFFFF;
+$link-color:      #00539B;
+$link-hover-color: $nus-blue-dark;
+$border-color:    $rule;
+
+// A rem value, so a reader who has raised their browser's default text size
+// keeps it. A px root font size silently overrides that.
+$font-size-root:  1.0625rem;
+$headings-font-weight: 600;
+$headings-color:  $nus-blue-dark;
+
+$code-color:      $crimson;
+$code-bg:         #F6F8FA;
+$pre-bg:          #F6F8FA;
+
+// ---- Quarto -----------------------------------------------------------------
+$navbar-bg:       $nus-blue;
+$navbar-fg:       #FFFFFF;
+$sidebar-bg:      #F1F5F9;
+$sidebar-fg:      $ink;
+
+// The copy button is a UI component, so WCAG 1.4.11 asks for 3:1, not 4.5:1.
+// The obvious mid-grey gives 2.88:1 and fails.
+$btn-code-copy-color: #6B7785;          // 4.56:1
+$btn-code-copy-color-active: $nus-blue;
+
+$callout-color-note:      $nus-blue;
+$callout-color-tip:       $ghn-teal;
+$callout-color-warning:   $nus-orange-text;
+$callout-color-important: $crimson;
+$callout-color-caution:   $amber;
+
+
+/*-- scss:rules --*/
+
+// ---- Measure ----------------------------------------------------------------
+// Roughly 68 characters. Wider than about 75 and the eye loses the start of the
+// next line on the way back.
+//
+// Desktop only, because a constraint of 68 characters is only ever binding on
+// a wide viewport. Below this breakpoint Quarto's own layout already gives a
+// comfortable measure, so there is nothing to correct.
+@media (min-width: 992px) {
+  main {
+    max-width: 68ch;
+  }
+}
+
+// ---- Headings ---------------------------------------------------------------
+// The one place NUS Orange appears as a large block of colour. It is a 3px
+// rule, not text, so contrast rules do not apply to it.
+h1, .quarto-title h1.title {
+  border-bottom: 3px solid $nus-orange;
+  padding-bottom: 0.35rem;
+  margin-bottom: 1.2rem;
+}
+
+h2 {
+  margin-top: 2.2rem;
+  color: $nus-blue-dark;
+}
+
+// ---- Sidebar ----------------------------------------------------------------
+.sidebar-navigation .sidebar-item-text.active,
+.sidebar-navigation .sidebar-item-text:hover {
+  color: $nus-blue;
+  font-weight: 600;
+}
+
+#quarto-margin-sidebar .active,
+nav#TOC .active {
+  border-left: 2px solid $nus-orange;
+  padding-left: 0.5rem;
+}
+
+// ---- Code -------------------------------------------------------------------
+div.sourceCode {
+  border: 1px solid $rule;
+  border-radius: 4px;
+}
+
+// Output blocks read as output, not as more code to type.
+pre.cell-output-stdout,
+.cell-output-stdout pre {
+  background: #FFFFFF;
+  border-left: 3px solid $rule;
+  color: $muted;
+}
+
+// ---- Exercises --------------------------------------------------------------
+// "Your turn" boxes are the one thing a student scrolling for something to do
+// should be able to find without reading. Orange bar, blue heading, tinted.
+div.exercise,
+.quarto-float-exr,
+div[id^="exr-"] {
+  background: $nus-blue-pale;
+  border-left: 4px solid $nus-orange;
+  border-radius: 0 4px 4px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.6rem 0;
+
+  .quarto-float-caption,
+  .exercise-title,
+  > p:first-child > strong:first-child {
+    color: $nus-blue-dark;
+    font-weight: 700;
+  }
+
+  div.sourceCode {
+    border-color: darken($nus-blue-pale, 12%);
+  }
+}
+
+// The forward link to the worked solution. Deliberately quiet — it should be
+// findable when wanted and easy to scroll past when not.
+a[href*="solutions.html#"] {
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px dotted $link-color;
+}
+
+// ---- Footer -----------------------------------------------------------------
+.nav-footer {
+  border-top: 1px solid $rule;
+  padding-top: 1.25rem;
+  font-size: 0.9rem;
+  color: $muted;
+
+  // Quarto splits the footer into left/centre/right columns. Three logo
+  // lockups do not fit in one third of the page, and shrinking them until
+  // they do makes the two-line and four-line descriptors unreadable. Give
+  // each row the full width instead and let them stack.
+  flex-wrap: wrap;
+
+  .nav-footer-left,
+  .nav-footer-right {
+    flex: 1 1 100%;
+    text-align: left;
+  }
+  .nav-footer-right {
+    margin-top: 0.4rem;
+  }
+}
+
+// The source files are trimmed to their ink, because equal canvas heights
+// would render the NUS lockup at about half the size of the others — its
+// artwork is only 54% ink by height. Heights are then set per logo rather than
+// uniformly: CERM is one large word and reads bigger than its measurements
+// suggest, while the NUS lockup carries two lines of small type and needs the
+// extra height to stay readable.
+.footer-logos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  // The base gap sets the separation between adjacent marks. Between CERM and
+  // MLGHN that nominal gap is all the visible space there is, because CERM's
+  // artwork runs right to the edge of its text and the globe starts at the
+  // very left of its own canvas. Add an extra margin on the CERM mark so that
+  // boundary gets roughly double the space and the three logos sit with even,
+  // generous breathing room.
+  gap: 2rem;
+  margin-bottom: 0.85rem;
+
+  .logo-cerm {
+    margin-right: 4rem;
+  }
+
+  img {
+    width: auto;
+    max-width: 100%;
+  }
+  .logo-sshsph { height: 60px; }
+  .logo-cerm   { height: 44px; }
+  .logo-mlghn  { height: 48px; }
+}
+
+@media (max-width: 575px) {
+  .footer-logos {
+    gap: 1.1rem;
+    .logo-sshsph { height: 44px; }
+    .logo-cerm   { height: 33px; margin-right: 2.1rem; }
+    .logo-mlghn  { height: 36px; }
+  }
+}
+
+// ---- Tables -----------------------------------------------------------------
+table {
+  font-size: 0.94rem;
+}
+thead th {
+  border-bottom: 2px solid $nus-blue !important;
+  color: $nus-blue-dark;
+}
+
+// ---- Wide content -----------------------------------------------------------
+// Anything that can be wider than the column scrolls inside its own box, so
+// the page body never has to. This matters here because six of the column
+// names run to 49 characters and printed tibbles are wider still.
+//
+// Resist reaching for overflow-x: hidden on a container to tidy this up. It
+// hides overflow rather than preventing it, so anything too wide is silently
+// cut off instead of becoming scrollable.
+div.sourceCode,
+pre.sourceCode,
+.cell-output pre,
+.cell-output-display > table,
+.table-responsive {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+// Printed tibbles and console output are pre-formatted and frequently wider
+// than a phone. Let them scroll rather than stretch the page.
+.cell-output pre code {
+  white-space: pre;
+}

@@ -1,0 +1,7 @@
+# Data importation {#data-import}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

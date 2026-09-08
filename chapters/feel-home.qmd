@@ -1,0 +1,7 @@
+# Feeling at home with R {#feel-home}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

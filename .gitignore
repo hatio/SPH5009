@@ -1,49 +1,45 @@
-# History files
+# ---- R -----------------------------------------------------------------------
 .Rhistory
 .Rapp.history
-
-# Session Data files
 .RData
-.RDataTmp
-
-# User-specific files
 .Ruserdata
-
-# Example code in package build process
-*-Ex.R
-
-# Output files from R CMD build
-/*.tar.gz
-
-# Output files from R CMD check
-/*.Rcheck/
-
-# RStudio files
 .Rproj.user/
-
-# produced vignettes
-vignettes/*.html
-vignettes/*.pdf
-
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
-.httr-oauth
-
-# knitr and R markdown default cache directories
-*_cache/
-/cache/
-
-# Temporary files created by R markdown
-*.utf8.md
-*.knit.md
-
-# R Environment Variables
+*.Rproj.user
 .Renviron
 
-# pkgdown site
-docs/
+# ---- renv --------------------------------------------------------------------
+# renv writes and maintains renv/.gitignore, which excludes library/, sandbox/,
+# staging/ and friends. renv.lock, renv/activate.R and renv/settings.json are
+# tracked on purpose — they are what makes a clean checkout reproducible.
 
-# translation temp files
-po/*~
+# ---- Quarto ------------------------------------------------------------------
+.quarto/
 
-# RStudio Connect folder
-rsconnect/
+# The rendered site. Not committed to main — `quarto publish gh-pages` builds
+# it and pushes it to the gh-pages branch, which is the branch GitHub serves.
+/_book/
+
+# Chapters render to their source directory before Quarto moves them into
+# _book, so a failed render can leave them behind. No leading slash: chapters
+# and appendices now live in subdirectories, and _book/ is ignored separately,
+# so unanchored is what catches the strays without touching the output.
+*_files/
+
+# _freeze/ IS committed, on purpose: it lets a clean checkout rebuild the book
+# without re-running every R chunk.
+
+# ---- macOS -------------------------------------------------------------------
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# ---- editors -----------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+
+/.quarto/
+
+**/*.quarto_ipynb

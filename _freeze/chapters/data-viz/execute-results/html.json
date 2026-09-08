@@ -1,0 +1,15 @@
+{
+  "hash": "1da4e1e76d2bbca259d6588412771039",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Data visualisation {#data-viz}\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

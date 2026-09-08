@@ -1,0 +1,7 @@
+# From code to workflow {#workflow}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```

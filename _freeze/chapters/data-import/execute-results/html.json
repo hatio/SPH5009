@@ -1,0 +1,15 @@
+{
+  "hash": "1f76d724850d4a225c4df1e4177df18b",
+  "result": {
+    "engine": "knitr",
+    "markdown": "# Data importation {#data-import}\n\n\n\n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

@@ -1,14 +1,127 @@
-project:
-  type: website
+# Verified against Quarto 1.10.18. The project: and book: schemas are closed,
+# so an unrecognised key there is a hard render failure — check
+# /Applications/quarto/share/schema/definitions.yml before adding one.
 
-website:
-  title: "Public Health Coding in R"
-  navbar:
-    left:
-      - href: index.qmd
-        text: Exercise Book
+project:
+  type: book
+  # No output-dir: the default _book is right here, because the rendered site
+  # is not committed to this branch. `quarto publish gh-pages` renders and
+  # pushes the result to the gh-pages branch, which is what GitHub serves.
+  #
+  # No .nojekyll under resources either. Quarto writes that file itself when it
+  # publishes, using its contents as a deploy id to confirm the deploy landed.
+  # Shipping our own would overwrite the id and break that check.
+  execute-dir: project
+  post-render:
+    # Records which commit produced the site, so scripts/check-pages-sync.sh
+    # can tell whether what is published still matches main.
+    - scripts/stamp-build.sh
+    # Writes redirect stubs at the old flat page URLs (pre-subdirectory), so
+    # links in slides and bookmarks keep working after the move.
+    - scripts/make-redirects.sh
+    # The page-footer's raw HTML carries relative logo srcs that only resolve
+    # at the site root; this rewrites them per page depth.
+    - scripts/fix-footer-paths.sh
+
+book:
+  title: "Public health coding with R"
+  subtitle: "For beginners with no prior coding experience"
+  author: "Angkana T. Huang"
+  date: today
+  date-format: "D MMMM YYYY"
+  # description: >
+    
+  favicon: assets/favicon.png
+  site-url: https://hatio.github.io/SPH5009/
+  repo-url: https://github.com/hatio/SPH5009
+  repo-branch: main
+  repo-actions: [edit, issue, source]
+  search: true
+  reader-mode: true
+  page-navigation: true
+  back-to-top-navigation: true
+
+  sidebar:
+    style: docked
+    background: light
+    collapse-level: 1
+
+  chapters:
+    - index.qmd
+    - part: "1 - Easing into R"
+      chapters:
+        - chapters/feel-home.qmd
+        - chapters/data-import.qmd
+        - chapters/data-viz.qmd
+    - part: "2 - Working with data"
+      chapters:
+        - chapters/stat-tests.qmd
+        - chapters/regression.qmd
+        - chapters/data-wrangling.qmd
+    - part: "3 - Code to workflow"
+      chapters:
+        - chapters/workflow.qmd
+    - part: "4 - PH workflows"
+      chapters:
+        - chapters/apply.qmd
+    - part: "5 - Coding support tools"
+      chapters:
+        - chapters/assist.qmd
+
+  page-footer:
+    border: true
+    left: |
+      <div class="footer-logos">
+        <img class="logo-sshsph" src="assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health">
+        <img class="logo-cerm" src="assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling">
+      </div>
+      Released under the [MIT Licence](https://github.com/CERM-NUS/r-intro/blob/main/LICENSE).
+    right: |
+      Built with [Quarto](https://quarto.org). [Report a problem](https://github.com/CERM-NUS/r-intro/issues).
 
 format:
   html:
-    theme: cosmo
-    toc: true
+    theme: [litera, scss/nus.scss]
+    toc: false
+    toc-depth: 3
+    toc-title: "On this page"
+    number-sections: false
+    anchor-sections: true
+    smooth-scroll: true
+    code-copy: true
+    # scroll, not wrap. This dataset's column names run to 49 characters
+    # (retail_and_recreation_percent_change_from_baseline), and wrapping them
+    # either breaks mid-identifier or pushes the whole page wider than a phone.
+    code-overflow: scroll
+    # Turns function calls in code blocks into links to their documentation.
+    # Needs downlit and xml2 in the lockfile.
+    code-link: true
+    code-annotations: hover
+    # Console-style output. `kable` would render data frames as neat HTML
+    # tables that look nothing like what the student sees in their own console.
+    df-print: default
+    fig-width: 7
+    fig-height: 4.2
+    fig-align: center
+    fig-format: svg
+    tbl-cap-location: bottom
+
+execute:
+  freeze: auto
+  echo: true
+  warning: true
+  # Messages stay ON. read_csv()'s column specification, geom_histogram()'s
+  # note about bin width, and summarise()'s .groups notice are all messages,
+  # and the book teaches students to read all three. Suppress per-chunk where
+  # something is genuinely noisy, never globally.
+  message: true
+
+crossref:
+  exr-title: "Exercise"
+  appendix-title: "Appendix"
+
+knitr:
+  opts_chunk:
+    comment: "#>"
+    collapse: true
+    dev: "svg"

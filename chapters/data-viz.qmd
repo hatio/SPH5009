@@ -1,0 +1,7 @@
+# Data visualisation {#data-viz}
+
+```{r}
+#| label: setup
+#| include: false
+source("_common.R")
+```
