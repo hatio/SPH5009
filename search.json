@@ -1,0 +1,42 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Public health coding with R",
+    "section": "",
+    "text": "Welcome\nThis is a companion exercise book for SPH5009 at the NUS Saw Swee Hock School of Public Health. Each numbered section corresponds to a week of the course. Contents are dynamically being built and adjusted as our course progresses to reflect the learnings in class.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#setup-before-first-day-of-class",
+    "href": "index.html#setup-before-first-day-of-class",
+    "title": "Public health coding with R",
+    "section": "Setup before first day of class",
+    "text": "Setup before first day of class\nFollow these instructions for setting up R and Rstudio.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#using-the-book",
+    "href": "index.html#using-the-book",
+    "title": "Public health coding with R",
+    "section": "Using the book",
+    "text": "Using the book",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  },
+  {
+    "objectID": "index.html#exercises",
+    "href": "index.html#exercises",
+    "title": "Public health coding with R",
+    "section": "Exercises",
+    "text": "Exercises",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Welcome</span>"
+    ]
+  }
+]
