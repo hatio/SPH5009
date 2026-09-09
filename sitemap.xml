@@ -2,19 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hatio.github.io/SPH5009/index.html</loc>
-    <lastmod>2026-09-08T07:12:56.735Z</lastmod>
+    <lastmod>2026-09-08T07:44:22.400Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/feel-home.html</loc>
-    <lastmod>2026-09-08T05:38:46.864Z</lastmod>
+    <lastmod>2026-09-08T10:36:17.763Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/data-types.html</loc>
+    <lastmod>2026-09-08T11:06:27.549Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/functions.html</loc>
+    <lastmod>2026-09-08T12:29:36.958Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/data-import.html</loc>
-    <lastmod>2026-09-08T05:38:10.278Z</lastmod>
+    <lastmod>2026-09-08T12:28:03.394Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/data-viz.html</loc>
-    <lastmod>2026-09-08T05:37:55.391Z</lastmod>
+    <lastmod>2026-09-08T12:44:37.444Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/quiz-1.html</loc>
+    <lastmod>2026-09-08T12:45:27.857Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/stat-tests.html</loc>

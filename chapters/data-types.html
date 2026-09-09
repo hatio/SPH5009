@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Data importation – Public health coding with R</title>
+
+
+<title>Data Types – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -53,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -60,8 +64,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/data-viz.html" rel="next">
-<link href="../chapters/functions.html" rel="prev">
+<link href="../chapters/functions.html" rel="next">
+<link href="../chapters/feel-home.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -71,7 +75,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -97,25 +102,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 </head>
+
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/data-import.html"><span class="chapter-title">Data importation</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/data-types.html"><span class="chapter-title">Data Types</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Public health coding with R</a> 
         <div class="sidebar-tools-main">
@@ -135,7 +150,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
@@ -148,15 +163,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/feel-home.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Feeling at home with R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Types</span></a>
+  <a href="../chapters/data-types.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Data Types</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -166,7 +181,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/data-import.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Data importation</span></a>
+  <a href="../chapters/data-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data importation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -180,7 +195,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -189,8 +204,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
   </div>
@@ -206,7 +221,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -215,14 +230,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From code to workflow</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -231,14 +246,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/apply.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world public health analytical workflows</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -247,36 +262,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/assist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#setting-up-your-data-folder" id="toc-setting-up-your-data-folder" class="nav-link active" data-scroll-target="#setting-up-your-data-folder">Setting up your data folder</a></li>
-  <li><a href="#base-r-import-functions" id="toc-base-r-import-functions" class="nav-link" data-scroll-target="#base-r-import-functions">Base R import functions</a></li>
-  <li>
-<a href="#tidyverse-import-functions" id="toc-tidyverse-import-functions" class="nav-link" data-scroll-target="#tidyverse-import-functions">Tidyverse import functions</a>
-  <ul class="collapse">
-<li><a href="#a-note-on-the-notation" id="toc-a-note-on-the-notation" class="nav-link" data-scroll-target="#a-note-on-the-notation">A note on the <code>::</code> notation</a></li>
-  <li><a href="#base-r-vs.-tidyverse-whats-the-difference" id="toc-base-r-vs.-tidyverse-whats-the-difference" class="nav-link" data-scroll-target="#base-r-vs.-tidyverse-whats-the-difference">Base R vs.&nbsp;tidyverse: what’s the difference?</a></li>
+  <li><a href="#vectors" id="toc-vectors" class="nav-link active" data-scroll-target="#vectors">Vectors</a></li>
+  <li><a href="#checking-data-types" id="toc-checking-data-types" class="nav-link" data-scroll-target="#checking-data-types">Checking Data Types</a></li>
+  <li><a href="#accessing-elements" id="toc-accessing-elements" class="nav-link" data-scroll-target="#accessing-elements">Accessing Elements</a></li>
+  <li><a href="#matrix" id="toc-matrix" class="nav-link" data-scroll-target="#matrix">Matrix</a></li>
+  <li><a href="#list" id="toc-list" class="nav-link" data-scroll-target="#list">List</a></li>
+  <li><a href="#data-frame" id="toc-data-frame" class="nav-link" data-scroll-target="#data-frame">Data Frame</a></li>
   </ul>
-</li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-import.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-import.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-types.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-types.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/data-import.html"><span class="chapter-title">Data importation</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="data-import" class="quarto-section-identifier"><span class="chapter-title">Data importation</span></span></h1>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/data-types.html"><span class="chapter-title">Data Types</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="data-types" class="quarto-section-identifier"><span class="chapter-title">Data Types</span></span></h1>
 </div>
 
 
@@ -290,87 +308,124 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   
 
 
-</header><p>This is a short exercise to show you typical ways of importing data into R, using both <strong>base R</strong> and <strong>tidyverse</strong> functions.</p>
-<section id="setting-up-your-data-folder" class="level2"><h2 class="anchored" data-anchor-id="setting-up-your-data-folder">Setting up your data folder</h2>
-<p>First, let’s create a folder named <code>data</code> in your working directory to store all the data files, which you will download from Canvas (or from the links below, generated for this book).</p>
-<div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"data"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</header>
+
+
+<p>Every object you create in R has a <strong>data type</strong>. The data type determines what kind of values an object can hold, and what operations make sense on it: you can add two numbers together, but adding two pieces of text doesn’t mean anything the same way. Knowing an object’s data type helps you understand what R will let you do with it, and helps you spot bugs when something doesn’t behave the way you expect.</p>
+<section id="vectors" class="level3">
+<h3 class="anchored" data-anchor-id="vectors">Vectors</h3>
+<p>Vectors are data types with one-dimension where all elements in the vector are of the same type. R has several basic vector types:</p>
+<ul>
+<li><strong>character</strong>: text, e.g.&nbsp;<code>"hello"</code></li>
+<li><strong>numeric</strong>: decimal numbers, e.g.&nbsp;<code>3.14</code></li>
+<li><strong>integer</strong>: whole numbers, e.g.&nbsp;<code>5L</code></li>
+<li><strong>logical</strong>: <code>TRUE</code> / <code>FALSE</code></li>
+<li><strong>factor</strong>: categorical data with fixed levels, e.g.&nbsp;<code>"low"</code>, <code>"medium"</code>, <code>"high"</code></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>char_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"apple"</span>, <span class="st">"banana"</span>, <span class="st">"cherry"</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>num_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">1.5</span>, <span class="fl">2.7</span>, <span class="fl">3.9</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>int_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>L, <span class="dv">2</span>L, <span class="dv">3</span>L)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>log_vec <span class="ot">=</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>fac_vec <span class="ot">=</span> <span class="fu">factor</span>(<span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"high"</span>, <span class="st">"medium"</span>), <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"low"</span>, <span class="st">"medium"</span>, <span class="st">"high"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong><code>L</code> suffix</strong>: Writing <code>5L</code> tells R to store the value as an <em>integer</em> rather than a <em>numeric</em> (double). Without the <code>L</code>, a whole number like <code>5</code> is stored as numeric by default. In practice the distinction rarely matters for day-to-day analysis, but you’ll see <code>L</code> used when a function specifically expects an integer (e.g.&nbsp;<code>nrow</code>, or arguments like <code>nrow = 2L</code> in some packages).</p>
 </div>
-<p>Download these four files and move them into your local <code>data</code> folder: <a href="data/data.txt"><code>data.txt</code></a>, <a href="data/data.tsv"><code>data.tsv</code></a>, <a href="data/data.csv"><code>data.csv</code></a>, and <a href="data/data.xlsx"><code>data.xlsx</code></a>.</p>
-<p>Check the <strong>Files</strong> pane in RStudio. You should see a new <code>data</code> folder appear inside your working directory, containing the four files. If they don’t show up, click the refresh icon at the top of the Files pane.</p>
+<div class="terminology">
+<p><strong><code>NA</code></strong>: R’s representation of a missing value. It can appear inside any vector type (e.g.&nbsp;<code>c(1, 2, NA, 4)</code>) and will show up often once you start working with real data.</p>
+</div>
+</section>
+<section id="checking-data-types" class="level3">
+<h3 class="anchored" data-anchor-id="checking-data-types">Checking Data Types</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(char_vec)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(fac_vec)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(num_vec)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong><code>class()</code></strong>: Tells you what type an object is. <strong><code>str()</code></strong>: Gives you a compact summary of an object’s structure. <strong><code>length()</code></strong>: Tells you how many elements are in it.</p>
+</div>
+</section>
+<section id="accessing-elements" class="level3">
+<h3 class="anchored" data-anchor-id="accessing-elements">Accessing Elements</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>char_vec[<span class="dv">1</span>]        <span class="co"># by position</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(num_vec) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>num_vec[<span class="st">"b"</span>]        <span class="co"># by name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="common-mistake">
-<p>If the <code>data</code> folder or files don’t show up where you expect, double-check you’re looking inside your <strong>project</strong> folder, not some other location on your computer. This is exactly the kind of confusion that RStudio Projects and a consistent working directory are meant to prevent.</p>
+<p>R indexing starts at <strong>1</strong>, not 0. <code>char_vec[1]</code> gives you the <em>first</em> element, not the second.</p>
 </div>
-</section><section id="base-r-import-functions" class="level2"><h2 class="anchored" data-anchor-id="base-r-import-functions">Base R import functions</h2>
-<p>Base R ships with several functions for reading plain-text data, with no extra packages required.</p>
-<ul>
-<li>
-<p><strong><code><a href="https://rdrr.io/r/base/readLines.html">readLines()</a></code></strong> reads a text file line by line into a character vector. It doesn’t know anything about columns or delimiters — it’s the most “raw” way to bring text into R, useful for logs, unstructured text, or files you want to parse yourself.</p>
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lines</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readLines.html">readLines</a></span><span class="op">(</span><span class="st">"data/data.txt"</span><span class="op">)</span></span>
-<span><span class="va">lines</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="matrix" class="level3">
+<h3 class="anchored" data-anchor-id="matrix">Matrix</h3>
+<p>A <strong>matrix</strong> is a 2-dimensional structure where every element must be the same type (usually numeric).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>m <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>m</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(m)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>m[<span class="dv">1</span>, <span class="dv">2</span>]     <span class="co"># row 1, column 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong>Matrix</strong>: A rectangular grid of values, all of the same data type, arranged in rows and columns.</p>
 </div>
-</li>
-<li>
-<p><strong><code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code></strong> is the general-purpose workhorse for delimited files. You tell it the separator (<code>sep = "\t"</code> for tab-delimited, <code>sep = ","</code> for comma-delimited, etc.), and it returns a <code>data.frame</code>. Its defaults are geared toward “traditional” R usage: strings are sometimes converted to factors (depending on R version/options), and column names may be mangled to valid R names unless you tell it otherwise.</p>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_tsv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span><span class="st">"data/data.tsv"</span>, sep <span class="op">=</span> <span class="st">"\t"</span>, header <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df_tsv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<section id="naming-rows-and-columns" class="level4">
+<h4 class="anchored" data-anchor-id="naming-rows-and-columns">Naming Rows and Columns</h4>
+<p>You can give a matrix row names and column names when you create it, using the <code>dimnames</code> argument, or by setting <code>rownames()</code> and <code>colnames()</code> afterward:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>m2 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">3</span>,</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>            <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="st">"row1"</span>, <span class="st">"row2"</span>), <span class="fu">c</span>(<span class="st">"col1"</span>, <span class="st">"col2"</span>, <span class="st">"col3"</span>)))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m2</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># equivalently</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>m3 <span class="ot">=</span> <span class="fu">matrix</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="at">nrow =</span> <span class="dv">2</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(m3) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"row1"</span>, <span class="st">"row2"</span>)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(m3) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"col1"</span>, <span class="st">"col2"</span>, <span class="st">"col3"</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>m3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Once named, you can index by name instead of position:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>m2[<span class="st">"row1"</span>, <span class="st">"col2"</span>]   <span class="co"># single element, by row name and column name</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>m2[<span class="st">"row2"</span>, ]           <span class="co"># entire row, by row name</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>m2[, <span class="st">"col3"</span>]           <span class="co"># entire column, by column name</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pro-tip">
+<p>Naming rows and columns makes your code more readable and less fragile: <code>m2["row2", ]</code> is much clearer than <code>m2[2, ]</code>, and it keeps working even if you later reorder the rows.</p>
 </div>
-</li>
-<li>
-<p><strong><code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code></strong> is simply <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code> with sensible defaults baked in for comma-separated files (<code>sep = ","</code>, <code>header = TRUE</code>). It’s the function most people reach for first when reading a <code>.csv</code> in base R.</p>
-<div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">df_csv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="st">"data/data.csv"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">df_csv</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+</section>
+<section id="list" class="level3">
+<h3 class="anchored" data-anchor-id="list">List</h3>
+<p>A <strong>list</strong> can hold elements of different types and lengths, even other lists.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>my_list <span class="ot">=</span> <span class="fu">list</span>(<span class="at">name =</span> <span class="st">"Alice"</span>, <span class="at">age =</span> <span class="dv">25</span>, <span class="at">scores =</span> <span class="fu">c</span>(<span class="dv">90</span>, <span class="dv">85</span>, <span class="dv">88</span>))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>my_list<span class="sc">$</span>name</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>my_list[[<span class="st">"scores"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong>List</strong>: A flexible container that can hold objects of different types and sizes together, accessed using <code>$</code> (by name) or <code>[[ ]]</code> (by name or position).</p>
 </div>
-</li>
-</ul></section><section id="tidyverse-import-functions" class="level2"><h2 class="anchored" data-anchor-id="tidyverse-import-functions">Tidyverse import functions</h2>
-<p>The tidyverse (via the <strong>readr</strong> and <strong>readxl</strong> packages) offers analogous functions with a more consistent, predictable, and faster implementation.</p>
-<ul>
-<li>
-<p><strong><code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code></strong> (from <strong>readr</strong>) reads comma-separated files into a <code>tibble</code> rather than a base <code>data.frame</code>. Tibbles print more compactly, never auto-convert strings to factors, guess column types explicitly (printing a helpful message about what it guessed), and preserve column names exactly as they appear in the file (including spaces, if any).</p>
-<div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
-<span><span class="va">df_csv_tv</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/data.csv"</span><span class="op">)</span></span>
-<span><span class="va">df_csv_tv</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pro-tip">
+<p>You won’t use matrix and list constantly in this course, but you’ll see them show up under the hood (a data frame is technically a special kind of list!). It’s worth recognizing them when you see them.</p>
 </div>
-</li>
-<li>
-<p><strong><code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code></strong> reads Excel spreadsheets (<code>.xls</code> or <code>.xlsx</code>) directly, without needing Excel installed or any conversion step. You can specify which <code>sheet</code> and which cell <code>range</code> to read, which is handy when a workbook has multiple tabs or extra header rows.</p>
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readxl.tidyverse.org">readxl</a></span><span class="op">)</span></span>
-<span><span class="va">df_xlsx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span><span class="st">"data/data.xlsx"</span><span class="op">)</span></span>
-<span><span class="va">df_xlsx</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="data-frame" class="level3">
+<h3 class="anchored" data-anchor-id="data-frame">Data Frame</h3>
+<p>A <strong>data frame</strong> is the structure you’ll use the most, think of it as a spreadsheet: rows are observations, columns are variables, and different columns can hold different types.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>df <span class="ot">=</span> <span class="fu">data.frame</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="fu">c</span>(<span class="st">"Alice"</span>, <span class="st">"Bob"</span>, <span class="st">"Carol"</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">age =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">30</span>, <span class="dv">22</span>),</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">passed =</span> <span class="fu">c</span>(<span class="cn">TRUE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>df</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>age          <span class="co"># access a column by name</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>, ]         <span class="co"># access a row by position</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong>Data frame</strong>: A table-like structure where each column can be a different data type, but all columns must have the same number of rows. In fact, a data frame is a special kind of list: each column is an element of the list, and the requirement that makes it a data frame (rather than a plain list) is that every element must have the same length.</p>
 </div>
-</li>
-</ul>
-<section id="a-note-on-the-notation" class="level3"><h3 class="anchored" data-anchor-id="a-note-on-the-notation">A note on the <code>::</code> notation</h3>
-<p>You may notice code like <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> instead of just <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel()</a></code>, and <code><a href="https://docs.ropensci.org/writexl//reference/write_xlsx.html">writexl::write_xlsx()</a></code> instead of just <code>write_xlsx()</code>. The double-colon <code>::</code> is R’s <strong>namespace operator</strong>: <code>package::function()</code> tells R exactly which package a function should come from, without requiring you to load that package with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> first.</p>
-<p>This is useful for a few reasons:</p>
-<ul>
-<li>
-<strong>Clarity.</strong> Writing <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> makes it immediately obvious, just by reading the code, which package a function belongs to — handy when you’re skimming a script months later or reading someone else’s code.</li>
-<li>
-<strong>Avoiding conflicts.</strong> Sometimes two different packages define a function with the same name (for example, both <strong>dplyr</strong> and <strong>stats</strong> have a function called <code><a href="https://rdrr.io/r/stats/filter.html">filter()</a></code>). Using <code>::</code> lets you pick exactly the one you want instead of relying on whichever package was loaded most recently (and therefore takes priority).</li>
-<li>
-<strong>One-off use.</strong> If you only need a single function from a package, and don’t want to load the whole package (which can be slow, or can clutter your environment with functions you don’t need), <code>::</code> lets you call it directly, as we do above with <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code> and <code><a href="https://docs.ropensci.org/writexl//reference/write_xlsx.html">writexl::write_xlsx()</a></code>, without ever running <code><a href="https://readxl.tidyverse.org">library(readxl)</a></code> or <code><a href="https://ropensci.r-universe.dev/writexl">library(writexl)</a></code>.</li>
-</ul>
-<p>By contrast, for <strong>readr</strong>, we did run <code><a href="https://readr.tidyverse.org">library(readr)</a></code> before calling <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> — this is a stylistic choice. Both approaches are valid: use <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> when you’ll be calling many functions from a package throughout your script, and use <code>::</code> when you only need a function once or twice, or want to be explicit about where it’s coming from.</p>
-</section><section id="base-r-vs.-tidyverse-whats-the-difference" class="level3"><h3 class="anchored" data-anchor-id="base-r-vs.-tidyverse-whats-the-difference">Base R vs.&nbsp;tidyverse: what’s the difference?</h3>
-<p>Both families ultimately produce a rectangular table you can work with in R, but they differ in a few practical ways: base R functions (<code>read.table</code>, <code>read.csv</code>) return a <code>data.frame</code> and historically default to converting character columns to factors and “cleaning” column names, whereas tidyverse functions (<code>read_csv</code>, <code>read_excel</code>) return a <code>tibble</code>, keep strings as strings by default, are generally faster on large files, and print explicit messages about the column types they’ve guessed so you can catch parsing mistakes early. Neither is “more correct” — base R functions have no dependencies beyond R itself (useful for portable scripts or package development), while tidyverse functions are often preferred in interactive data analysis for their speed and safer defaults.</p>
 <div class="exercise">
-<p><strong>Exercise 1.4</strong></p>
+<p><strong>Exercise 1.2</strong></p>
 <ol type="1">
-<li>Import <code>data.csv</code> using <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> (base R) and again using <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> (tidyverse). Compare the classes of the two objects with <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>.</li>
-<li>Import <code>data.tsv</code> using <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, making sure to set the correct <code>sep</code> argument.</li>
-<li>Import the spreadsheet <code>data.xlsx</code> using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code>.</li>
-<li>Explore any one of the imported datasets with <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">ncol()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, and <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>. Note down what each function tells you about the data.</li>
+<li>Create one of each fundamental data type (character, numeric, integer, logical, factor). Check each with <code>class()</code>, <code>str()</code>, and <code>length()</code>.</li>
+<li>Create a small matrix with <code>matrix()</code> and access one element using <code>[row, col]</code>.</li>
+<li>Create the same matrix but with row names and column names, and access the same element using its row name and column name instead.</li>
+<li>Create a small list with at least two different types of elements and access one using <code>$</code> or <code>[[ ]]</code>.</li>
+<li>Create a data frame with at least 2 columns and 3 rows. Access a single column and a single row.</li>
 </ol>
 </div>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -828,33 +883,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../chapters/functions.html" class="pagination-link" aria-label="Functions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Functions</span></span>
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/feel-home.html" class="pagination-link" aria-label="Feeling at home with R">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Feeling at home with R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/data-viz.html" class="pagination-link" aria-label="Data visualisation">
-        <span class="nav-page-text"><span class="chapter-title">Data visualisation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/functions.html" class="pagination-link" aria-label="Functions">
+        <span class="nav-page-text"><span class="chapter-title">Functions</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <div class="footer-logos">
-<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"><img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
+<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"> <img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
 </div>
 <p>Released under the <a href="https://github.com/CERM-NUS/r-intro/blob/main/LICENSE">MIT Licence</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-import.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-import.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-types.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-types.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>

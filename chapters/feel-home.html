@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Feeling at home with R – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
@@ -17,7 +20,42 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
+
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
@@ -26,7 +64,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/data-import.html" rel="next">
+<link href="../chapters/data-types.html" rel="next">
 <link href="../index.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -37,7 +75,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -63,12 +102,18 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 </head>
-<body class="nav-sidebar docked fullcontent">
+
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -79,9 +124,13 @@ ul.task-list li input[type="checkbox"] {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Public health coding with R</a> 
         <div class="sidebar-tools-main">
@@ -101,7 +150,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
@@ -114,10 +163,20 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/feel-home.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Feeling at home with R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -130,8 +189,13 @@ ul.task-list li input[type="checkbox"] {
   <a href="../chapters/data-viz.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data visualisation</span></a>
   </div>
 </li>
-      </ul>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/quiz-1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quiz 1</span></a>
+  </div>
 </li>
+      </ul>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -140,8 +204,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
   </div>
@@ -157,7 +221,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -166,14 +230,14 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From code to workflow</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -182,14 +246,14 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/apply.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world public health analytical workflows</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -198,21 +262,39 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/assist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#working-directory" id="toc-working-directory" class="nav-link active" data-scroll-target="#working-directory">Working Directory</a></li>
+  <li><a href="#project-directory" id="toc-project-directory" class="nav-link" data-scroll-target="#project-directory">Project Directory</a></li>
+  <li><a href="#create-your-first-script" id="toc-create-your-first-script" class="nav-link" data-scroll-target="#create-your-first-script">Create Your First Script</a></li>
+  <li><a href="#sending-code-from-script-to-console" id="toc-sending-code-from-script-to-console" class="nav-link" data-scroll-target="#sending-code-from-script-to-console">Sending Code from Script to Console</a></li>
+  <li><a href="#simple-arithmetic" id="toc-simple-arithmetic" class="nav-link" data-scroll-target="#simple-arithmetic">Simple Arithmetic</a></li>
+  <li><a href="#creating-your-first-object" id="toc-creating-your-first-object" class="nav-link" data-scroll-target="#creating-your-first-object">Creating Your First Object</a></li>
+  <li><a href="#vectorized-thinking" id="toc-vectorized-thinking" class="nav-link" data-scroll-target="#vectorized-thinking">Vectorized Thinking</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/feel-home.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/feel-home.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/feel-home.html"><span class="chapter-title">Feeling at home with R</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/feel-home.html"><span class="chapter-title">Feeling at home with R</span></a></li></ol></nav>
+<div class="quarto-title">
 <h1 class="title"><span id="feel-home" class="quarto-section-identifier"><span class="chapter-title">Feeling at home with R</span></span></h1>
 </div>
 
@@ -230,7 +312,114 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<p>Welcome to <em>Week 1</em> of Public health coding with R. At this point, you should have both R and Rstudio installed, ready to go.</p>
+<p>Let’s open up Rstudio. Recap the four panes:</p>
+<ol type="1">
+<li><strong>Console.</strong> An R session where your code will run.</li>
+<li><strong>Source.</strong> A text editor where you can open (multiple) text files, your scripts.</li>
+<li><strong>Environment.</strong> Lists of objects in your R environment.</li>
+<li><strong>Files, plots, packages, help</strong> (stacked tabs).</li>
+</ol>
+<div class="pro-tip">
+<p>Arrange your panes however feels comfortable. Many people put Source top-left and Console bottom-left, so you can see your script and its output at the same time. You can rearrange this under <strong>Tools &gt; Global Options &gt; Pane Layout</strong>.</p>
+</div>
+<section id="working-directory" class="level3">
+<h3 class="anchored" data-anchor-id="working-directory">Working Directory</h3>
+<p>Every R session has a <strong>working directory</strong>: the folder on your computer that R treats as “home base” while it runs. When you tell R to read a file, save a file, or load data using just a filename (no full path), R looks for that file in the working directory, or saves it there.</p>
+<p>You can check your current working directory at any time with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This prints the full path of the folder R is currently using. It’s a good habit to run <code>getwd()</code> whenever you’re unsure why R can’t find a file you know exists, since the file may simply be sitting in a different folder.</p>
+<div class="terminology">
+<p><strong>Working directory</strong>: The default folder R uses to look for and save files when you don’t specify a full file path.</p>
+</div>
+</section>
+<section id="project-directory" class="level3">
+<h3 class="anchored" data-anchor-id="project-directory">Project Directory</h3>
+<p>Instead of setting your working directory manually every time with <code>setwd()</code>, we’ll use an <strong>RStudio Project</strong>. A project locks your working directory to a specific folder, so file paths stay consistent no matter who runs the script or where the folder lives on disk.</p>
+<div class="common-mistake">
+<p>Avoid using <code>setwd("C:/Users/yourname/Desktop/...")</code> in your scripts. It only works on <em>your</em> computer, with <em>your</em> folder structure. If you share the script, it will break for anyone else. Projects solve this problem for you.</p>
+</div>
+<p>Create a new project now: <strong>File &gt; New Project &gt; New Directory &gt; New Project</strong>. Give it a name and pick a location you’ll remember.</p>
+</section>
+<section id="create-your-first-script" class="level3">
+<h3 class="anchored" data-anchor-id="create-your-first-script">Create Your First Script</h3>
+<ol type="1">
+<li>Go to <strong>File &gt; New File &gt; R Script</strong>.</li>
+<li>Save it as <code>week1.R</code> inside your project folder.</li>
+<li>Check the <strong>Files</strong> pane: does <code>week1.R</code> show up? If not, make sure you’re working inside your project directory.</li>
+</ol>
+<div class="terminology">
+<p><strong>Script</strong>: A plain text file (ending in <code>.R</code>) where you write R code that can be saved, edited, and rerun later, as opposed to typing directly into the Console, which is not saved.</p>
+</div>
+</section>
+<section id="sending-code-from-script-to-console" class="level3">
+<h3 class="anchored" data-anchor-id="sending-code-from-script-to-console">Sending Code from Script to Console</h3>
+<p>Type the following in your script:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Place your cursor on that line and press <strong>Ctrl+Enter</strong> (Windows/Linux) or <strong>Cmd+Enter</strong> (Mac) to run it. The line gets sent to the Console and the result appears there.</p>
+<div class="pro-tip">
+<p>You’ll use Ctrl+Enter / Cmd+Enter constantly. Get comfortable with it now, since it’s much faster than retyping code into the Console by hand.</p>
+</div>
+<p>You can also leave yourself notes in a script using <code>#</code>. Anything after a <code>#</code> on a line is ignored by R:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># This is a comment. R will not run this line.</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="simple-arithmetic" class="level3">
+<h3 class="anchored" data-anchor-id="simple-arithmetic">Simple Arithmetic</h3>
+<p>Try running each of these lines one at a time:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">+</span> <span class="dv">3</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">-</span> <span class="dv">3</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">*</span> <span class="dv">3</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">/</span> <span class="dv">3</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">^</span> <span class="dv">3</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="sc">%%</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="terminology">
+<p><strong><code>%%</code></strong>: The <em>modulo</em> operator, it returns the remainder after division. For example, <code>5 %% 3</code> returns <code>2</code>, because 3 goes into 5 once with a remainder of 2.</p>
+</div>
+</section>
+<section id="creating-your-first-object" class="level3">
+<h3 class="anchored" data-anchor-id="creating-your-first-object">Creating Your First Object</h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">5</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Check the <strong>Environment</strong> pane: you should see <code>x</code> appear with the value <code>5</code>.</p>
+<div class="terminology">
+<p><strong>Object</strong>: Anything you create in R (a value, vector, function, etc.) and store with a name, so you can refer to it again later.</p>
+</div>
+<p>For historical reasons, R can assign values using <code>&lt;-</code> (an arrow) or <code>-&gt;</code>. You’ll also see <code>=</code> used for assignment, which is the common convention across most other programming languages, and what we’ll use in this course.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="dv">5</span>     <span class="co"># what we'll use in this course</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">5</span>    <span class="co"># equivalent, historically the more "R-idiomatic" way</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="dv">5</span> <span class="ot">-&gt;</span> x    <span class="co"># also equivalent, less common</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="pro-tip">
+<p>All three do the same thing here. Pick one and be consistent, don’t worry about which is “more correct.” That debate is older than most of us and not worth your time right now.</p>
+</div>
+<p>You can print an object’s value by typing its name alone:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="common-mistake">
+<p><code>x = 5</code> creates an object silently, it does <strong>not</strong> print anything to the Console. If you want to see the value, run <code>x</code> on its own line, or wrap the assignment in parentheses: <code>(x = 5)</code>.</p>
+</div>
+</section>
+<section id="vectorized-thinking" class="level3">
+<h3 class="anchored" data-anchor-id="vectorized-thinking">Vectorized Thinking</h3>
+<p>Create a vector using <code>c()</code> (short for “combine”):</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nums <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>nums <span class="sc">*</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Notice that <code>nums * 2</code> multiplied <em>every</em> element by 2, without a loop.</p>
+<div class="terminology">
+<p><strong>Vectorized operation</strong>: Applying an operation to an entire vector at once, element by element, without writing an explicit loop. This is a core feature of R and one of the biggest mental shifts if you’re coming from Excel or another language.</p>
+</div>
+<div class="exercise">
+<p><strong>Exercise 1.1</strong></p>
+<ol type="1">
+<li>Create a numeric vector of 5 numbers of your choice.</li>
+<li>Add <code>10</code> to the whole vector at once. What do you get?</li>
+<li>Multiply the vector by itself (<code>nums * nums</code>). What happened, element by element?</li>
+</ol>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -688,33 +877,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="../index.html" class="pagination-link" aria-label="Welcome">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Welcome</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/data-import.html" class="pagination-link" aria-label="Data importation">
-        <span class="nav-page-text"><span class="chapter-title">Data importation</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/data-types.html" class="pagination-link" aria-label="Data Types">
+        <span class="nav-page-text"><span class="chapter-title">Data Types</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <div class="footer-logos">
-<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"><img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
+<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"> <img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
 </div>
 <p>Released under the <a href="https://github.com/CERM-NUS/r-intro/blob/main/LICENSE">MIT Licence</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/feel-home.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/feel-home.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/feel-home.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/feel-home.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Angkana T. Huang">
-<meta name="dcterms.date" content="2026-09-08">
+<meta name="dcterms.date" content="2026-09-09">
 
 <title>Public health coding with R</title>
 <style>
@@ -75,7 +75,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -138,12 +138,27 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./chapters/data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./chapters/data-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data importation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./chapters/data-viz.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./chapters/quiz-1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quiz 1</span></a>
   </div>
 </li>
       </ul>
@@ -227,7 +242,18 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#welcome" id="toc-welcome" class="nav-link active" data-scroll-target="#welcome">Welcome</a>
+  <ul class="collapse">
+  <li><a href="#setup-before-first-day-of-class" id="toc-setup-before-first-day-of-class" class="nav-link" data-scroll-target="#setup-before-first-day-of-class">Setup before first day of class</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
@@ -251,7 +277,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">8 September 2026</p>
+      <p class="date">9 September 2026</p>
     </div>
   </div>
   
@@ -268,13 +294,8 @@ ul.task-list li input[type="checkbox"] {
 <p>This is an exercise book for <a href="https://canvas.nus.edu.sg/courses/96080">SPH5009</a> at the NUS Saw Swee Hock School of Public Health. Each numbered section corresponds to a week of the course. Contents are being dynamically built and adjusted as our course progresses to reflect the learnings in class.</p>
 <section id="setup-before-first-day-of-class" class="level2">
 <h2 class="anchored" data-anchor-id="setup-before-first-day-of-class">Setup before first day of class</h2>
-<p>Follow these <a href="https://cerm-nus.github.io/r-intro/chapters/setup.html#r-first-then-rstudio">instructions</a> in <strong>Section 1.1</strong> to install <em>R</em> and <em>Rstudio</em>. Once installed, check out <strong>Section 1.2</strong> to familiarize yourself with the Rstudio interface.</p>
-</section>
-<section id="using-the-book" class="level2">
-<h2 class="anchored" data-anchor-id="using-the-book">Using the book</h2>
-</section>
-<section id="exercises" class="level2">
-<h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
+<p>Follow these <a href="https://cerm-nus.github.io/r-intro/chapters/setup.html#r-first-then-rstudio">instructions</a> in <strong>Section 1.1</strong> to install <em>R</em> and <em>Rstudio</em>. Once installed, check out <strong>Section 1.2</strong> to familiarize yourself with the Rstudio interface. <a href="https://canvas.nus.edu.sg/courses/96080/discussion_topics/465380?module_item_id=790226">Seek help here</a> if you face difficulties.</p>
+<p><em>That’s it!</em> Breathe deep and enjoy the ride as we cruise through the exercises in class together. <strong><em>You will do great!</em></strong></p>
 
 
 </section>
@@ -760,7 +781,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/index.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/index.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>

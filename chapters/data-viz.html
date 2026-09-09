@@ -17,6 +17,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -26,7 +60,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/stat-tests.html" rel="next">
+<link href="../chapters/quiz-1.html" rel="next">
 <link href="../chapters/data-import.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -65,7 +99,7 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script><style>html{ scroll-behavior: smooth; }</style>
 </head>
-<body class="nav-sidebar docked fullcontent">
+<body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
@@ -122,12 +156,27 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../chapters/data-types.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data Types</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/functions.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../chapters/data-import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Data importation</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/data-viz.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Data visualisation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/quiz-1.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Quiz 1</span></a>
   </div>
 </li>
       </ul>
@@ -210,7 +259,24 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#plotting-systems-in-r" id="toc-plotting-systems-in-r" class="nav-link active" data-scroll-target="#plotting-systems-in-r">Plotting systems in R</a></li>
+  <li><a href="#simple-base-r-plots" id="toc-simple-base-r-plots" class="nav-link" data-scroll-target="#simple-base-r-plots">Simple base R plots</a></li>
+  <li>
+<a href="#ggplot2" id="toc-ggplot2" class="nav-link" data-scroll-target="#ggplot2">ggplot2</a>
+  <ul class="collapse">
+<li><a href="#simple-plots-geoms" id="toc-simple-plots-geoms" class="nav-link" data-scroll-target="#simple-plots-geoms">Simple plots (geoms)</a></li>
+  <li><a href="#aes-for-aesthetics" id="toc-aes-for-aesthetics" class="nav-link" data-scroll-target="#aes-for-aesthetics"><code>aes()</code> for aesthetics</a></li>
+  <li><a href="#grouping-and-faceting" id="toc-grouping-and-faceting" class="nav-link" data-scroll-target="#grouping-and-faceting">Grouping and faceting</a></li>
+  <li><a href="#tweaking-the-looks" id="toc-tweaking-the-looks" class="nav-link" data-scroll-target="#tweaking-the-looks">Tweaking the looks</a></li>
+  <li><a href="#saving-plots" id="toc-saving-plots" class="nav-link" data-scroll-target="#saving-plots">Saving plots</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-viz.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-viz.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+    </div>
 <!-- main -->
 <main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/feel-home.html">1 - Easing into R</a></li><li class="breadcrumb-item"><a href="../chapters/data-viz.html"><span class="chapter-title">Data visualisation</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="data-viz" class="quarto-section-identifier"><span class="chapter-title">Data visualisation</span></span></h1>
@@ -227,10 +293,226 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
+</header><p>This is the reward of today. After your hard earned effort in learning data types, operations, and data importation, you now get to produce beautiful plots to show off to the world!</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">viz_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/viz_data.csv"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span><span class="co">#&gt;      id group     site   height weight   bmi response outcome  </span></span>
+<span><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1     1 High dose Site B   164    119.  44.1     62.1 Improved </span></span>
+<span><span class="co">#&gt; 2     2 High dose Site A   170.   130.  45.1     55.3 Improved </span></span>
+<span><span class="co">#&gt; 3     3 High dose Site B   175.   130.  42.7     59.1 Improved </span></span>
+<span><span class="co">#&gt; 4     4 Low dose  Site B   166    118.  42.7     65.9 No change</span></span>
+<span><span class="co">#&gt; 5     5 High dose Site B   157.   117.  47.3     63.3 Improved </span></span>
+<span><span class="co">#&gt; 6     6 Low dose  Site B   160.   118.  46.3     60.6 Worsened</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You should now have <code>viz_data</code> loaded, with 300 simulated patients across three treatment groups (<code>Control</code>, <code>Low dose</code>, <code>High dose</code>) and four study sites, along with height, weight, BMI, a numeric response score, and a categorical outcome. This one dataset will be used to demonstrate every plot type below.</p>
+<section id="plotting-systems-in-r" class="level2"><h2 class="anchored" data-anchor-id="plotting-systems-in-r">Plotting systems in R</h2>
+<p>R doesn’t have just one way to make plots — three major systems coexist, and you’ll likely encounter all of them in the wild.</p>
+<ul>
+<li>
+<strong>Base R</strong> graphics work out of the box, with no packages required. Functions like <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> and <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code> are available the moment you open R. They’re quick for exploratory work, but customizing them (legends, colors, layering) can get verbose.</li>
+<li>
+<strong>lattice</strong> is a package (also bundled with base R installations) designed around the idea of trellis graphs — plots automatically split into panels by one or more grouping variables. It predates ggplot2 and is still used in some statistical packages’ example code, but has mostly been superseded by ggplot2 for everyday use.</li>
+<li>
+<strong>ggplot2</strong> is the most popular modern plotting package, and comes bundled with the tidyverse. It implements the “grammar of graphics,” where a plot is built by layering components (data, aesthetics, geometries, scales, facets, themes) rather than issuing one big plotting command. This makes complex plots more consistent and reusable, at the cost of a small learning curve up front.</li>
+</ul></section><section id="simple-base-r-plots" class="level2"><h2 class="anchored" data-anchor-id="simple-base-r-plots">Simple base R plots</h2>
+<p>Base R gives you a handful of functions that you compose together, adding to the same plot rather than layering it as separate objects.</p>
+<ul>
+<li>
+<p><strong><code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code></strong> is the general-purpose function for scatterplots (and more). For two numeric vectors, it draws points by default.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span>, <span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Height (cm)"</span>, ylab <span class="op">=</span> <span class="st">"Weight (kg)"</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Height vs. weight"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-3-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><strong><code><a href="https://rdrr.io/r/graphics/points.html">points()</a></code></strong> adds more points to an <em>existing</em> plot, without starting a new one — useful for overlaying a second group.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span><span class="op">[</span><span class="va">viz_data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"Control"</span><span class="op">]</span>,</span>
+<span>     <span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span><span class="op">[</span><span class="va">viz_data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"Control"</span><span class="op">]</span>,</span>
+<span>     col <span class="op">=</span> <span class="st">"blue"</span>, xlab <span class="op">=</span> <span class="st">"Height (cm)"</span>, ylab <span class="op">=</span> <span class="st">"Weight (kg)"</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/points.html">points</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span><span class="op">[</span><span class="va">viz_data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"High dose"</span><span class="op">]</span>,</span>
+<span>       <span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span><span class="op">[</span><span class="va">viz_data</span><span class="op">$</span><span class="va">group</span> <span class="op">==</span> <span class="st">"High dose"</span><span class="op">]</span>,</span>
+<span>       col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-4-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+<li><p><strong><code><a href="https://rdrr.io/r/graphics/lines.html">lines()</a></code></strong> adds connected line segments to an existing plot — handy for trend lines or time series.</p></li>
+<li>
+<p><strong><code><a href="https://rdrr.io/r/graphics/abline.html">abline()</a></code></strong> draws a straight line across the whole plot, often used to add a reference line or a fitted regression line (e.g., <code>abline(lm(weight ~ height, data = viz_data))</code>).</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span>, <span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Height (cm)"</span>, ylab <span class="op">=</span> <span class="st">"Weight (kg)"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html">abline</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">weight</span> <span class="op">~</span> <span class="va">height</span>, data <span class="op">=</span> <span class="va">viz_data</span><span class="op">)</span>, col <span class="op">=</span> <span class="st">"darkgreen"</span>, lwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-5-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p><strong><code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code></strong> draws a histogram of a single numeric vector, automatically choosing bins (which you can override with the <code>breaks</code> argument).</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/hist.html">hist</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">response</span>,</span>
+<span>     main <span class="op">=</span> <span class="st">"Distribution of response scores"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Response"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-6-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</li>
+</ul></section><section id="ggplot2" class="level2"><h2 class="anchored" data-anchor-id="ggplot2">ggplot2</h2>
+<p>Unlike base R, where each function call adds to a running plot, ggplot2 builds a plot as a single object, with each <code>+</code> adding a new layer or setting. This means you can save an incomplete plot to a variable, then keep amending it later — a very different mental model from base R’s “draw, then annotate” approach.</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="simple-plots-geoms" class="level3"><h3 class="anchored" data-anchor-id="simple-plots-geoms">Simple plots (geoms)</h3>
+<p>Each <code>geom_*()</code> function draws a different kind of layer, and you combine data, aesthetics, and one or more geoms with <code>+</code>:</p>
+<ul>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code></strong> for scatterplots.</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code></strong> for connected line plots (typically over time or an ordered x-axis).</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code></strong> for bar charts where ggplot counts rows for you (one bar per category).</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code></strong> for bar charts where you already have the bar heights as a column in your data.</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code></strong> for histograms of a continuous variable.</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code></strong> for a smoothed density curve, often used as a continuous alternative to a histogram.</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_tile.html">geom_tile()</a></code></strong> for heatmap-style tiles, typically mapping a third variable to fill color across two categorical/continuous axes.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">height</span>, y <span class="op">=</span> <span class="va">weight</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-8-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>bins <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-9-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-10-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="aes-for-aesthetics" class="level3"><h3 class="anchored" data-anchor-id="aes-for-aesthetics">
+<code>aes()</code> for aesthetics</h3>
+<p>The <code><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes()</a></code> function maps variables in your data to visual properties of the plot: <code>color</code> and <code>fill</code> control outline and fill colors (useful for distinguishing groups), <code>alpha</code> controls transparency (useful when points overlap), <code>size</code> and <code>stroke</code> control point size and outline thickness, and <code>linewidth</code> and <code>linetype</code> control the thickness and dash pattern of lines.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">height</span>, y <span class="op">=</span> <span class="va">weight</span>, color <span class="op">=</span> <span class="va">group</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-11-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="grouping-and-faceting" class="level3"><h3 class="anchored" data-anchor-id="grouping-and-faceting">Grouping and faceting</h3>
+<p>Sometimes you want one plot with groups distinguished by color (via <code>aes(group = ...)</code>, <code>color</code>, or <code>fill</code>), and sometimes you want groups split into entirely separate panels:</p>
+<ul>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap()</a></code></strong> splits a plot into panels based on one variable, wrapping panels into a grid.</li>
+<li>
+<strong><code><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid()</a></code></strong> splits a plot into a grid of panels based on one or two variables (rows and/or columns).</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">outcome</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-12-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">outcome</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_grid.html">facet_grid</a></span><span class="op">(</span><span class="va">site</span> <span class="op">~</span> <span class="va">group</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-13-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="tweaking-the-looks" class="level3"><h3 class="anchored" data-anchor-id="tweaking-the-looks">Tweaking the looks</h3>
+<ul>
+<li>
+<strong>Themes</strong> (e.g., <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_bw()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic()</a></code>) change the overall visual style of a plot — background, gridlines, fonts — without touching the data or geoms.</li>
+<li>
+<strong>Scales</strong> (e.g., <code><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_color_manual()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html">scale_x_continuous()</a></code>, <code><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer()</a></code>) control how data values map to visual properties: which colors represent which groups, how axis breaks and labels appear, and so on.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">outcome</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_brewer.html">scale_fill_brewer</a></span><span class="op">(</span>palette <span class="op">=</span> <span class="st">"Set2"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Outcome by treatment group"</span>, x <span class="op">=</span> <span class="cn">NULL</span>, y <span class="op">=</span> <span class="st">"Count"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-viz_files/figure-html/unnamed-chunk-14-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="saving-plots" class="level3"><h3 class="anchored" data-anchor-id="saving-plots">Saving plots</h3>
+<p>Once you’re happy with a plot, <code><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave()</a></code> writes it to a file (PDF, PNG, JPEG, etc.), inferring the format from the file extension. It’s good practice to save plots into their own subfolder, created with <code><a href="https://rdrr.io/r/base/files2.html">dir.create()</a></code> if it doesn’t already exist.</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"plots"</span>, showWarnings <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">outcome</span>, fill <span class="op">=</span> <span class="va">outcome</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html">facet_wrap</a></span><span class="op">(</span><span class="op">~</span> <span class="va">group</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_minimal</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span><span class="st">"plots/outcome_by_group.pdf"</span>, plot <span class="op">=</span> <span class="va">p</span>, width <span class="op">=</span> <span class="fl">8</span>, height <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -694,8 +976,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/stat-tests.html" class="pagination-link" aria-label="Statistical tests">
-        <span class="nav-page-text"><span class="chapter-title">Statistical tests</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/quiz-1.html" class="pagination-link" aria-label="Quiz 1">
+        <span class="nav-page-text"><span class="chapter-title">Quiz 1</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -709,7 +991,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-viz.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-viz.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-viz.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-viz.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
