@@ -17,6 +17,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -27,7 +61,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../chapters/data-wrangling.html" rel="next">
-<link href="../chapters/stat-tests.html" rel="prev">
+<link href="../chapters/stats.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -72,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/regression.html"><span class="chapter-title">Regression</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/regression.html"><span class="chapter-title">Regression</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
+  <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,11 +259,40 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#data-setup" id="toc-data-setup" class="nav-link active" data-scroll-target="#data-setup">Data setup</a></li>
+  <li><a href="#common-regression-models" id="toc-common-regression-models" class="nav-link" data-scroll-target="#common-regression-models">Common regression models</a></li>
+  <li>
+<a href="#functions-for-running-regressions-in-r" id="toc-functions-for-running-regressions-in-r" class="nav-link" data-scroll-target="#functions-for-running-regressions-in-r">Functions for running regressions in R</a>
+  <ul class="collapse">
+<li><a href="#lm-vs.-glm-whats-the-difference" id="toc-lm-vs.-glm-whats-the-difference" class="nav-link" data-scroll-target="#lm-vs.-glm-whats-the-difference"><code>lm()</code> vs.&nbsp;<code>glm()</code>: what’s the difference?</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#running-regressions-in-r" id="toc-running-regressions-in-r" class="nav-link" data-scroll-target="#running-regressions-in-r">Running regressions in R</a>
+  <ul class="collapse">
+<li><a href="#linear-regression" id="toc-linear-regression" class="nav-link" data-scroll-target="#linear-regression">Linear regression</a></li>
+  <li><a href="#logistic-regression" id="toc-logistic-regression" class="nav-link" data-scroll-target="#logistic-regression">Logistic regression</a></li>
+  <li><a href="#negative-binomial-regression" id="toc-negative-binomial-regression" class="nav-link" data-scroll-target="#negative-binomial-regression">Negative binomial regression</a></li>
+  <li><a href="#cox-proportional-hazards-model" id="toc-cox-proportional-hazards-model" class="nav-link" data-scroll-target="#cox-proportional-hazards-model">Cox proportional hazards model</a></li>
+  </ul>
+</li>
+  <li><a href="#accessing-values-from-output-objects" id="toc-accessing-values-from-output-objects" class="nav-link" data-scroll-target="#accessing-values-from-output-objects">Accessing values from output objects</a></li>
+  <li>
+<a href="#plotting-results" id="toc-plotting-results" class="nav-link" data-scroll-target="#plotting-results">Plotting results</a>
+  <ul class="collapse">
+<li><a href="#why-plot-just-works-on-a-model-object" id="toc-why-plot-just-works-on-a-model-object" class="nav-link" data-scroll-target="#why-plot-just-works-on-a-model-object">Why <code>plot()</code> “just works” on a model object</a></li>
+  <li><a href="#plotting-with-ggplot2" id="toc-plotting-with-ggplot2" class="nav-link" data-scroll-target="#plotting-with-ggplot2">Plotting with <code>ggplot2</code></a></li>
+  <li><a href="#plotting-a-cox-model" id="toc-plotting-a-cox-model" class="nav-link" data-scroll-target="#plotting-a-cox-model">Plotting a Cox model</a></li>
+  </ul>
+</li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/regression.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/regression.html"><span class="chapter-title">Regression</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/regression.html"><span class="chapter-title">Regression</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="regression" class="quarto-section-identifier"><span class="chapter-title">Regression</span></span></h1>
 </div>
 
@@ -244,10 +307,346 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
+</header><p>You’ve now got summary statistics and hypothesis tests under your belt. Next up is regression! Instead of just testing whether two variables are related, you get to model the relationship itself and use it to make predictions. The good news is that once you’re comfortable calling functions in R, running a regression is really just one more function call away.</p>
+<section id="data-setup" class="level2"><h2 class="anchored" data-anchor-id="data-setup">Data setup</h2>
+<p>We will keep using <code>viz_data.csv</code> from before for linear and logistic regression, including its existing <code>group</code> column (<code>"High dose"</code>, <code>"Low dose"</code>, <code>"Control"</code>) as our treatment variable. For negative binomial and Cox regression, we need a couple of variables we don’t have yet (a count outcome and a time-to-event outcome), so you’ll need to download an additional <a href="../data/followup_data.csv"><code>followup_data.csv</code></a> and move it into your <code>data</code> folder in your project directory before proceeding.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">viz_data</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/viz_data.csv"</span><span class="op">)</span></span>
+<span><span class="va">followup_data</span> <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/followup_data.csv"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span><span class="co">#&gt;      id group     site   height weight   bmi response outcome  </span></span>
+<span><span class="co">#&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1     1 High dose Site B   164    119.  44.1     62.1 Improved </span></span>
+<span><span class="co">#&gt; 2     2 High dose Site A   170.   130.  45.1     55.3 Improved </span></span>
+<span><span class="co">#&gt; 3     3 High dose Site B   175.   130.  42.7     59.1 Improved </span></span>
+<span><span class="co">#&gt; 4     4 Low dose  Site B   166    118.  42.7     65.9 No change</span></span>
+<span><span class="co">#&gt; 5     5 High dose Site B   157.   117.  47.3     63.3 Improved </span></span>
+<span><span class="co">#&gt; 6     6 Low dose  Site B   160.   118.  46.3     60.6 Worsened</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">followup_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 4</span></span>
+<span><span class="co">#&gt;      id clinic_visits survival_months event</span></span>
+<span><span class="co">#&gt;   &lt;dbl&gt;         &lt;dbl&gt;           &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1     1            10             9.6     1</span></span>
+<span><span class="co">#&gt; 2     2             7             4.1     1</span></span>
+<span><span class="co">#&gt; 3     3             2             4.6     1</span></span>
+<span><span class="co">#&gt; 4     4             6            24       0</span></span>
+<span><span class="co">#&gt; 5     5             2            24       0</span></span>
+<span><span class="co">#&gt; 6     6             6            24       0</span></span>
+<span></span>
+<span><span class="co"># join viz_data with followup_data based on subject id</span></span>
+<span><span class="va">followup_data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="va">followup_data</span>, by <span class="op">=</span> <span class="st">'id'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="common-regression-models" class="level2"><h2 class="anchored" data-anchor-id="common-regression-models">Common regression models</h2>
+<p>You’ve already met these models conceptually in your stats class, so here we’ll focus on how to actually fit each one in R and what its output looks like.</p>
+<ul>
+<li>
+<strong>Linear regression</strong> models a continuous outcome as a straight-line (or plane, with multiple predictors) function of one or more predictors. It’s the model you’d reach for when your outcome, like <code>response</code> or <code>bmi</code>, is a continuous number.</li>
+<li>
+<strong>Logistic regression</strong> models the probability of a binary outcome (e.g., improved vs.&nbsp;not improved) as a function of one or more predictors, using the logit link to keep predicted probabilities between 0 and 1.</li>
+<li>
+<strong>Negative binomial regression</strong> models a count outcome, like number of clinic visits, that is over-dispersed (its variance is bigger than its mean), which is common with real-world count data and is one reason we don’t just use ordinary linear regression on counts.</li>
+<li>
+<strong>Cox proportional hazards model</strong> models the time until an event happens (e.g., time until a health outcome occurs), while properly handling patients who haven’t experienced the event by the end of the study (censoring).</li>
+</ul></section><section id="functions-for-running-regressions-in-r" class="level2"><h2 class="anchored" data-anchor-id="functions-for-running-regressions-in-r">Functions for running regressions in R</h2>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code></strong> fits linear regression models. You give it a formula describing your outcome and predictors, and a <code>data</code> argument telling it where to find those variables.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code></strong> fits generalized linear models, a broader family that includes logistic regression and (with a helper package) negative binomial regression, by letting you specify a <code>family</code> argument on top of the same formula and <code>data</code> structure <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> uses.</li>
+</ul>
+<section id="lm-vs.-glm-whats-the-difference" class="level3"><h3 class="anchored" data-anchor-id="lm-vs.-glm-whats-the-difference">
+<code>lm()</code> vs.&nbsp;<code>glm()</code>: what’s the difference?</h3>
+<p>In practice, <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> is really a special case of <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> with the family set to a normal (Gaussian) distribution and an identity link, so anything <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> can do, <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> can also do by writing <code>glm(..., family = gaussian)</code>. The reason <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> still exists as its own function is convenience: for ordinary linear regression, its syntax is a touch simpler and some of its helper functions are slightly more direct. Neither function is better than the other in general. You’ll reach for <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> when your outcome is continuous and you don’t need a non-normal family, and <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code> whenever your outcome calls for a different distribution, such as logistic or negative binomial regression.</p>
+</section></section><section id="running-regressions-in-r" class="level2"><h2 class="anchored" data-anchor-id="running-regressions-in-r">Running regressions in R</h2>
+<section id="linear-regression" class="level3"><h3 class="anchored" data-anchor-id="linear-regression">Linear regression</h3>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lm_fit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">response</span> <span class="op">~</span> <span class="va">bmi</span> <span class="op">+</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">viz_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; lm(formula = response ~ bmi + group, data = viz_data)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residuals:</span></span>
+<span><span class="co">#&gt;      Min       1Q   Median       3Q      Max </span></span>
+<span><span class="co">#&gt; -25.5957  -6.7854  -0.4897   7.0522  29.1834 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
+<span><span class="co">#&gt; (Intercept)     42.4959     7.5405   5.636 4.06e-08 ***</span></span>
+<span><span class="co">#&gt; bmi              0.1877     0.1672   1.122 0.262614    </span></span>
+<span><span class="co">#&gt; groupHigh dose  13.6606     1.4494   9.425  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; groupLow dose    5.4767     1.4164   3.867 0.000136 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Residual standard error: 10.23 on 296 degrees of freedom</span></span>
+<span><span class="co">#&gt; Multiple R-squared:  0.2325, Adjusted R-squared:  0.2247 </span></span>
+<span><span class="co">#&gt; F-statistic: 29.88 on 3 and 296 DF,  p-value: &lt; 2.2e-16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="logistic-regression" class="level3"><h3 class="anchored" data-anchor-id="logistic-regression">Logistic regression</h3>
+<p>Logistic regression needs a binary outcome, but <code>outcome</code> in <code>viz_data</code> has three levels (<code>Improved</code>, <code>No change</code>, <code>Worsened</code>). So before fitting the model, we collapse it into a two-level variable indicating whether a patient improved or not.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">viz_data</span><span class="op">$</span><span class="va">improved</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">outcome</span> <span class="op">==</span> <span class="st">"Improved"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">logistic_fit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/glm.html">glm</a></span><span class="op">(</span><span class="va">improved</span> <span class="op">~</span> <span class="va">bmi</span> <span class="op">+</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">viz_data</span>, family <span class="op">=</span> <span class="va">binomial</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">logistic_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; glm(formula = improved ~ bmi + group, family = binomial, data = viz_data)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                Estimate Std. Error z value Pr(&gt;|z|)  </span></span>
+<span><span class="co">#&gt; (Intercept)    -2.30695    1.49475  -1.543   0.1227  </span></span>
+<span><span class="co">#&gt; bmi             0.05481    0.03319   1.652   0.0986 .</span></span>
+<span><span class="co">#&gt; groupHigh dose -0.17318    0.28481  -0.608   0.5432  </span></span>
+<span><span class="co">#&gt; groupLow dose  -0.24409    0.27874  -0.876   0.3812  </span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; (Dispersion parameter for binomial family taken to be 1)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     Null deviance: 415.87  on 299  degrees of freedom</span></span>
+<span><span class="co">#&gt; Residual deviance: 412.34  on 296  degrees of freedom</span></span>
+<span><span class="co">#&gt; AIC: 420.34</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 4</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="negative-binomial-regression" class="level3"><h3 class="anchored" data-anchor-id="negative-binomial-regression">Negative binomial regression</h3>
+<p>Negative binomial regression isn’t available directly through <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>’s built-in families. <strong><code>glm.nb()</code></strong> (from the <code>MASS</code> package) fits a negative binomial regression, handling the over-dispersion that a count outcome like <code>clinic_visits</code> often shows.</p>
+<p><code>MASS</code> is not a base R package, so unlike <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code>, or <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>, it does need to be installed once with <code>install.packages("MASS")</code> before you can use it (though many R installations, including the one used to build this book, ship with it already installed since it’s so commonly used). Once installed, <code>MASS</code> extends R with a dedicated function that uses the same formula and <code>data</code> style you’ve already seen.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">negbin_fit</span> <span class="op">=</span> <span class="fu">MASS</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MASS/man/glm.nb.html">glm.nb</a></span><span class="op">(</span><span class="va">clinic_visits</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">followup_data</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">negbin_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; MASS::glm.nb(formula = clinic_visits ~ group, data = followup_data, </span></span>
+<span><span class="co">#&gt;     init.theta = 2.287824207, link = log)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Coefficients:</span></span>
+<span><span class="co">#&gt;                Estimate Std. Error z value Pr(&gt;|z|)    </span></span>
+<span><span class="co">#&gt; (Intercept)     0.80695    0.08881   9.087  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; groupHigh dose  0.60674    0.12428   4.882 1.05e-06 ***</span></span>
+<span><span class="co">#&gt; groupLow dose   0.43996    0.12361   3.559 0.000372 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; (Dispersion parameter for Negative Binomial(2.2878) family taken to be 1)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     Null deviance: 361.01  on 299  degrees of freedom</span></span>
+<span><span class="co">#&gt; Residual deviance: 335.55  on 297  degrees of freedom</span></span>
+<span><span class="co">#&gt; AIC: 1342</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Number of Fisher Scoring iterations: 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;               Theta:  2.288 </span></span>
+<span><span class="co">#&gt;           Std. Err.:  0.346 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;  2 x log-likelihood:  -1333.976</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="cox-proportional-hazards-model" class="level3"><h3 class="anchored" data-anchor-id="cox-proportional-hazards-model">Cox proportional hazards model</h3>
+<p>Functions for survival analysis, including the Cox model, are bundled into the <code>survival</code> package rather than base R. Like <code>MASS</code>, it’s not part of base R, so it needs to be installed once with <code>install.packages("survival")</code> if you don’t already have it (it is, however, included with every standard R installation by default, which is why you may not have needed to install it yourself before).</p>
+<p>Fitting a Cox model takes two steps. First, you build a <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> object, which packages your time-to-event variable together with an event indicator into a single object that represents “how long this patient was followed, and whether the event actually happened by the end of that time or not (i.e.&nbsp;they were censored).” This is necessary because a plain numeric time variable on its own doesn’t tell R which patients actually experienced the event and which ones simply hadn’t yet by the time the study ended.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code></strong> (from the <code>survival</code> package) combines a time variable and an event indicator (<code>1</code> for event observed, <code>0</code> for censored) into the special object that survival models expect as their outcome.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load `survival` package which comes pre-installed with R</span></span>
+<span><span class="co"># as we will use its functions multiple times in this exercise</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/therneau/survival">survival</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">followup_surv</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">followup_data</span><span class="op">$</span><span class="va">survival_months</span>, <span class="va">followup_data</span><span class="op">$</span><span class="va">event</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">followup_surv</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1]  9.6   4.1   4.6  24.0+ 24.0+ 24.0+</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Once you have that <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> object, fitting the model itself follows the same formula and <code>data</code> pattern as <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> and <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph()</a></code></strong> (from the <code>survival</code> package) fits a Cox proportional hazards model, using a <code><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv()</a></code> object as its outcome in the formula.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cox_fit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/coxph.html">coxph</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/survival/man/Surv.html">Surv</a></span><span class="op">(</span><span class="va">survival_months</span>, <span class="va">event</span><span class="op">)</span> <span class="op">~</span> <span class="va">group</span>,</span>
+<span>  data <span class="op">=</span> <span class="va">followup_data</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">cox_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Call:</span></span>
+<span><span class="co">#&gt; coxph(formula = Surv(survival_months, event) ~ group, data = followup_data)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;   n= 300, number of events= 166 </span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                  coef exp(coef) se(coef)     z Pr(&gt;|z|)    </span></span>
+<span><span class="co">#&gt; groupHigh dose 1.0960    2.9922   0.2012 5.446 5.15e-08 ***</span></span>
+<span><span class="co">#&gt; groupLow dose  0.8187    2.2676   0.2043 4.007 6.14e-05 ***</span></span>
+<span><span class="co">#&gt; ---</span></span>
+<span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;                exp(coef) exp(-coef) lower .95 upper .95</span></span>
+<span><span class="co">#&gt; groupHigh dose     2.992     0.3342     2.017     4.439</span></span>
+<span><span class="co">#&gt; groupLow dose      2.268     0.4410     1.519     3.384</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Concordance= 0.62  (se = 0.019 )</span></span>
+<span><span class="co">#&gt; Likelihood ratio test= 33.87  on 2 df,   p=4e-08</span></span>
+<span><span class="co">#&gt; Wald test            = 30.39  on 2 df,   p=3e-07</span></span>
+<span><span class="co">#&gt; Score (logrank) test = 32.87  on 2 df,   p=7e-08</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section></section><section id="accessing-values-from-output-objects" class="level2"><h2 class="anchored" data-anchor-id="accessing-values-from-output-objects">Accessing values from output objects</h2>
+<p>Just like the test objects from the previous chapter, regression model objects are list-like, so <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> and <code>$</code> still work on them. But regression output has enough moving parts (coefficients, standard errors, p-values for every predictor) that a few dedicated extraction functions make life easier than digging through <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> output by hand.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/coef.html">coef()</a></code></strong> returns just the estimated coefficients from a fitted model, without all the other information bundled alongside them.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/stats/confint.html">confint()</a></code></strong> returns confidence intervals for each coefficient.</li>
+<li>
+<strong><code>summary(model)$coefficients</code></strong> returns a table of estimates, standard errors, test statistics, and p-values all at once, which is often the most useful single object to extract when you want to report results.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html">coef</a></span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    (Intercept)            bmi groupHigh dose  groupLow dose </span></span>
+<span><span class="co">#&gt;     42.4958573      0.1876562     13.6606030      5.4766963</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html">confint</a></span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                     2.5 %     97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept)    27.6560012 57.3357135</span></span>
+<span><span class="co">#&gt; bmi            -0.1413873  0.5166998</span></span>
+<span><span class="co">#&gt; groupHigh dose 10.8082297 16.5129762</span></span>
+<span><span class="co">#&gt; groupLow dose   2.6892864  8.2641062</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">lm_fit</span><span class="op">)</span><span class="op">$</span><span class="va">coefficients</span></span>
+<span><span class="co">#&gt;                  Estimate Std. Error  t value     Pr(&gt;|t|)</span></span>
+<span><span class="co">#&gt; (Intercept)    42.4958573   7.540536 5.635655 4.063259e-08</span></span>
+<span><span class="co">#&gt; bmi             0.1876562   0.167196 1.122373 2.626136e-01</span></span>
+<span><span class="co">#&gt; groupHigh dose 13.6606030   1.449369 9.425209 1.288714e-18</span></span>
+<span><span class="co">#&gt; groupLow dose   5.4766963   1.416359 3.866743 1.356357e-04</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="common-mistake">
+<p>It’s easy to assume <code>summary(model)</code> itself is what you extract from, but <code>summary(model)</code> is a separate summary object, not the original model object, and the two don’t have the same pieces inside them. If <code>model$coefficients</code> doesn’t give you what you expected, try <code>summary(model)$coefficients</code> instead, and use <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> on both objects to see how they differ.</p>
+</div>
+</section><section id="plotting-results" class="level2"><h2 class="anchored" data-anchor-id="plotting-results">Plotting results</h2>
+<p>Now that you can fit each model and pull out the numbers that matter, it’s time to see them. A table of coefficients tells you <em>that</em> a relationship exists, but a plot usually makes it much easier to judge <em>how strong</em> that relationship is and whether it makes sense given your data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># which = 1 selects just the first of four default diagnostic plots</span></span>
+<span><span class="co"># (residuals vs. fitted values), rather than showing all four at once</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">lm_fit</span>, which <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/plot-all-fitted-models-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="co"># logistic regression also produces residuals vs. fitted diagnostics,</span></span>
+<span><span class="co"># even though the underlying model and residual type are different</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">logistic_fit</span>, which <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/plot-all-fitted-models-2.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="co"># negative binomial models are fit via glm.nb(), so they also inherit</span></span>
+<span><span class="co"># the same residuals vs. fitted diagnostic plot as the other glm() models</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">negbin_fit</span>, which <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/plot-all-fitted-models-3.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span></span>
+<span><span class="co"># a Cox model has no "residuals vs. fitted" concept, so plot() instead</span></span>
+<span><span class="co"># needs a survival curve object first, built using survfit()</span></span>
+<span><span class="va">cox_survfit</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit</a></span><span class="op">(</span><span class="va">cox_fit</span>, newdata <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>group <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">followup_data</span><span class="op">$</span><span class="va">group</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">cox_survfit</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"Time (months)"</span>,</span>
+<span>     ylab <span class="op">=</span> <span class="st">"Estimated survival probability"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/plot-all-fitted-models-4.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="why-plot-just-works-on-a-model-object" class="level3"><h3 class="anchored" data-anchor-id="why-plot-just-works-on-a-model-object">Why <code>plot()</code> “just works” on a model object</h3>
+<p>You’ve probably noticed that the same <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> call produced three similar-looking diagnostic plots for <code>lm_fit</code>, <code>logistic_fit</code>, and <code>negbin_fit</code>, but something completely different for the Cox model, and that <code>cox_fit</code> needed to be wrapped in <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> first before <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> would even work on it. This all comes down to <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> being a generic function: it checks the class of whatever you hand it (e.g., <code>"lm"</code>, <code>"glm"</code>, <code>"survfit"</code>) and then dispatches to a specific method written by that package’s author for that exact class.</p>
+<p><code>lm_fit</code>, <code>logistic_fit</code>, and <code>negbin_fit</code> all happen to inherit from <code>"glm"</code> (since <code><a href="https://rdrr.io/r/stats/lm.html">lm()</a></code> and <code>glm.nb()</code> are both special cases of the same underlying framework as <code><a href="https://rdrr.io/r/stats/glm.html">glm()</a></code>), so they all route to the same <code>plot.glm()</code> method and produce the same family of residual diagnostics.</p>
+<p><code>cox_fit</code>, on the other hand, has no <code>plot.coxph()</code> method at all, the authors of the <code>survival</code> package never wrote one, because a fitted Cox model on its own doesn’t contain a single obvious thing to plot. What it does contain is enough information to calculate a survival curve, and that’s exactly what <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> does: it takes your fitted <code>cox_fit</code> object and produces a new object (of class <code>"survfit"</code>) representing the estimated survival probability over time. That new object does have a <code>plot.survfit()</code> method built in, which is why <code>plot(survfit(cox_fit))</code> works, <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> never actually knows how to handle a <code>"coxph"</code> object directly, but it knows exactly what to do once you’ve converted it into something it does recognize.</p>
+</section><section id="plotting-with-ggplot2" class="level3"><h3 class="anchored" data-anchor-id="plotting-with-ggplot2">Plotting with <code>ggplot2</code>
+</h3>
+<p>For a fitted regression line drawn over your raw data, <code>ggplot2</code>’s <strong><code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code></strong> is the most direct route, since it can fit the same model internally and draw it for you in one step.</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bmi</span>, y <span class="op">=</span> <span class="va">response</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/ggplot-lm-fit-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The same approach works for logistic regression, plotting the predicted probability of <code>improved</code> across <code>bmi</code> rather than a raw fitted line.</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">viz_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">bmi</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">improved</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"glm"</span>, method.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>family <span class="op">=</span> <span class="st">"binomial"</span><span class="op">)</span>, se <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ x'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/ggplot-logistic-fit-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>For the negative binomial model, since the outcome is a count rather than continuous, plotting the raw counts by group alongside their means is often clearer than a single fitted line.</p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">followup_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">group</span>, y <span class="op">=</span> <span class="va">clinic_visits</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter</a></span><span class="op">(</span>width <span class="op">=</span> <span class="fl">0.1</span>, height <span class="op">=</span> <span class="fl">0</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_summary.html">stat_summary</a></span><span class="op">(</span>fun <span class="op">=</span> <span class="va">mean</span>, geom <span class="op">=</span> <span class="st">"point"</span>, size <span class="op">=</span> <span class="fl">3</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/ggplot-negbin-fit-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="plotting-a-cox-model" class="level3"><h3 class="anchored" data-anchor-id="plotting-a-cox-model">Plotting a Cox model</h3>
+<p>You’ve just seen that <code>plot(survfit(cox_fit))</code> works because <code><a href="https://rdrr.io/pkg/survival/man/survfit.html">survfit()</a></code> converts your model into a <code>"survfit"</code> object with its own built-in <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method. Base R’s <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> is genuinely a fine choice here and needs nothing beyond the <code>survival</code> package you’re already using, so it’s a perfectly good default for this chapter.</p>
+<p>That said, once you have a <code>survfit</code> object, <code>ggplot2</code> can still be useful if you’d rather match the visual style of your other plots (for example, keeping consistent themes and colours across a report). Since <code>ggplot2</code> doesn’t know how to draw a <code>survfit</code> object directly, the key step is pulling the survival curve’s numbers out into an ordinary data frame first, using <code><a href="https://generics.r-lib.org/reference/tidy.html">broom::tidy()</a></code>, and plotting that data frame with <code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step()</a></code> instead.</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">cox_survfit_df</span> <span class="op">=</span> <span class="fu">broom</span><span class="fu">::</span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">cox_survfit</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># a not so elegant way of plotting mutliple groups in ggplot2</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">cox_survfit_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">estimate.1</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">estimate.2</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_step</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">estimate.3</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>x <span class="op">=</span> <span class="st">"Time (months)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Estimated survival probability"</span>,</span>
+<span>       color <span class="op">=</span> <span class="st">"Group"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="regression_files/figure-html/ggplot-cox-survival-curve-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Either approach, base <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> on the <code>survfit</code> object or <code>ggplot2</code> on its tidied data frame, gives you the same underlying survival curve. Which one to reach for often just comes down to whether you want a quick look at your model or a polished plot to match the rest of your report.</p>
+<div class="common-mistake">
+<p>It’s easy to call <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> on your model object and assume you’re seeing “the” plot for that model, but as you’ve just seen, the same function produces entirely different output depending on the model’s class, and some of those defaults (like the four-panel <code>lm</code> diagnostics) show more than you actually need at once. Checking what a given <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method actually draws, using <code><a href="https://rdrr.io/r/stats/plot.lm.html">?plot.lm</a></code> or <code><a href="https://rdrr.io/pkg/survival/man/plot.survfit.html">?plot.survfit</a></code>, is worth doing before you assume the default output is exactly what you want to present.</p>
+</div>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -706,8 +1105,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../chapters/stat-tests.html" class="pagination-link" aria-label="Statistical tests">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Statistical tests</span></span>
+      <a href="../chapters/stats.html" class="pagination-link" aria-label="Summaries and Statistical Tests">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Summaries and Statistical Tests</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -726,7 +1125,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/regression.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/regression.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/regression.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>

@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
+  <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -294,6 +294,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><p>This is the reward of today. After your hard earned effort in learning data types, operations, and data importation, you now get to produce beautiful plots to show off to the world!</p>
+<p>Download data for this section (<a href="../data/viz_data.txt"><code>viz_data.txt</code></a>) and place it in the <code>data</code> directory you created earlier. Then run the following to load the dataset: 300 simulated patients across three treatment groups (<code>Control</code>, <code>Low dose</code>, <code>High dose</code>) and four study sites, along with height, weight, BMI, a numeric response score, and a categorical outcome. This one dataset will be used to demonstrate every plot type below.</p>
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">viz_data</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/viz_data.csv"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">)</span></span>
@@ -307,7 +308,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt; 5     5 High dose Site B   157.   117.  47.3     63.3 Improved </span></span>
 <span><span class="co">#&gt; 6     6 Low dose  Site B   160.   118.  46.3     60.6 Worsened</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>You should now have <code>viz_data</code> loaded, with 300 simulated patients across three treatment groups (<code>Control</code>, <code>Low dose</code>, <code>High dose</code>) and four study sites, along with height, weight, BMI, a numeric response score, and a categorical outcome. This one dataset will be used to demonstrate every plot type below.</p>
 <section id="plotting-systems-in-r" class="level2"><h2 class="anchored" data-anchor-id="plotting-systems-in-r">Plotting systems in R</h2>
 <p>R doesn’t have just one way to make plots — three major systems coexist, and you’ll likely encounter all of them in the wild.</p>
 <ul>

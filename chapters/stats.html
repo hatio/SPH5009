@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/stat-tests.html"><span class="chapter-title">Summaries and Statistical Tests</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/stats.html"><span class="chapter-title">Summaries and Statistical Tests</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Summaries and Statistical Tests</span></a>
+  <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -275,10 +275,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
   <li><a href="#functions-in-r-base-vs.-additional-packages" id="toc-functions-in-r-base-vs.-additional-packages" class="nav-link" data-scroll-target="#functions-in-r-base-vs.-additional-packages">Functions in R: base vs.&nbsp;additional packages</a></li>
   <li><a href="#accessing-values-from-output-objects" id="toc-accessing-values-from-output-objects" class="nav-link" data-scroll-target="#accessing-values-from-output-objects">Accessing values from output objects</a></li>
-  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/stat-tests.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/stat-tests.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/stats.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/stats.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/stat-tests.html"><span class="chapter-title">Summaries and Statistical Tests</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/stats.html"><span class="chapter-title">Summaries and Statistical Tests</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="summaries-statistical-tests" class="quarto-section-identifier"><span class="chapter-title">Summaries and Statistical Tests</span></span></h1>
 </div>
 
@@ -426,14 +426,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section></section><section id="functions-in-r-base-vs.-additional-packages" class="level2"><h2 class="anchored" data-anchor-id="functions-in-r-base-vs.-additional-packages">Functions in R: base vs.&nbsp;additional packages</h2>
 <p>Every function you’ve used so far in this chapter, like <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code>, and <code><a href="https://rdrr.io/r/stats/aov.html">aov()</a></code>, comes bundled with base R, meaning it’s available the moment you open RStudio with no extra installation needed. As you progress in public health analysis, you’ll also encounter functions from additional packages (installed with <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code> and loaded with <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>, just like you did with <code>stringr</code> last week) that extend what base R can do.</p>
 </section><section id="accessing-values-from-output-objects" class="level2"><h2 class="anchored" data-anchor-id="accessing-values-from-output-objects">Accessing values from output objects</h2>
-<p>When you run a test like <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> or <code><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test()</a></code>, R doesn’t just print a result to your console. It actually creates a list-like object containing everything about that test, and the printed summary is just a friendly display of that object. This matters because in your own code you’ll often want to pull out a single number (like a p-value) to use later, rather than manually reading it off the printed output.</p>
+<p>When you run a test like <code><a href="https://rdrr.io/r/stats/t.test.html">t.test()</a></code> or <code><a href="https://rdrr.io/r/stats/chisq.test.html">chisq.test()</a></code>, R doesn’t just print a result to your console. It actually creates a list-like object containing everything about that test, and the printed summary is just a friendly display of that object. Other functions, like <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, return a named vector rather than a list. This matters because in your own code you’ll often want to pull out a single number (like a p-value or a specific summary statistic) to use later, rather than manually reading it off the printed output, and the way you extract that number depends on what kind of object you’re pulling it from.</p>
 <ul>
 <li>
-<strong><code><a href="https://rdrr.io/r/utils/str.html">str()</a></code></strong> lets you peek inside an output object to see what pieces of information it contains and how they’re named.</li>
-<li>The <code>$</code> operator lets you extract one specific piece by name, once you know what it’s called.</li>
+<strong><code><a href="https://rdrr.io/r/utils/str.html">str()</a></code></strong> lets you peek inside an output object to see what pieces of information it contains and how they’re named, and whether it’s a list or a vector.</li>
+<li>The <code>$</code> operator extracts one specific piece from a list-like object by name, once you know what it’s called.</li>
+<li>
+<code>[</code> and <code>[[</code> let you extract by name or position from a named vector, which is what functions like <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> give you back instead of a list.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">response_ttest</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/t.test.html">t.test</a></span><span class="op">(</span><span class="va">response</span> <span class="op">~</span> <span class="va">group</span>, data <span class="op">=</span> <span class="va">viz_data</span>, subset <span class="op">=</span> <span class="va">group</span> <span class="op"><a href="https://rdrr.io/r/base/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"High dose"</span>, <span class="st">"Low dose"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">response_ttest</span><span class="op">)</span></span>
 <span><span class="co">#&gt; List of 10</span></span>
 <span><span class="co">#&gt;  $ statistic  : Named num 5.51</span></span>
@@ -451,20 +454,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="co">#&gt;  $ alternative: chr "two.sided"</span></span>
 <span><span class="co">#&gt;  $ method     : chr "Welch Two Sample t-test"</span></span>
 <span><span class="co">#&gt;  $ data.name  : chr "response by group"</span></span>
-<span><span class="co">#&gt;  - attr(*, "class")= chr "htest"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">response_ttest</span><span class="op">$</span><span class="va">p.value</span></span>
-<span><span class="co">#&gt; [1] 1.18611e-07</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">response_ttest</span><span class="op">$</span><span class="va">conf.int</span></span>
+<span><span class="co">#&gt;  - attr(*, "class")= chr "htest"</span></span>
+<span></span>
+<span><span class="va">response_ttest</span><span class="op">$</span><span class="va">p.value</span></span>
+<span><span class="co">#&gt; [1] 1.18611e-07</span></span>
+<span><span class="va">response_ttest</span><span class="op">$</span><span class="va">conf.int</span></span>
 <span><span class="co">#&gt; [1]  5.180856 10.957012</span></span>
 <span><span class="co">#&gt; attr(,"conf.level")</span></span>
 <span><span class="co">#&gt; [1] 0.95</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">weight_summary</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">weight_summary</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  'summaryDefault' Named num [1:6] 98.5 115.5 120.2 120.4 125.5 ...</span></span>
+<span><span class="co">#&gt;  - attr(*, "names")= chr [1:6] "Min." "1st Qu." "Median" "Mean" ...</span></span>
+<span></span>
+<span><span class="va">weight_summary</span><span class="op">[</span><span class="st">"Median"</span><span class="op">]</span></span>
+<span><span class="co">#&gt; Median </span></span>
+<span><span class="co">#&gt; 120.15</span></span>
+<span><span class="va">weight_summary</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 120.15</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="common-mistake">
-<p>It’s tempting to guess the name of the value you want (e.g., typing <code>$pvalue</code> instead of <code>$p.value</code>), but R won’t warn you if you get it wrong. It will just silently return <code>NULL</code>. Running <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> first to check the exact names inside the object will save you this frustration.</p>
+<p>It’s tempting to guess the name of the value you want (e.g., typing $pvalue instead of $p.value), but R won’t warn you if you get it wrong. It will just silently return NULL. It’s also easy to try $ on something like the output of summary(), which will fail since that object is a named vector, not a list. Running str() first to check both the exact names and the type of object you’re dealing with will save you this frustration. :::</p>
 </div>
 <div class="exercise">
 <p><strong>Exercise 2.1</strong></p>
@@ -954,7 +967,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/stat-tests.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/stat-tests.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/stats.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/stats.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>

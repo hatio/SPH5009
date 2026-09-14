@@ -17,6 +17,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -72,7 +106,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/data-wrangling.html"><span class="chapter-title">Data wrangling</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/data-wrangling.html"><span class="chapter-title">Data wrangling</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -158,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
+  <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -225,11 +259,34 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#data-setup" id="toc-data-setup" class="nav-link active" data-scroll-target="#data-setup">Data setup</a></li>
+  <li><a href="#the-messiness-of-real-world-data" id="toc-the-messiness-of-real-world-data" class="nav-link" data-scroll-target="#the-messiness-of-real-world-data">The messiness of real-world data</a></li>
+  <li><a href="#checking-data-quality" id="toc-checking-data-quality" class="nav-link" data-scroll-target="#checking-data-quality">Checking data quality</a></li>
+  <li>
+<a href="#reproducible-data-cleaning" id="toc-reproducible-data-cleaning" class="nav-link" data-scroll-target="#reproducible-data-cleaning">Reproducible data cleaning</a>
+  <ul class="collapse">
+<li><a href="#renaming-creating-and-selecting-columns" id="toc-renaming-creating-and-selecting-columns" class="nav-link" data-scroll-target="#renaming-creating-and-selecting-columns">Renaming, creating, and selecting columns</a></li>
+  <li><a href="#sorting-rows" id="toc-sorting-rows" class="nav-link" data-scroll-target="#sorting-rows">Sorting rows</a></li>
+  <li><a href="#grouped-summaries" id="toc-grouped-summaries" class="nav-link" data-scroll-target="#grouped-summaries">Grouped summaries</a></li>
+  <li><a href="#cleaning-up-text" id="toc-cleaning-up-text" class="nav-link" data-scroll-target="#cleaning-up-text">Cleaning up text</a></li>
+  <li><a href="#regular-expressions" id="toc-regular-expressions" class="nav-link" data-scroll-target="#regular-expressions">Regular expressions</a></li>
+  <li><a href="#converting-between-data-types" id="toc-converting-between-data-types" class="nav-link" data-scroll-target="#converting-between-data-types">Converting between data types</a></li>
+  <li><a href="#conditional-logic" id="toc-conditional-logic" class="nav-link" data-scroll-target="#conditional-logic">Conditional logic</a></li>
+  <li><a href="#writing-your-own-functions" id="toc-writing-your-own-functions" class="nav-link" data-scroll-target="#writing-your-own-functions">Writing your own functions</a></li>
+  <li><a href="#reshaping-data" id="toc-reshaping-data" class="nav-link" data-scroll-target="#reshaping-data">Reshaping data</a></li>
+  <li><a href="#combining-datasets" id="toc-combining-datasets" class="nav-link" data-scroll-target="#combining-datasets">Combining datasets</a></li>
+  <li><a href="#pipes-vs." id="toc-pipes-vs." class="nav-link" data-scroll-target="#pipes-vs.">Pipes: <code>%&gt;%</code> vs.&nbsp;<code>|&gt;</code></a></li>
+  </ul>
+</li>
+  <li><a href="#exporting-cleaned-data" id="toc-exporting-cleaned-data" class="nav-link" data-scroll-target="#exporting-cleaned-data">Exporting cleaned data</a></li>
+  </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stat-tests.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/data-wrangling.html"><span class="chapter-title">Data wrangling</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/stats.html">2 - Working with data</a></li><li class="breadcrumb-item"><a href="../chapters/data-wrangling.html"><span class="chapter-title">Data wrangling</span></a></li></ol></nav><div class="quarto-title">
 <h1 class="title"><span id="data-wrangling" class="quarto-section-identifier"><span class="chapter-title">Data wrangling</span></span></h1>
 </div>
 
@@ -244,10 +301,488 @@ ul.task-list li input[type="checkbox"] {
   
 
 
-</header>
+</header><p>Real datasets are almost never as clean as <code>viz_data.csv</code> has been so far. In this chapter you’ll get comfortable with the messiness that shows up in real public health data, learn how to check a dataset for problems before you trust it, and build up a reproducible cleaning workflow using some of the most common <code>dplyr</code> and <code>stringr</code> functions you’ll reach for again and again.</p>
+<section id="data-setup" class="level2"><h2 class="anchored" data-anchor-id="data-setup">Data setup</h2>
+<p>For this chapter we’ll use a deliberately messy dataset, <a href="../data/clinic_raw.csv"><code>clinic_raw.csv</code></a>, styled after the kind of export you might get from a clinic’s Excel records. Download it and move it into your <code>data</code> folder before continuing.</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># load the multiple core tidyverse packages all at once</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># skip = 2 drops the title line and blank line sitting above the real header</span></span>
+<span><span class="va">clinic_raw</span> <span class="op">=</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/clinic_raw.csv"</span>, skip <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">clinic_raw</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span><span class="co">#&gt;   patient_id site   sex     age visit_date blood_pressure weight_kg notes     </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 PT-0001    site a &lt;NA&gt;     70 06/02/2023 180/64 mmHg    79.1      Stable    </span></span>
+<span><span class="co">#&gt; 2 PT-0002    site a F        41 13/09/2023 97/74 mmHg     65.3      follow up </span></span>
+<span><span class="co">#&gt; 3 PT-0003    site a &lt;NA&gt;     55 12/12/2023 133/72 mmHg    82.1      &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 4 PT-0004    site a F        37 26/06/2023 133/70 mmHg    62.5      stable    </span></span>
+<span><span class="co">#&gt; 5 PT-0005    Site B M        50 29/07/2023 101/62 mmHg    50.4      discharged</span></span>
+<span><span class="co">#&gt; 6 PT-0006    site_d F        53 11/11/2023 98/75 mmHg     84.9      FOLLOW UP</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Notice the <code>skip = 2</code> argument to <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>. The raw file has two junk lines above the real header (a title line and a blank line), a common situation when exporting from Excel, and <code>skip</code> tells R to ignore a fixed number of lines at the top of the file before looking for column names. If you only need specific columns or rows rather than skipping a fixed block, <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>’s <code>col_select</code> argument and ordinary row indexing (e.g.&nbsp;<code>clinic_raw[1:20, ]</code>) work the same way they did with <code>viz_data.csv</code>.</p>
+<div class="pro-tip">
+<p><code>1:20</code> is shorthand for <code>seq(1, 20, by = 1)</code>, a function that generates a sequence of numbers from a starting value to an ending value at a given increment. The colon operator (<code>:</code>) is just a quick way to write this when your increment is <code>1</code> (or <code>-1</code> when counting downward), but <code><a href="https://rdrr.io/r/base/seq.html">seq()</a></code> is worth knowing too, since it lets you control the increment directly, for example generating every second or every tenth number in a range.</p>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span> <span class="co"># shorthand sequence from 1 to 20, increment of 1</span></span>
+<span><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span>, by <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="co"># explicit equivalent of 1:20</span></span>
+<span><span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">20</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="co"># 1:20 can't do this, seq() lets you set the increment</span></span>
+<span><span class="co">#&gt; [1]  1  6 11 16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="the-messiness-of-real-world-data" class="level2"><h2 class="anchored" data-anchor-id="the-messiness-of-real-world-data">The messiness of real-world data</h2>
+<p>Two problems show up immediately if you inspect <code>clinic_raw</code>. First, missing values aren’t always stored as true <code>NA</code>. Here, <code>blood_pressure</code> uses <code>"N/A"</code> and <code>weight_kg</code> uses <code>"-"</code> for missing entries, both of which R reads in as ordinary text rather than recognising them as missing. Second, columns that should be numeric, like <code>blood_pressure</code> (which packs two readings and a unit into one field, e.g. <code>"120/80 mmHg"</code>) and <code>weight_kg</code>, get read in as character columns instead, a process called <em>coercion</em>, because a single non-numeric value anywhere in the column forces the whole column to be stored as text.</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">clinic_raw</span><span class="op">)</span> <span class="co"># lists each column's name and type in one compact view</span></span>
+<span><span class="co">#&gt; spc_tbl_ [200 × 8] (S3: spec_tbl_df/tbl_df/tbl/data.frame)</span></span>
+<span><span class="co">#&gt;  $ patient_id    : chr [1:200] "PT-0001" "PT-0002" "PT-0003" "PT-0004" ...</span></span>
+<span><span class="co">#&gt;  $ site          : chr [1:200] "site a" "site a" "site a" "site a" ...</span></span>
+<span><span class="co">#&gt;  $ sex           : chr [1:200] NA "F" NA "F" ...</span></span>
+<span><span class="co">#&gt;  $ age           : num [1:200] 70 41 55 37 50 53 62 39 61 81 ...</span></span>
+<span><span class="co">#&gt;  $ visit_date    : chr [1:200] "06/02/2023" "13/09/2023" "12/12/2023" "26/06/2023" ...</span></span>
+<span><span class="co">#&gt;  $ blood_pressure: chr [1:200] "180/64 mmHg" "97/74 mmHg" "133/72 mmHg" "133/70 mmHg" ...</span></span>
+<span><span class="co">#&gt;  $ weight_kg     : chr [1:200] "79.1" "65.3" "82.1" "62.5" ...</span></span>
+<span><span class="co">#&gt;  $ notes         : chr [1:200] "Stable" "follow up" NA "stable" ...</span></span>
+<span><span class="co">#&gt;  - attr(*, "spec")=</span></span>
+<span><span class="co">#&gt;   .. cols(</span></span>
+<span><span class="co">#&gt;   ..   patient_id = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   site = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   sex = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   age = col_double(),</span></span>
+<span><span class="co">#&gt;   ..   visit_date = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   blood_pressure = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   weight_kg = col_character(),</span></span>
+<span><span class="co">#&gt;   ..   notes = col_character()</span></span>
+<span><span class="co">#&gt;   .. )</span></span>
+<span><span class="co">#&gt;  - attr(*, "problems")=&lt;externalptr&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You’ll fix both of these problems later in this chapter, once you’ve seen the cleaning functions designed for exactly this job.</p>
+<div class="common-mistake">
+<p>It’s easy to assume a column is numeric just because most of its values look like numbers. Always check with <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> or <code><a href="https://rdrr.io/r/base/class.html">class()</a></code> after importing, since a single stray value like <code>"N/A"</code> or a trailing unit like <code>"mmHg"</code> is enough to silently turn an entire column into character.</p>
+</div>
+</section><section id="checking-data-quality" class="level2"><h2 class="anchored" data-anchor-id="checking-data-quality">Checking data quality</h2>
+<p>Before cleaning anything, it’s worth getting an honest picture of what’s actually in your dataset.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/NA.html">is.na()</a></code></strong> checks, value by value, whether an entry is missing, and is most useful combined with <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code> to count how many missing values a column has.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/range.html">range()</a></code></strong> returns the minimum and maximum of a numeric variable, handy for spotting impossible values (e.g., a negative age).</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code></strong> gives you a quick five-number-summary-plus-mean for numeric columns, and a count of each category for character or factor columns, all in one call.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">clinic_raw</span><span class="op">$</span><span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="co"># TRUE counts as 1, so sum() tallies the NAs</span></span>
+<span><span class="co">#&gt; [1] 6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/range.html">range</a></span><span class="op">(</span><span class="va">clinic_raw</span><span class="op">$</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># na.rm drops NAs before computing min/max</span></span>
+<span><span class="co">#&gt; [1] 18 90</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">clinic_raw</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   patient_id            site               sex                 age       </span></span>
+<span><span class="co">#&gt;  Length:200         Length:200         Length:200         Min.   :18.00  </span></span>
+<span><span class="co">#&gt;  Class :character   Class :character   Class :character   1st Qu.:33.25  </span></span>
+<span><span class="co">#&gt;  Mode  :character   Mode  :character   Mode  :character   Median :51.00  </span></span>
+<span><span class="co">#&gt;                                                           Mean   :51.65  </span></span>
+<span><span class="co">#&gt;                                                           3rd Qu.:69.75  </span></span>
+<span><span class="co">#&gt;                                                           Max.   :90.00  </span></span>
+<span><span class="co">#&gt;                                                           NA's   :6      </span></span>
+<span><span class="co">#&gt;   visit_date        blood_pressure      weight_kg            notes          </span></span>
+<span><span class="co">#&gt;  Length:200         Length:200         Length:200         Length:200        </span></span>
+<span><span class="co">#&gt;  Class :character   Class :character   Class :character   Class :character  </span></span>
+<span><span class="co">#&gt;  Mode  :character   Mode  :character   Mode  :character   Mode  :character  </span></span>
+<span><span class="co">#&gt;                                                                             </span></span>
+<span><span class="co">#&gt;                                                                             </span></span>
+<span><span class="co">#&gt;                                                                             </span></span>
+<span><span class="co">#&gt; </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Numbers alone don’t always tell the full story, so it’s worth pairing these checks with a quick plot. A histogram of <code>age</code>, for instance, can reveal implausible spikes or gaps that summary statistics alone might not make obvious.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">clinic_raw</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram</a></span><span class="op">(</span>binwidth <span class="op">=</span> <span class="fl">5</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="data-wrangling_files/figure-html/plot-age-distribution-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="reproducible-data-cleaning" class="level2"><h2 class="anchored" data-anchor-id="reproducible-data-cleaning">Reproducible data cleaning</h2>
+<p>The rest of this chapter walks through a toolkit of functions for turning <code>clinic_raw</code> into something trustworthy, one small, well-named step at a time, so that anyone (including future you) can re-run your script and get the exact same cleaned dataset back out.</p>
+<section id="renaming-creating-and-selecting-columns" class="level3"><h3 class="anchored" data-anchor-id="renaming-creating-and-selecting-columns">Renaming, creating, and selecting columns</h3>
+<ul>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/rename.html">rename()</a></code></strong> changes a column’s name without touching its values.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate()</a></code></strong> creates a new column, or overwrites an existing one, based on some calculation.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/select.html">select()</a></code></strong> keeps (or drops, with a <code>-</code>) specific columns.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code></strong> keeps only the rows that match a condition.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_raw</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>id <span class="op">=</span> <span class="va">patient_id</span><span class="op">)</span> <span class="co"># patient_id -&gt; id, values untouched</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">site</span>, <span class="va">sex</span>, <span class="va">age</span>, <span class="va">visit_date</span>, <span class="va">blood_pressure</span>, <span class="va">weight_kg</span>, <span class="va">notes</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">age</span> <span class="op">&gt;=</span> <span class="fl">18</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="co"># keep adults, but don't drop missing ages</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="sorting-rows" class="level3"><h3 class="anchored" data-anchor-id="sorting-rows">Sorting rows</h3>
+<ul>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code></strong> sorts rows by one or more columns, smallest to largest by default.</li>
+<li>Wrapping a column in <strong><code><a href="https://dplyr.tidyverse.org/reference/desc.html">desc()</a></code></strong> inside <code><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange()</a></code> sorts it largest to smallest instead.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># youngest patients first</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span><span class="co">#&gt;   id      site   sex     age visit_date blood_pressure weight_kg notes     </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;     </span></span>
+<span><span class="co">#&gt; 1 PT-0070 site a &lt;NA&gt;     18 18/10/2023 132/103 mmHg   74.8      discharged</span></span>
+<span><span class="co">#&gt; 2 PT-0110 site a M        18 15/06/2023 119/77 mmHg    81.5      &lt;NA&gt;      </span></span>
+<span><span class="co">#&gt; 3 PT-0196 Site B F        18 07/07/2023 149/78 mmHg    73.3      stable    </span></span>
+<span><span class="co">#&gt; 4 PT-0019 Site B F        19 15/02/2023 180/63 mmHg    53.6      follow up </span></span>
+<span><span class="co">#&gt; 5 PT-0055 site_d M        19 21/01/2023 100/97 mmHg    63.7      Stable    </span></span>
+<span><span class="co">#&gt; 6 PT-0153 site a M        19 16/09/2023 95/86 mmHg     72.2      stable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html">desc</a></span><span class="op">(</span><span class="va">age</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># oldest patients first</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 8</span></span>
+<span><span class="co">#&gt;   id      site   sex     age visit_date blood_pressure weight_kg notes    </span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;    </span></span>
+<span><span class="co">#&gt; 1 PT-0029 site a M        90 30/08/2023 151/81 mmHg    59.8      Stable   </span></span>
+<span><span class="co">#&gt; 2 PT-0161 site a F        89 20/01/2023 172/79 mmHg    53.1      stable   </span></span>
+<span><span class="co">#&gt; 3 PT-0171 site_d M        89 25/01/2023 96/62 mmHg     67.4      follow up</span></span>
+<span><span class="co">#&gt; 4 PT-0026 site_d &lt;NA&gt;     88 25/09/2023 122/87 mmHg    62.8      FOLLOW UP</span></span>
+<span><span class="co">#&gt; 5 PT-0053 site_d M        87 09/07/2023 172/91 mmHg    73.2      Stable   </span></span>
+<span><span class="co">#&gt; 6 PT-0094 site_d F        87 01/06/2023 138/93 mmHg    72        FOLLOW UP</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="grouped-summaries" class="level3"><h3 class="anchored" data-anchor-id="grouped-summaries">Grouped summaries</h3>
+<ul>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code></strong> splits your data into groups based on one or more columns, without changing how it looks yet.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code></strong> then collapses each group down to a single summary row, using whatever calculation you specify.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span></span>
+<span>          mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>        , n <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># count number of rows in each group</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 3</span></span>
+<span><span class="co">#&gt;   site   mean_age     n</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;</span></span>
+<span><span class="co">#&gt; 1 SITE C     52.1    34</span></span>
+<span><span class="co">#&gt; 2 Site B     52.6    61</span></span>
+<span><span class="co">#&gt; 3 site a     48.1    55</span></span>
+<span><span class="co">#&gt; 4 site_d     54.3    50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="cleaning-up-text" class="level3"><h3 class="anchored" data-anchor-id="cleaning-up-text">Cleaning up text</h3>
+<p>Notice that <code>site</code> has inconsistent spacing, capitalisation, and even an underscore in one category, and <code>notes</code> has similar inconsistencies. These are exactly the kind of problems the next set of functions fix.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/trimws.html">trimws()</a></code></strong> removes leading and trailing whitespace from text.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/chartr.html">toupper()</a></code></strong> and <strong><code><a href="https://rdrr.io/r/base/chartr.html">tolower()</a></code></strong> convert text to all-uppercase or all-lowercase, which is a simple way to make categories consistent when only their capitalisation differs.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/substr.html">substring()</a></code></strong> extracts a portion of a string based on start and end character positions.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/grep.html">sub()</a></code></strong> replaces the <em>first</em> match of a pattern in a string with something else, while its cousin <code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code> replaces <em>all</em> matches.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>          site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span><span class="op">(</span><span class="va">site</span><span class="op">)</span><span class="op">)</span> <span class="co"># lowercase + strip whitespace</span></span>
+<span>        , site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"_"</span>, <span class="st">" "</span>, <span class="va">site</span><span class="op">)</span>  <span class="co"># replace underscore with space</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">$</span><span class="va">site</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; site a site b site c site d </span></span>
+<span><span class="co">#&gt;     55     61     34     50</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/substr.html">substring</a></span><span class="op">(</span><span class="st">"PT-0001"</span>, <span class="fl">4</span>, <span class="fl">7</span><span class="op">)</span> <span class="co"># characters 4 through 7: "0001"</span></span>
+<span><span class="co">#&gt; [1] "0001"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="regular-expressions" class="level3"><h3 class="anchored" data-anchor-id="regular-expressions">Regular expressions</h3>
+<p>Sometimes the pattern you want to match or extract is more flexible than a fixed piece of text, that’s where regular expressions come in, a mini-language for describing patterns in text.</p>
+<ul>
+<li>
+<strong><code><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract()</a></code></strong> (from the <code>stringr</code> package) pulls out the part of a string that matches a pattern.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/grep.html">gsub()</a></code></strong> can also take a regular expression as its pattern, not just a fixed string, making it useful for replacing anything that <em>looks like</em> a pattern (e.g., “any digits”) rather than one exact value.</li>
+</ul>
+<p>Recall that <code>blood_pressure</code> packs two readings into one field, like <code>"120/80 mmHg"</code>. We can pull out the systolic (before the <code>/</code>) and diastolic (after the <code>/</code>) readings separately using two different regular expressions.</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span>
+<span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>          bp_upper <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">blood_pressure</span>, <span class="st">"^[0-9]+"</span><span class="op">)</span><span class="op">)</span> <span class="co"># digits before the "/"</span></span>
+<span>        , bp_lower <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">blood_pressure</span>, <span class="st">"(?&lt;=/)[0-9]+"</span><span class="op">)</span><span class="op">)</span> <span class="co"># digits after the "/"</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"blood_pressure"</span>, <span class="st">"bp_upper"</span>, <span class="st">"bp_lower"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 3</span></span>
+<span><span class="co">#&gt;   blood_pressure bp_upper bp_lower</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;             &lt;dbl&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 180/64 mmHg         180       64</span></span>
+<span><span class="co">#&gt; 2 97/74 mmHg           97       74</span></span>
+<span><span class="co">#&gt; 3 133/72 mmHg         133       72</span></span>
+<span><span class="co">#&gt; 4 133/70 mmHg         133       70</span></span>
+<span><span class="co">#&gt; 5 101/62 mmHg         101       62</span></span>
+<span><span class="co">#&gt; 6 98/75 mmHg           98       75</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"[^0-9.]"</span>, <span class="st">""</span>, <span class="st">"72.5 kg"</span><span class="op">)</span> <span class="co"># strip everything except digits and "."</span></span>
+<span><span class="co">#&gt; [1] "72.5"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/grep.html">grep()</a></code></strong> returns the <em>positions</em> (or, with <code>value = TRUE</code>, the actual values) of the elements in a vector that match a pattern.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/grep.html">grepl()</a></code></strong> returns a <code>TRUE</code>/<code>FALSE</code> for every element, indicating whether it matches the pattern, which is especially handy inside <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span><span class="op">(</span><span class="st">"follow"</span>, <span class="va">clinic_clean</span><span class="op">$</span><span class="va">notes</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># ignore.case catches "FOLLOW UP" and "follow up"</span></span>
+<span><span class="co">#&gt;  [1]   2   6  11  13  15  16  19  20  21  23  25  26  27  30  33  34  36  39  41</span></span>
+<span><span class="co">#&gt; [20]  45  46  49  50  58  59  68  69  76  78  79  82  83  87  90  94  98  99 103</span></span>
+<span><span class="co">#&gt; [39] 105 109 114 117 118 119 121 122 123 124 125 128 133 135 137 139 141 146 148</span></span>
+<span><span class="co">#&gt; [58] 149 150 152 154 155 158 162 163 169 171 172 174 176 177 180 186 193 198</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span><span class="op">(</span><span class="st">"follow"</span>, <span class="va">notes</span>, ignore.case <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 75 × 10</span></span>
+<span><span class="co">#&gt;    id      site   sex     age visit_date blood_pressure weight_kg notes bp_upper</span></span>
+<span><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;     &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1 PT-0002 site a F        41 13/09/2023 97/74 mmHg     65.3      foll…       97</span></span>
+<span><span class="co">#&gt;  2 PT-0006 site d F        53 11/11/2023 98/75 mmHg     84.9      FOLL…       98</span></span>
+<span><span class="co">#&gt;  3 PT-0011 site c F        24 10/08/2023 96/56 mmHg     79.2      foll…       96</span></span>
+<span><span class="co">#&gt;  4 PT-0013 site c M        48 28/05/2023 176/87 mmHg    65.6      FOLL…      176</span></span>
+<span><span class="co">#&gt;  5 PT-0015 site a F        56 03/10/2023 138/85 mmHg    82.7      foll…      138</span></span>
+<span><span class="co">#&gt;  6 PT-0016 site a &lt;NA&gt;     30 05/06/2023 168/82 mmHg    77        FOLL…      168</span></span>
+<span><span class="co">#&gt;  7 PT-0019 site b F        19 15/02/2023 180/63 mmHg    53.6      foll…      180</span></span>
+<span><span class="co">#&gt;  8 PT-0020 site b &lt;NA&gt;     45 07/12/2023 N/A            64.8      FOLL…       NA</span></span>
+<span><span class="co">#&gt;  9 PT-0021 site c F        20 05/09/2023 108/71 mmHg    97.9      FOLL…      108</span></span>
+<span><span class="co">#&gt; 10 PT-0023 site a F        26 08/04/2023 111/60 mmHg    81.6      foll…      111</span></span>
+<span><span class="co">#&gt; # ℹ 65 more rows</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: bp_lower &lt;dbl&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="converting-between-data-types" class="level3"><h3 class="anchored" data-anchor-id="converting-between-data-types">Converting between data types</h3>
+<p>Recall from earlier that <code>blood_pressure</code> and <code>weight_kg</code> were coerced into character columns. Now that you’ve extracted <code>bp_upper</code> and <code>bp_lower</code> as numeric columns above, <code>weight_kg</code> still needs the same treatment, along with turning <code>"N/A"</code> and <code>"-"</code> into genuine <code>NA</code> values and fixing up <code>visit_date</code>.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code></strong> and <strong><code><a href="https://rdrr.io/r/base/integer.html">as.integer()</a></code></strong> convert text (or other numeric-like values) into numeric or whole-number form.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/character.html">as.character()</a></code></strong> converts a value into text.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/logical.html">as.logical()</a></code></strong> converts a value into <code>TRUE</code>/<code>FALSE</code>, recognising strings like <code>"TRUE"</code>, <code>"FALSE"</code>, <code>"T"</code>, and <code>"F"</code>.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code></strong> converts text into an actual date object, using a <code>format</code> argument to tell R how the text is currently laid out.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>          weight_kg <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/na_if.html">na_if</a></span><span class="op">(</span><span class="va">weight_kg</span>, <span class="st">"-"</span><span class="op">)</span> <span class="co"># turn placeholder "-" into real NA</span></span>
+<span>        , weight_kg <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">weight_kg</span><span class="op">)</span> <span class="co"># now safe to convert to numeric</span></span>
+<span>        , visit_date <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html">as.Date</a></span><span class="op">(</span><span class="va">visit_date</span>, format <span class="op">=</span> <span class="st">"%d/%m/%Y"</span><span class="op">)</span> <span class="co"># dd/mm/yyyy text -&gt; Date</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 10</span></span>
+<span><span class="co">#&gt;   id      site   sex     age visit_date blood_pressure weight_kg notes  bp_upper</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 PT-0001 site a &lt;NA&gt;     70 2023-02-06 180/64 mmHg         79.1 Stable      180</span></span>
+<span><span class="co">#&gt; 2 PT-0002 site a F        41 2023-09-13 97/74 mmHg          65.3 follo…       97</span></span>
+<span><span class="co">#&gt; 3 PT-0003 site a &lt;NA&gt;     55 2023-12-12 133/72 mmHg         82.1 &lt;NA&gt;        133</span></span>
+<span><span class="co">#&gt; 4 PT-0004 site a F        37 2023-06-26 133/70 mmHg         62.5 stable      133</span></span>
+<span><span class="co">#&gt; 5 PT-0005 site b M        50 2023-07-29 101/62 mmHg         50.4 disch…      101</span></span>
+<span><span class="co">#&gt; 6 PT-0006 site d F        53 2023-11-11 98/75 mmHg          84.9 FOLLO…       98</span></span>
+<span><span class="co">#&gt; # ℹ 1 more variable: bp_lower &lt;dbl&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="common-mistake">
+<p><code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> on a column that still has stray text in it (like <code>"N/A"</code> or a unit such as <code>"mmHg"</code>) won’t error, it will just silently produce <code>NA</code> for every value it can’t parse, along with a warning message that’s easy to miss. Always check <code>sum(is.na(x))</code> before and after a conversion like this to make sure you haven’t accidentally lost more data than you expected.</p>
+</div>
+</section><section id="conditional-logic" class="level3"><h3 class="anchored" data-anchor-id="conditional-logic">Conditional logic</h3>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code></strong> checks a condition for every element of a vector and returns one value if it’s <code>TRUE</code> and another if it’s <code>FALSE</code>.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when()</a></code></strong> extends this same idea to any number of conditions, checked in order, which is much easier to read than nesting several <code><a href="https://rdrr.io/r/base/ifelse.html">ifelse()</a></code> calls inside each other.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>        sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span></span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">==</span> <span class="st">"M"</span>, <span class="st">"Male"</span></span>
+<span>            , <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html">toupper</a></span><span class="op">(</span><span class="va">sex</span><span class="op">)</span> <span class="op">==</span> <span class="st">"F"</span>, <span class="st">"Female"</span>, <span class="cn">NA</span><span class="op">)</span> <span class="co"># nested ifelse for the third outcome</span></span>
+<span>        <span class="op">)</span></span>
+<span>    <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>        bp_category <span class="op">=</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>              <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">bp_upper</span><span class="op">)</span>   <span class="op">~</span> <span class="cn">NA_character_</span> <span class="co"># keep missing as missing</span></span>
+<span>            , <span class="va">bp_upper</span> <span class="op">&lt;</span> <span class="fl">120</span>    <span class="op">~</span> <span class="st">"Normal"</span></span>
+<span>            , <span class="va">bp_upper</span> <span class="op">&lt;</span> <span class="fl">140</span>    <span class="op">~</span> <span class="st">"Elevated"</span></span>
+<span>            , <span class="cn">TRUE</span>              <span class="op">~</span> <span class="st">"High"</span> <span class="co"># catch-all for anything left</span></span>
+<span>        <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">$</span><span class="va">bp_category</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Elevated     High   Normal     &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;       46       86       52       16</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="writing-your-own-functions" class="level3"><h3 class="anchored" data-anchor-id="writing-your-own-functions">Writing your own functions</h3>
+<p>Once you notice yourself repeating the same few lines of cleaning code on more than one column, it’s worth wrapping that logic into your own function instead of copying and pasting it. A function you write yourself works exactly like <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/filter.html">filter()</a></code>, you just define what it does once, then call it by name wherever you need it.</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clean_text</span> <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>  <span class="co"># strip whitespace</span></span>
+<span>  <span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/chartr.html">tolower</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="co"># standardise case</span></span>
+<span>  <span class="va">x</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu">clean_text</span><span class="op">(</span><span class="st">"  FOLLOW UP"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "follow up"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>notes <span class="op">=</span> <span class="fu">clean_text</span><span class="op">(</span><span class="va">notes</span><span class="op">)</span><span class="op">)</span> <span class="co"># reuse the function on the notes column</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">$</span><span class="va">notes</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; discharged  follow up     stable       &lt;NA&gt; </span></span>
+<span><span class="co">#&gt;         35         75         62         28</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="reshaping-data" class="level3"><h3 class="anchored" data-anchor-id="reshaping-data">Reshaping data</h3>
+<ul>
+<li>
+<strong><code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code></strong> takes several columns and stacks them down into two columns, a “names” column and a “values” column, making wide data longer.</li>
+<li>
+<strong><code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code></strong> does the reverse, spreading one column’s values out into multiple new columns, making long data wider.</li>
+</ul>
+<p><code>bp_upper</code> and <code>bp_lower</code> are a natural pair to reshape here: they’re both numeric blood pressure readings taken at the same visit, just two components of one measurement, so stacking them into a single <code>value</code> column (tagged by a <code>reading</code> column saying which is which) actually makes sense, unlike forcing together two columns of different kinds of data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">bp_upper</span>, <span class="va">bp_lower</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">4</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span></span>
+<span>          cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">bp_upper</span>, <span class="va">bp_lower</span><span class="op">)</span> <span class="co"># the two columns to stack</span></span>
+<span>        , names_to <span class="op">=</span> <span class="st">"reading"</span>         <span class="co"># new column naming which reading it was</span></span>
+<span>        , values_to <span class="op">=</span> <span class="st">"value"</span>          <span class="co"># new column holding the actual number</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 8 × 3</span></span>
+<span><span class="co">#&gt;   id      reading  value</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 PT-0001 bp_upper   180</span></span>
+<span><span class="co">#&gt; 2 PT-0001 bp_lower    64</span></span>
+<span><span class="co">#&gt; 3 PT-0002 bp_upper    97</span></span>
+<span><span class="co">#&gt; 4 PT-0002 bp_lower    74</span></span>
+<span><span class="co">#&gt; 5 PT-0003 bp_upper   133</span></span>
+<span><span class="co">#&gt; 6 PT-0003 bp_lower    72</span></span>
+<span><span class="co">#&gt; 7 PT-0004 bp_upper   133</span></span>
+<span><span class="co">#&gt; 8 PT-0004 bp_lower    70</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">site</span>, <span class="va">sex</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise</a></span><span class="op">(</span>mean_age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">age</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, .groups <span class="op">=</span> <span class="st">"drop"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">sex</span>, values_from <span class="op">=</span> <span class="va">mean_age</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 4 × 4</span></span>
+<span><span class="co">#&gt;   site   Female  Male  `NA`</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 site a   49.5  48.7  40  </span></span>
+<span><span class="co">#&gt; 2 site b   53.2  51.5  55.5</span></span>
+<span><span class="co">#&gt; 3 site c   49.5  52.8  59.7</span></span>
+<span><span class="co">#&gt; 4 site d   52.0  58.5  47</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="combining-datasets" class="level3"><h3 class="anchored" data-anchor-id="combining-datasets">Combining datasets</h3>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/cbind.html">cbind()</a></code></strong> and <strong><code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code></strong> glue data frames together side by side (by column) or stacked on top of each other (by row), assuming the pieces already line up correctly.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code></strong> joins two data frames together by matching values in a shared column, base R’s way of doing what a database would call a join.</li>
+<li>
+<strong><code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code></strong>, <strong><code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code></strong>, <strong><code><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">anti_join()</a></code></strong>, and <strong><code><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">semi_join()</a></code></strong> (from <code>dplyr</code>) offer the same idea as <code><a href="https://rdrr.io/r/base/merge.html">merge()</a></code> but are usually easier to read: <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join()</a></code> keeps every row from the first (left) table and attaches matching information from the second, <code><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">right_join()</a></code> does the same but keeps every row from the second table, <code><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">anti_join()</a></code> keeps only rows from the first table that have <em>no</em> match in the second, and <code><a href="https://dplyr.tidyverse.org/reference/filter-joins.html">semi_join()</a></code> keeps only rows from the first table that <em>do</em> have a match, without actually adding any of the second table’s columns.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">site_lookup</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>      site <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"site a"</span>, <span class="st">"site b"</span>, <span class="st">"site c"</span>, <span class="st">"site d"</span><span class="op">)</span></span>
+<span>    , region <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"North"</span>, <span class="st">"North"</span>, <span class="st">"South"</span>, <span class="st">"South"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op">=</span></span>
+<span>    <span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">site_lookup</span>, by <span class="op">=</span> <span class="st">"site"</span><span class="op">)</span> <span class="co"># attach region, keep every clinic_clean row</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">clinic_clean</span><span class="op">)</span></span>
+<span><span class="co">#&gt; # A tibble: 6 × 12</span></span>
+<span><span class="co">#&gt;   id      site   sex      age visit_date blood_pressure weight_kg notes bp_upper</span></span>
+<span><span class="co">#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;              &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt; 1 PT-0001 site a &lt;NA&gt;      70 2023-02-06 180/64 mmHg         79.1 stab…      180</span></span>
+<span><span class="co">#&gt; 2 PT-0002 site a Female    41 2023-09-13 97/74 mmHg          65.3 foll…       97</span></span>
+<span><span class="co">#&gt; 3 PT-0003 site a &lt;NA&gt;      55 2023-12-12 133/72 mmHg         82.1 &lt;NA&gt;       133</span></span>
+<span><span class="co">#&gt; 4 PT-0004 site a Female    37 2023-06-26 133/70 mmHg         62.5 stab…      133</span></span>
+<span><span class="co">#&gt; 5 PT-0005 site b Male      50 2023-07-29 101/62 mmHg         50.4 disc…      101</span></span>
+<span><span class="co">#&gt; 6 PT-0006 site d Female    53 2023-11-11 98/75 mmHg          84.9 foll…       98</span></span>
+<span><span class="co">#&gt; # ℹ 3 more variables: bp_lower &lt;dbl&gt;, bp_category &lt;chr&gt;, region &lt;chr&gt;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="pipes-vs." class="level3"><h3 class="anchored" data-anchor-id="pipes-vs.">Pipes: <code>%&gt;%</code> vs.&nbsp;<code>|&gt;</code>
+</h3>
+<p>You’ve been using <code>%&gt;%</code> throughout this chapter (from the <code>magrittr</code> package, loaded automatically with <code>dplyr</code>) to chain several steps together by passing the result of one line into the next. Base R now has its own built-in pipe, <code>|&gt;</code>, which works the same way and doesn’t need any package loaded at all, since it’s part of R itself from version 4.1 onward.</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">clinic_clean</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bp_category</span> <span class="op">==</span> <span class="st">"High"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 86</span></span>
+<span><span class="va">clinic_clean</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">bp_category</span> <span class="op">==</span> <span class="st">"High"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 86</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In practice, the two behave almost identically for the everyday chaining you’ve done in this chapter, so you’ll see both used interchangeably across R code you come across. <code>%&gt;%</code> has a couple of extra features (like letting you refer to the piped value with a <code>.</code> in more flexible positions) that <code>|&gt;</code> doesn’t fully replicate, but for straightforward step-by-step pipelines like the ones here, neither is objectively better, and which one you use often just comes down to personal preference or what a particular course or workplace has standardised on.</p>
+</section></section><section id="exporting-cleaned-data" class="level2"><h2 class="anchored" data-anchor-id="exporting-cleaned-data">Exporting cleaned data</h2>
+<p>Once your data is clean, you’ll want to save it out so you (or a collaborator) don’t have to repeat the cleaning steps every time.</p>
+<ul>
+<li>
+<strong><code><a href="https://rdrr.io/r/base/writeLines.html">writeLines()</a></code></strong> writes plain text, line by line, to a file, useful for simple text output but not really designed for tabular data.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/utils/write.table.html">write.table()</a></code></strong> writes a data frame to a text file, with arguments controlling the separator, whether to include row names, and so on, base R’s general-purpose export function.</li>
+<li>
+<strong><code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code></strong> is <code><a href="https://rdrr.io/r/utils/write.table.html">write.table()</a></code> with sensible defaults baked in for comma-separated files, the base R equivalent of <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code>.</li>
+<li>
+<strong><code><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv()</a></code></strong> (from <code>readr</code>) does the same job as <code><a href="https://rdrr.io/r/utils/write.table.html">write.csv()</a></code>, but is faster on large datasets and never writes row names by default, avoiding a common annoyance with the base R version.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">clinic_clean</span>, <span class="st">"data/clinic_clean.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="exercise">
+<p><strong>Exercise 2.2</strong></p>
+<p>In a new script file,</p>
+<ol type="1">
+<li>Import <code>clinic_raw.csv</code> yourself using <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code>, remembering to skip the junk lines at the top of the file, and use <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code> and <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code> to check which columns have missing values or the wrong data type.</li>
+<li>Clean at least three problems you find: fix a column with the wrong type (using <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code>, <code><a href="https://rdrr.io/r/base/as.Date.html">as.Date()</a></code>, or similar), standardise a text column’s capitalisation or spacing, and turn a placeholder like <code>"N/A"</code> or <code>"-"</code> into a true <code>NA</code>.</li>
+<li>Use <code><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by()</a></code> and <code><a href="https://dplyr.tidyverse.org/reference/summarise.html">summarise()</a></code> to calculate the mean <code>age</code> (or another numeric variable of your choice) by <code>site</code>.</li>
+<li>Export your cleaned dataset to a new CSV file using <code><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv()</a></code>.</li>
+</ol>
+</div>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -726,7 +1261,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/data-wrangling.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>

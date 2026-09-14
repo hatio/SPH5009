@@ -192,7 +192,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/stat-tests.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Statistical tests</span></a>
+  <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -296,7 +296,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/files2.html">dir.create</a></span><span class="op">(</span><span class="st">"data"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Download these four files and move them into your local <code>data</code> folder: <a href="data/data.txt"><code>data.txt</code></a>, <a href="data/data.tsv"><code>data.tsv</code></a>, <a href="data/data.csv"><code>data.csv</code></a>, and <a href="data/data.xlsx"><code>data.xlsx</code></a>.</p>
+<p>Download these four files and move them into your local <code>data</code> folder: <a href="../data/data.txt"><code>data.txt</code></a>, <a href="../data/data.tsv"><code>data.tsv</code></a>, <a href="../data/data.csv"><code>data.csv</code></a>, and <a href="../data/data.xlsx"><code>data.xlsx</code></a>.</p>
 <p>Check the <strong>Files</strong> pane in RStudio. You should see a new <code>data</code> folder appear inside your working directory, containing the four files. If they don’t show up, click the refresh icon at the top of the Files pane.</p>
 <div class="common-mistake">
 <p>If the <code>data</code> folder or files don’t show up where you expect, double-check you’re looking inside your <strong>project</strong> folder, not some other location on your computer. This is exactly the kind of confusion that RStudio Projects and a consistent working directory are meant to prevent.</p>
@@ -358,15 +358,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>By contrast, for <strong>readr</strong>, we did run <code><a href="https://readr.tidyverse.org">library(readr)</a></code> before calling <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> — this is a stylistic choice. Both approaches are valid: use <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> when you’ll be calling many functions from a package throughout your script, and use <code>::</code> when you only need a function once or twice, or want to be explicit about where it’s coming from.</p>
 </section><section id="base-r-vs.-tidyverse-whats-the-difference" class="level3"><h3 class="anchored" data-anchor-id="base-r-vs.-tidyverse-whats-the-difference">Base R vs.&nbsp;tidyverse: what’s the difference?</h3>
-<p>Both families ultimately produce a rectangular table you can work with in R, but they differ in a few practical ways: base R functions (<code>read.table</code>, <code>read.csv</code>) return a <code>data.frame</code> and historically default to converting character columns to factors and “cleaning” column names, whereas tidyverse functions (<code>read_csv</code>, <code>read_excel</code>) return a <code>tibble</code>, keep strings as strings by default, are generally faster on large files, and print explicit messages about the column types they’ve guessed so you can catch parsing mistakes early. Neither is “more correct” — base R functions have no dependencies beyond R itself (useful for portable scripts or package development), while tidyverse functions are often preferred in interactive data analysis for their speed and safer defaults.</p>
+<p>Both families ultimately produce a rectangular table you can work with in R, but they differ in a few practical ways: base R functions (<code>read.table</code>, <code>read.csv</code>) return a <code>data.frame</code> and historically default to converting character columns to factors and “cleaning” column names, whereas tidyverse functions (<code>read_csv</code>, <code>read_excel</code>) return a <code>tibble</code>, keep strings as strings by default, are generally faster on large files, and print explicit messages about the column types they’ve guessed so you can catch parsing mistakes early. Neither is “more correct.” Base R functions have no dependencies beyond R itself (useful for portable scripts or package development), while tidyverse functions are often preferred in interactive data analysis for their speed and safer defaults.</p>
 <div class="exercise">
 <p><strong>Exercise 1.4</strong></p>
-<ol type="1">
-<li>Import <code>data.csv</code> using <code><a href="https://rdrr.io/r/utils/read.table.html">read.csv()</a></code> (base R) and again using <code><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv()</a></code> (tidyverse). Compare the classes of the two objects with <code><a href="https://rdrr.io/r/base/class.html">class()</a></code>.</li>
-<li>Import <code>data.tsv</code> using <code><a href="https://rdrr.io/r/utils/read.table.html">read.table()</a></code>, making sure to set the correct <code>sep</code> argument.</li>
-<li>Import the spreadsheet <code>data.xlsx</code> using <code><a href="https://readxl.tidyverse.org/reference/read_excel.html">readxl::read_excel()</a></code>.</li>
-<li>Explore any one of the imported datasets with <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">ncol()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, and <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>. Note down what each function tells you about the data.</li>
-</ol>
+<p>Explore any one of the imported datasets with <code><a href="https://rdrr.io/r/utils/head.html">head()</a></code>, <code><a href="https://rdrr.io/r/utils/head.html">tail()</a></code>, <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">nrow()</a></code>, <code><a href="https://rdrr.io/r/base/nrow.html">ncol()</a></code>, <code><a href="https://rdrr.io/r/base/dim.html">dim()</a></code>, and <code><a href="https://rdrr.io/r/utils/str.html">str()</a></code>. Note down what each function tells you about the data.</p>
 </div>
 
 
