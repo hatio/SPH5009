@@ -410,7 +410,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>age          <span class="co"># access a column by name</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>df[<span class="dv">1</span>, ]         <span class="co"># access a row by position</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="terminology">
-<p><strong>Data frame</strong>: A table-like structure where each column can be a different data type, but all columns must have the same number of rows. In fact, a data frame is a special kind of list: each column is an element of the list, and the requirement that makes it a data frame (rather than a plain list) is that every element must have the same length.</p>
+<p><strong>Data frame</strong>: A table-like structure where each column can be a different data type, but all columns must have the same number of rows. In fact, a data frame is just a special kind of list: each column is an element of the list, and the requirement that makes it a data frame (rather than a plain list) is that every element must have the same length.</p>
 </div>
 <div class="exercise">
 <p><strong>Exercise 1.2</strong></p>
@@ -420,6 +420,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Create the same matrix but with row names and column names, and access the same element using its row name and column name instead.</li>
 <li>Create a small list with at least two different types of elements and access one using <code>$</code> or <code>[[ ]]</code>.</li>
 <li>Create a data frame with at least 2 columns and 3 rows. Access a single column and a single row.</li>
+</ol>
+</div>
+<div class="exercise">
+<p><strong>Exercise 1.2</strong></p>
+<ol type="1">
+<li><p><strong>Type coercion.</strong> Create a vector with <code>c(1, "two", TRUE)</code>. Check its <code>class()</code> and print it — what type did R coerce everything to, and why? Now try <code>c(1, TRUE)</code> and <code>c(1L, 2.5)</code> — what type does each become? (Hint: R has an implicit ranking of types it coerces towards: logical → integer → numeric → character.)</p></li>
+<li><p><strong>Recycling direction in a matrix.</strong> Create a matrix using <code>matrix(1:6, nrow = 2, ncol = 3)</code>, then create a vector <code>v = c(10, 100)</code> and add it to the matrix with <code>m + v</code>. Look carefully at which elements each value of <code>v</code> was added to — does R fill the vector down each column first, or across each row first? Now try a longer vector, <code>v2 = c(1, 10, 100)</code>, added to a matrix with 3 rows — does it recycle cleanly? What happens if you add a vector whose length doesn’t divide evenly into the number of rows (e.g.&nbsp;<code>c(1, 2, 3)</code> added to a 4-row matrix)?</p></li>
+<li><p><strong>Recycling direction in a data frame.</strong> Create a data frame with 4 rows and a column <code>x = 1:4</code>. Add a new column with <code>df$y = c("A", "B")</code>. What pattern do the recycled values follow down the column? Now try assigning a vector of length 3 to a new column in the same 4-row data frame (e.g.&nbsp;<code>df$z = c(1, 2, 3)</code>) — what happens, and why is this different from the matrix case?</p></li>
+<li><p><strong>Accessing multiple elements.</strong> Using the matrix from Question 2, extract the first two rows using <code>m[1:2, ]</code>, and extract columns 1 and 3 together using <code>m[, c(1, 3)]</code>. Using the data frame from Question 3, extract rows 2 through 4 with <code>df[2:4, ]</code>, and extract the columns <code>x</code> and <code>y</code> together using <code>df[, c("x", "y")]</code>. In each case, check the <code>class()</code> of what you get back — is it still the same structure (matrix/data frame), or has it simplified to something else?</p></li>
 </ol>
 </div>
 
