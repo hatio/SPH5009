@@ -1,7 +1,211 @@
 # Data visualisation {#data-viz}
 
+This is the reward of today. After your hard earned effort in learning data types, operations, and data importation, you now get to produce beautiful plots to show off to the world!
+
 ```{r}
-#| label: setup
+#| label: create-data
 #| include: false
-source("_common.R")
+#| eval: true
+
+dir.create("data", showWarnings = FALSE)
+
+# Generate a larger, richer dataset so plots below can showcase scatterplots,
+# histograms, and faceted barplots. We simulate a small "clinical trial"-style
+# dataset: patients across three treatment groups and four sites, with a
+# couple of continuous measures (correlated, for scatterplots) and a
+# categorical outcome (for barplots/faceting).
+
+set.seed(123)
+
+n <- 300
+group <- sample(c("Control", "Low dose", "High dose"), n, replace = TRUE)
+site  <- sample(paste("Site", LETTERS[1:4]), n, replace = TRUE)
+
+# height/weight correlated, to make a meaningful scatterplot
+height <- round(rnorm(n, mean = 165, sd = 8), 1)
+weight <- round(30 + 0.55 * height + rnorm(n, sd = 6), 1)
+bmi    <- round(weight / (height / 100)^2, 1)
+
+# response variable, shifted a bit by group, for a nicer boxplot/barplot story
+response <- round(
+  rnorm(n, mean = ifelse(group == "Control", 50,
+                  ifelse(group == "Low dose", 58, 66)),
+        sd = 10),
+  1
+)
+
+outcome <- sample(c("Improved", "No change", "Worsened"),
+                   n, replace = TRUE, prob = c(0.5, 0.35, 0.15))
+
+viz_data <- data.frame(
+  id       = 1:n,
+  group    = group,
+  site     = site,
+  height   = height,
+  weight   = weight,
+  bmi      = bmi,
+  response = response,
+  outcome  = outcome
+)
+
+write.csv(viz_data, "data/viz_data.csv", row.names = FALSE)
+```
+
+
+
+<!-- Download data for this section ([`viz_data.csv`](../data/viz_data.csv)) and place it in the `data` directory you created earlier. Then run the following to load the dataset: 300 simulated patients across three treatment groups (`Control`, `Low dose`, `High dose`) and four study sites, along with height, weight, BMI, a numeric response score, and a categorical outcome. This one dataset will be used to demonstrate every plot type below. -->
+Download data for this section (<a href="../data/viz_data.csv" download>`viz_data.csv`</a>) and place it in the `data` directory you created earlier. Then run the following to load the dataset: 300 simulated patients across three treatment groups (`Control`, `Low dose`, `High dose`) and four study sites, along with height, weight, BMI, a numeric response score, and a categorical outcome. This one dataset will be used to demonstrate every plot type below.
+
+
+```{r}
+#| label: import-data
+#| message: false
+
+viz_data <- readr::read_csv("data/viz_data.csv")
+head(viz_data)
+```
+
+
+## Plotting systems in R
+
+R doesn't have just one way to make plots — three major systems coexist, and you'll likely encounter all of them in the wild.
+
+- **Base R** graphics work out of the box, with no packages required. Functions like `plot()` and `hist()` are available the moment you open R. They're quick for exploratory work, but customizing them (legends, colors, layering) can get verbose.
+- **lattice** is a package (also bundled with base R installations) designed around the idea of trellis graphs — plots automatically split into panels by one or more grouping variables. It predates ggplot2 and is still used in some statistical packages' example code, but has mostly been superseded by ggplot2 for everyday use.
+- **ggplot2** is the most popular modern plotting package, and comes bundled with the tidyverse. It implements the "grammar of graphics," where a plot is built by layering components (data, aesthetics, geometries, scales, facets, themes) rather than issuing one big plotting command. This makes complex plots more consistent and reusable, at the cost of a small learning curve up front.
+
+## Simple base R plots
+
+Base R gives you a handful of functions that you compose together, adding to the same plot rather than layering it as separate objects.
+
+- **`plot()`** is the general-purpose function for scatterplots (and more). For two numeric vectors, it draws points by default.
+
+  ```{r}
+  plot(viz_data$height, viz_data$weight,
+       xlab = "Height (cm)", ylab = "Weight (kg)",
+       main = "Height vs. weight")
+  ```
+
+- **`points()`** adds more points to an *existing* plot, without starting a new one — useful for overlaying a second group.
+
+  ```{r}
+  plot(viz_data$height[viz_data$group == "Control"],
+       viz_data$weight[viz_data$group == "Control"],
+       col = "blue", xlab = "Height (cm)", ylab = "Weight (kg)",
+       xlim = range(viz_data$height), ylim = range(viz_data$weight))
+  points(viz_data$height[viz_data$group == "High dose"],
+         viz_data$weight[viz_data$group == "High dose"],
+         col = "red")
+  ```
+
+- **`lines()`** adds connected line segments to an existing plot — handy for trend lines or time series.
+
+- **`abline()`** draws a straight line across the whole plot, often used to add a reference line or a fitted regression line (e.g., `abline(lm(weight ~ height, data = viz_data))`).
+
+  ```{r}
+  plot(viz_data$height, viz_data$weight,
+       xlab = "Height (cm)", ylab = "Weight (kg)")
+  abline(lm(weight ~ height, data = viz_data), col = "darkgreen", lwd = 2)
+  ```
+
+- **`hist()`** draws a histogram of a single numeric vector, automatically choosing bins (which you can override with the `breaks` argument).
+
+  ```{r}
+  hist(viz_data$response,
+       main = "Distribution of response scores",
+       xlab = "Response")
+  ```
+
+## ggplot2
+
+Unlike base R, where each function call adds to a running plot, ggplot2 builds a plot as a single object, with each `+` adding a new layer or setting. This means you can save an incomplete plot to a variable, then keep amending it later — a very different mental model from base R's "draw, then annotate" approach.
+
+```{r}
+#| message: false
+library(ggplot2)
+```
+
+### Simple plots (geoms)
+
+Each `geom_*()` function draws a different kind of layer, and you combine data, aesthetics, and one or more geoms with `+`:
+
+- **`geom_point()`** for scatterplots.
+- **`geom_line()`** for connected line plots (typically over time or an ordered x-axis).
+- **`geom_bar()`** for bar charts where ggplot counts rows for you (one bar per category).
+- **`geom_col()`** for bar charts where you already have the bar heights as a column in your data.
+- **`geom_histogram()`** for histograms of a continuous variable.
+- **`geom_density()`** for a smoothed density curve, often used as a continuous alternative to a histogram.
+- **`geom_tile()`** for heatmap-style tiles, typically mapping a third variable to fill color across two categorical/continuous axes.
+
+```{r}
+ggplot(viz_data, aes(x = height, y = weight)) +
+  geom_point()
+```
+
+```{r}
+ggplot(viz_data, aes(x = response)) +
+  geom_histogram(bins = 20)
+```
+
+```{r}
+ggplot(viz_data, aes(x = outcome)) +
+  geom_bar()
+```
+
+### `aes()` for aesthetics
+
+The `aes()` function maps variables in your data to visual properties of the plot: `color` and `fill` control outline and fill colors (useful for distinguishing groups), `alpha` controls transparency (useful when points overlap), `size` and `stroke` control point size and outline thickness, and `linewidth` and `linetype` control the thickness and dash pattern of lines.
+
+```{r}
+ggplot(viz_data, aes(x = height, y = weight, color = group)) +
+  geom_point(alpha = 0.6, size = 2)
+```
+
+### Grouping and faceting
+
+Sometimes you want one plot with groups distinguished by color (via `aes(group = ...)`, `color`, or `fill`), and sometimes you want groups split into entirely separate panels:
+
+- **`facet_wrap()`** splits a plot into panels based on one variable, wrapping panels into a grid.
+- **`facet_grid()`** splits a plot into a grid of panels based on one or two variables (rows and/or columns).
+
+```{r}
+ggplot(viz_data, aes(x = outcome, fill = outcome)) +
+  geom_bar() +
+  facet_wrap(~ group)
+```
+
+```{r}
+ggplot(viz_data, aes(x = outcome, fill = outcome)) +
+  geom_bar() +
+  facet_grid(site ~ group)
+```
+
+### Tweaking the looks
+
+- **Themes** (e.g., `theme_minimal()`, `theme_bw()`, `theme_classic()`) change the overall visual style of a plot — background, gridlines, fonts — without touching the data or geoms.
+- **Scales** (e.g., `scale_color_manual()`, `scale_x_continuous()`, `scale_fill_brewer()`) control how data values map to visual properties: which colors represent which groups, how axis breaks and labels appear, and so on.
+
+```{r}
+ggplot(viz_data, aes(x = outcome, fill = outcome)) +
+  geom_bar() +
+  facet_wrap(~ group) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal() +
+  labs(title = "Outcome by treatment group", x = NULL, y = "Count")
+```
+
+### Saving plots
+
+Once you're happy with a plot, `ggsave()` writes it to a file (PDF, PNG, JPEG, etc.), inferring the format from the file extension. It's good practice to save plots into their own subfolder, created with `dir.create()` if it doesn't already exist.
+
+```{r}
+#| eval: false
+dir.create("plots", showWarnings = FALSE)
+
+p <- ggplot(viz_data, aes(x = outcome, fill = outcome)) +
+  geom_bar() +
+  facet_wrap(~ group) +
+  theme_minimal()
+
+ggsave("plots/outcome_by_group.pdf", plot = p, width = 8, height = 5)
 ```

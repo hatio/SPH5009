@@ -1,0 +1,126 @@
+
+# Functions
+
+You have stored some values as data objects and learnt how to perform simple arithmetic. Now, imagine you want to do something more complex, or something you'll need to repeat many times. Retyping the same steps over and over is slow and error-prone. **Functions** solve this: they package up a set of instructions under a name, so you can reuse them by calling that name, often with different inputs each time.
+
+Functions in R typically come from one of three sources:
+
+1. **Base R**: functions that come built into R itself, available the moment you open RStudio, no extra installation needed.
+2. **Packages**: functions written by the R community and shared as installable add-ons, extending what base R can do.
+3. **Your own functions**: custom functions you write yourself, for steps specific to your own project or analysis.
+
+We'll look at all three in turn.
+
+### Base R
+
+R has many built-in ("base") functions organized by the type of data they work on.
+
+**Character functions:**
+
+```r
+nchar("hello")
+substring("hello world", 1, 5)
+paste("hello", "world")
+paste0("hello", "world")
+toupper("hello")
+tolower("HELLO")
+```
+
+**Numeric functions:**
+
+```r
+round(3.14159, 2)
+floor(3.7)
+ceiling(3.2)
+abs(-5)
+sqrt(16)
+exp(1)
+log(10)
+log10(100)
+log2(8)
+```
+
+::: {.pro-tip}
+Not sure what a function does or what arguments it takes? Type `?function_name` in the Console, e.g. `?round`. The Help pane will show you the documentation, including examples.
+:::
+
+### Packages
+
+R ships with deliberately conservative set of commonly useful fucntions.
+**Packages** extend R with additional functions written by the community. Later in the exercise you'll install `tidyverse`, a large collection of packages for data manipulation and visualization. For now, let's install and try just one small package on its own, `stringr`, which provides functions for working with text (strings).
+
+```r
+install.packages("stringr")
+library(stringr)
+```
+
+`stringr` functions all start with `str_`, and do many of the same things as the base R character functions above, often with more consistent behavior and easier-to-read names.
+
+```r
+str_detect("hello world", "world")               # does the string contain "world"?
+str_replace("hello world", "world", "there")     # replace first match
+str_pad("7", width = 3, pad = "0")               # pad to a fixed width, default pad = " "
+```
+
+::: {.terminology}
+**Argument**: A value you pass into a function to control what it does. **Default value**: A value an argument uses automatically if you don't specify one yourself. In `str_pad("7", width = 3, pad = "0")`, `width` and `pad` are both arguments, and we've overridden `pad`'s default (which is a space, `" "`) with `"0"`.
+:::
+
+::: {.pro-tip}
+Look up `?str_pad` in the Help pane. Every help page follows a similar structure, worth knowing how to read:
+
+- **Description**: A short summary of what the function does.
+- **Usage**: Shows how the function is called, including every argument and its default value, if it has one.
+- **Arguments**: Explains each argument in detail, what it expects and what it controls.
+- **Value**: Describes what the function returns.
+- **Examples**: Runnable code showing the function in action, usually the fastest way to understand a new function.
+:::
+
+::: {.common-mistake}
+`install.packages("stringr")` downloads and installs the package (only needs to be done once per computer). `library(stringr)` loads it into your current session (needs to be done every time you restart R). Confusing these two is one of the most common early stumbling blocks.
+:::
+
+### Write Your Own Function
+
+Sometimes no existing function does exactly what you need, this is when you write your own. The basic syntax is:
+
+```r
+function_name = function(argument1, argument2 = default_value) {
+  # code using argument1 and argument2
+  return(result)
+}
+```
+
+Here's a simple example:
+
+```r
+is_even = function(x = 2) {
+  x %% 2 == 0
+}
+
+is_even(4)      # TRUE
+is_even(7)      # FALSE
+is_even()       # uses default argument value, x = 2, so TRUE
+```
+
+::: {.terminology}
+**`return()`**: Explicitly specifies what value a function sends back when it's called. If you omit `return()`, R will automatically return the value of the last line evaluated inside the function, this is why `is_even()` above works even without an explicit `return()`.
+:::
+
+::: {.common-mistake}
+Arguments with default values (like `x = 2` above) can be left out when calling the function, R will just use the default. Arguments without a default value must be supplied, or R will throw an error.
+:::
+
+::: {.exercise}
+**Exercise 1.3**
+
+1. Apply functions `length` and `names` to the different data objects you have created. What happens?
+2. Install and load the full `tidyverse` package (this may take a few minutes the first time). Confirm it runs without error. You'll notice `tidyverse` loads `stringr` among several other packages, this is because `tidyverse` is a bundle of many smaller packages installed together.
+:::
+
+
+-----------
+
+**Congrats!** You have covered the fundamentals of R in two hours!
+Don't worry. You don't have to know them by heart now.
+Through repeated use, it will infuse into you in no time.

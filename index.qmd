@@ -6,13 +6,7 @@ Each numbered section corresponds to a week of the course. Contents are being dy
 ## Setup before first day of class
 
 Follow these [instructions](https://cerm-nus.github.io/r-intro/chapters/setup.html#r-first-then-rstudio) in **Section 1.1** to install *R* and *Rstudio*.
-Once installed, check out **Section 1.2** to familiarize yourself with the Rstudio interface. 
+Once installed, check out **Section 1.2** to familiarize yourself with the Rstudio interface.
+[Seek help here](https://canvas.nus.edu.sg/courses/96080/discussion_topics/465380?module_item_id=790226) if you face difficulties.
 
-
-## Using the book
-
-
-
-## Exercises
-
-
+*That's it!* Take a deep relaxing breath and enjoy the ride as we cruise through the exercises in class together. ***You will do great!***

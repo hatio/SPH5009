@@ -1,7 +1,400 @@
 # Regression {#regression}
 
+You've now got summary statistics and hypothesis tests under your belt. Next up is regression! Instead of just testing whether two variables are related, you get to model the relationship itself and use it to make predictions. The good news is that once you're comfortable calling functions in R, running a regression is really just one more function call away.
+
+## Data setup
+
+We will keep using `viz_data.csv` from before for linear and logistic
+regression, including its existing `group` column (`"High dose"`,
+`"Low dose"`, `"Control"`) as our treatment variable. For negative
+binomial and Cox regression, we need a couple of variables we don't have
+yet (a count outcome and a time-to-event outcome), so you'll need to download an additional [`followup_data.csv`](../data/followup_data.csv) and move it into your `data` folder in your project directory before proceeding.
+
 ```{r}
-#| label: setup
+#| label: create-data
 #| include: false
-source("_common.R")
+#| eval: true
+
+dir.create("data", showWarnings = FALSE)
+set.seed(123)
+
+# simulate 300 patients across the same three groups used in viz_data
+# (High dose, Low dose, Control), followed up over time
+# clinic_visits is a right-skewed count (negative binomial outcome),
+# simulated so the two dosed groups visit the clinic less often than
+# control
+# survival_months/event simulate time-to-event data, with the dosed
+# groups associated with a longer time to event, so a Cox model shows a
+# clear group effect for demonstration purposes
+n = 300
+group = sample(c("High dose", "Low dose", "Control"), n, replace = TRUE)
+group_effect = ifelse(group == "High dose", -0.7,
+                ifelse(group == "Low dose", -0.3, 0))
+
+clinic_visits = MASS::rnegbin(n, mu = exp(1.5 + group_effect), theta = 2)
+
+base_rate = ifelse(group == "High dose", 0.02,
+             ifelse(group == "Low dose", 0.04, 0.06))
+survival_months = round(rexp(n, rate = base_rate), 1)
+censor_time = 24
+event = as.integer(survival_months <= censor_time)
+survival_months = pmin(survival_months, censor_time)
+
+followup_data = data.frame(
+  id = 1:n,
+  clinic_visits = clinic_visits,
+  survival_months = survival_months,
+  event = event
+)
+
+write.csv(followup_data, "data/followup_data.csv", row.names = FALSE)
 ```
+
+```{r}
+#| label: import-data
+#| message: false
+
+viz_data = readr::read_csv("data/viz_data.csv")
+followup_data = readr::read_csv("data/followup_data.csv")
+
+head(viz_data)
+head(followup_data)
+
+# join viz_data with followup_data based on subject id
+followup_data = merge(viz_data, followup_data, by = 'id')
+```
+
+## Common regression models
+
+You've already met these models conceptually in your stats class, so
+here we'll focus on how to actually fit each one in R and what its
+output looks like.
+
+- **Linear regression** models a continuous outcome as a straight-line
+  (or plane, with multiple predictors) function of one or more
+  predictors. It's the model you'd reach for when your outcome, like
+  `response` or `bmi`, is a continuous number.
+- **Logistic regression** models the probability of a binary outcome
+  (e.g., improved vs. not improved) as a function of one or more
+  predictors, using the logit link to keep predicted probabilities
+  between 0 and 1.
+- **Negative binomial regression** models a count outcome, like number of
+  clinic visits, that is over-dispersed (its variance is bigger than its
+  mean), which is common with real-world count data and is one reason we
+  don't just use ordinary linear regression on counts.
+- **Cox proportional hazards model** models the time until an event
+  happens (e.g., time until a health outcome occurs), while properly
+  handling patients who haven't experienced the event by the end of the
+  study (censoring).
+
+## Functions for running regressions in R
+
+- **`lm()`** fits linear regression models. You give it a formula
+  describing your outcome and predictors, and a `data` argument telling
+  it where to find those variables.
+- **`glm()`** fits generalized linear models, a broader family that
+  includes logistic regression and (with a helper package) negative
+  binomial regression, by letting you specify a `family` argument on top
+  of the same formula and `data` structure `lm()` uses.
+
+### `lm()` vs. `glm()`: what's the difference?
+
+In practice, `lm()` is really a special case of `glm()` with the family
+set to a normal (Gaussian) distribution and an identity link, so
+anything `lm()` can do, `glm()` can also do by writing
+`glm(..., family = gaussian)`. The reason `lm()` still exists as its own
+function is convenience: for ordinary linear regression, its syntax is a
+touch simpler and some of its helper functions are slightly more
+direct. Neither function is better than the other in general. You'll
+reach for `lm()` when your outcome is continuous and you don't need a
+non-normal family, and `glm()` whenever your outcome calls for a
+different distribution, such as logistic or negative binomial
+regression.
+
+## Running regressions in R
+
+### Linear regression
+
+```{r}
+#| label: linear-regression
+lm_fit = lm(response ~ bmi + group, data = viz_data)
+summary(lm_fit)
+```
+
+### Logistic regression
+
+Logistic regression needs a binary outcome, but `outcome` in `viz_data`
+has three levels (`Improved`, `No change`, `Worsened`). So before fitting
+the model, we collapse it into a two-level variable indicating whether a
+patient improved or not.
+
+```{r}
+#| label: create-binary-outcome
+viz_data$improved = as.integer(viz_data$outcome == "Improved")
+```
+
+```{r}
+#| label: logistic-regression
+logistic_fit = glm(improved ~ bmi + group, data = viz_data, family = binomial)
+summary(logistic_fit)
+```
+
+### Negative binomial regression
+
+Negative binomial regression isn't available directly through
+`glm()`'s built-in families. **`glm.nb()`** (from the `MASS` package) fits a negative binomial
+  regression, handling the over-dispersion that a count outcome like
+  `clinic_visits` often shows.
+
+`MASS` is not a base R package, so unlike
+`mean()`, `lm()`, or `glm()`, it does need to be installed once with
+`install.packages("MASS")` before you can use it (though many R
+installations, including the one used to build this book, ship with it
+already installed since it's so commonly used). Once installed, `MASS`
+extends R with a dedicated function that uses the same formula and
+`data` style you've already seen.
+
+
+```{r}
+#| label: negative-binomial-regression
+#| message: false
+
+negbin_fit = MASS::glm.nb(clinic_visits ~ group, data = followup_data)
+summary(negbin_fit)
+```
+
+### Cox proportional hazards model
+
+Functions for survival analysis, including the Cox model, are bundled
+into the `survival` package rather than base R. Like `MASS`, it's not
+part of base R, so it needs to be installed once with
+`install.packages("survival")` if you don't already have it (it is,
+however, included with every standard R installation by default, which
+is why you may not have needed to install it yourself before).
+
+Fitting a Cox model takes two steps. First, you build a `Surv()` object,
+which packages your time-to-event variable together with an event
+indicator into a single object that represents "how long this patient
+was followed, and whether the event actually happened by the end of
+that time or not (i.e. they were censored)." This is necessary because a
+plain numeric time variable on its own doesn't tell R which patients
+actually experienced the event and which ones simply hadn't yet by the
+time the study ended.
+
+- **`Surv()`** (from the `survival` package) combines a time variable
+  and an event indicator (`1` for event observed, `0` for censored) into
+  the special object that survival models expect as their outcome.
+
+```{r}
+#| label: build-surv-object
+#| message: false
+
+# load `survival` package which comes pre-installed with R
+# as we will use its functions multiple times in this exercise
+library(survival)
+
+followup_surv = Surv(followup_data$survival_months, followup_data$event)
+head(followup_surv)
+```
+
+Once you have that `Surv()` object, fitting the model itself follows the
+same formula and `data` pattern as `lm()` and `glm()`.
+
+- **`coxph()`** (from the `survival` package) fits a Cox proportional
+  hazards model, using a `Surv()` object as its outcome in the formula.
+
+```{r}
+#| label: cox-model
+#| message: false
+cox_fit = coxph(
+  Surv(survival_months, event) ~ group,
+  data = followup_data
+)
+summary(cox_fit)
+```
+
+## Accessing values from output objects
+
+Just like the test objects from the previous chapter, regression model
+objects are list-like, so `str()` and `$` still work on them. But
+regression output has enough moving parts (coefficients, standard
+errors, p-values for every predictor) that a few dedicated extraction
+functions make life easier than digging through `str()` output by hand.
+
+- **`coef()`** returns just the estimated coefficients from a fitted
+  model, without all the other information bundled alongside them.
+- **`confint()`** returns confidence intervals for each coefficient.
+- **`summary(model)$coefficients`** returns a table of estimates,
+  standard errors, test statistics, and p-values all at once, which is
+  often the most useful single object to extract when you want to report
+  results.
+
+```{r}
+#| label: extract-coefficients
+coef(lm_fit)
+```
+
+```{r}
+#| label: extract-confidence-intervals
+confint(lm_fit)
+```
+
+```{r}
+#| label: extract-coefficient-table
+summary(lm_fit)$coefficients
+```
+
+::: {.common-mistake}
+It's easy to assume `summary(model)` itself is what you extract from,
+but `summary(model)` is a separate summary object, not the original
+model object, and the two don't have the same pieces inside them. If
+`model$coefficients` doesn't give you what you expected, try
+`summary(model)$coefficients` instead, and use `str()` on both objects
+to see how they differ.
+:::
+
+## Plotting results
+
+Now that you can fit each model and pull out the numbers that matter,
+it's time to see them. A table of coefficients tells you *that* a
+relationship exists, but a plot usually makes it much easier to judge
+*how strong* that relationship is and whether it makes sense given your
+data.
+
+```{r}
+#| label: plot-all-fitted-models
+# which = 1 selects just the first of four default diagnostic plots
+# (residuals vs. fitted values), rather than showing all four at once
+plot(lm_fit, which = 1)
+
+# logistic regression also produces residuals vs. fitted diagnostics,
+# even though the underlying model and residual type are different
+plot(logistic_fit, which = 1)
+
+# negative binomial models are fit via glm.nb(), so they also inherit
+# the same residuals vs. fitted diagnostic plot as the other glm() models
+plot(negbin_fit, which = 1)
+
+# a Cox model has no "residuals vs. fitted" concept, so plot() instead
+# needs a survival curve object first, built using survfit()
+cox_survfit = survfit(cox_fit, newdata = data.frame(group = unique(followup_data$group)))
+plot(cox_survfit,
+     xlab = "Time (months)",
+     ylab = "Estimated survival probability")
+```
+
+### Why `plot()` "just works" on a model object
+
+You've probably noticed that the same `plot()` call produced three
+similar-looking diagnostic plots for `lm_fit`, `logistic_fit`, and
+`negbin_fit`, but something completely different for the Cox model, and
+that `cox_fit` needed to be wrapped in `survfit()` first before `plot()`
+would even work on it. This all comes down to `plot()` being a generic
+function: it checks the class of whatever you hand it (e.g., `"lm"`,
+`"glm"`, `"survfit"`) and then dispatches to a specific method written by
+that package's author for that exact class.
+
+`lm_fit`, `logistic_fit`, and `negbin_fit` all happen to inherit from
+`"glm"` (since `lm()` and `glm.nb()` are both special cases of the same
+underlying framework as `glm()`), so they all route to the same
+`plot.glm()` method and produce the same family of residual diagnostics.
+
+`cox_fit`, on the other hand, has no `plot.coxph()` method at all, the
+authors of the `survival` package never wrote one, because a fitted Cox
+model on its own doesn't contain a single obvious thing to plot. What it
+does contain is enough information to calculate a survival curve, and
+that's exactly what `survfit()` does: it takes your fitted `cox_fit`
+object and produces a new object (of class `"survfit"`) representing the
+estimated survival probability over time. That new object does have a
+`plot.survfit()` method built in, which is why `plot(survfit(cox_fit))`
+works, `plot()` never actually knows how to handle a `"coxph"` object
+directly, but it knows exactly what to do once you've converted it into
+something it does recognize.
+
+### Plotting with `ggplot2`
+
+For a fitted regression line drawn over your raw data, `ggplot2`'s
+**`geom_smooth()`** is the most direct route, since it can fit the same
+model internally and draw it for you in one step.
+
+```{r}
+#| label: ggplot-lm-fit
+#| message: false
+
+library(ggplot2)
+
+ggplot(viz_data, aes(x = bmi, y = response)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = TRUE)
+```
+
+The same approach works for logistic regression, plotting the predicted
+probability of `improved` across `bmi` rather than a raw fitted line.
+
+```{r}
+#| label: ggplot-logistic-fit
+ggplot(viz_data, aes(x = bmi, y = as.numeric(improved))) +
+  geom_point() +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), se = TRUE)
+```
+
+For the negative binomial model, since the outcome is a count rather
+than continuous, plotting the raw counts by group alongside their means
+is often clearer than a single fitted line.
+
+```{r}
+#| label: ggplot-negbin-fit
+ggplot(followup_data, aes(x = group, y = clinic_visits)) +
+  geom_jitter(width = 0.1, height = 0) +
+  stat_summary(fun = mean, geom = "point", size = 3, color = "red")
+```
+
+### Plotting a Cox model
+
+You've just seen that `plot(survfit(cox_fit))` works because
+`survfit()` converts your model into a `"survfit"` object with its own
+built-in `plot()` method. Base R's `plot()` is genuinely a fine choice
+here and needs nothing beyond the `survival` package you're already
+using, so it's a perfectly good default for this chapter.
+
+That said, once you have a `survfit` object, `ggplot2` can still be
+useful if you'd rather match the visual style of your other plots (for
+example, keeping consistent themes and colours across a report). Since
+`ggplot2` doesn't know how to draw a `survfit` object directly, the key
+step is pulling the survival curve's numbers out into an ordinary data
+frame first, using `broom::tidy()`, and plotting that data frame with
+`geom_step()` instead.
+
+
+```{r}
+#| label: ggplot-cox-survival-curve
+#| message: false
+
+cox_survfit_df = broom::tidy(cox_survfit)
+
+# a not so elegant way of plotting mutliple groups in ggplot2
+ggplot(cox_survfit_df, aes(x = time)) +
+  geom_step(aes(y = estimate.1), color = "black") +
+  geom_step(aes(y = estimate.2), color = "red") +
+  geom_step(aes(y = estimate.3), color = "blue") +
+  labs(x = "Time (months)",
+       y = "Estimated survival probability",
+       color = "Group")
+```
+
+Either approach, base `plot()` on the `survfit` object or `ggplot2` on
+its tidied data frame, gives you the same underlying survival curve.
+Which one to reach for often just comes down to whether you want a
+quick look at your model or a polished plot to match the rest of your
+report.
+
+::: {.common-mistake}
+It's easy to call `plot()` on your model object and assume you're seeing
+"the" plot for that model, but as you've just seen, the same function
+produces entirely different output depending on the model's class, and
+some of those defaults (like the four-panel `lm` diagnostics) show more
+than you actually need at once. Checking what a given `plot()` method
+actually draws, using `?plot.lm` or `?plot.survfit`, is worth doing
+before you assume the default output is exactly what you want to
+present.
+:::

@@ -100,6 +100,37 @@ h2 {
   color: $nus-blue-dark;
 }
 
+// ---- Writing styling ---------------------------------------------------------------
+@mixin info-box($color, $icon, $label) {
+  border-left: 4px solid $color;
+  background-color: rgba($color, 0.08);
+  padding: 0.75em 1em;
+  margin: 1em 0;
+  border-radius: 4px;
+
+  &::before {
+    content: "#{$icon} #{$label}";
+    display: block;
+    font-weight: bold;
+    color: $color;
+    margin-bottom: 0.4em;
+  }
+}
+
+.terminology {
+  @include info-box($nus-blue-mid, "📖", "Terminology");
+}
+
+.common-mistake {
+  @include info-box($nus-orange, "⚠️", "Common Mistake");
+}
+
+.pro-tip {
+  @include info-box(#198754, "💡", "Pro Tip");
+}
+
+
+
 // ---- Sidebar ----------------------------------------------------------------
 .sidebar-navigation .sidebar-item-text.active,
 .sidebar-navigation .sidebar-item-text:hover {

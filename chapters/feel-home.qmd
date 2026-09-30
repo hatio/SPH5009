@@ -1,7 +1,147 @@
 # Feeling at home with R {#feel-home}
 
-```{r}
-#| label: setup
-#| include: false
-source("_common.R")
+Welcome to *Week 1* of Public health coding with R.
+At this point, you should have both R and Rstudio installed, ready to go.
+
+Let's open up Rstudio. Recap the four panes:
+
+1. **Console.** An R session where your code will run.
+2. **Source.** A text editor where you can open (multiple) text files, your scripts.
+3. **Environment.** Lists of objects in your R environment.
+4. **Files, plots, packages, help** (stacked tabs).
+
+::: {.pro-tip}
+Arrange your panes however feels comfortable. Many people put Source top-left and Console bottom-left, so you can see your script and its output at the same time. You can rearrange this under **Tools > Global Options > Pane Layout**.
+:::
+
+### Working Directory
+
+Every R session has a **working directory**: the folder on your computer that R treats as "home base" while it runs. When you tell R to read a file, save a file, or load data using just a filename (no full path), R looks for that file in the working directory, or saves it there.
+
+You can check your current working directory at any time with:
+
+```r
+getwd()
 ```
+
+This prints the full path of the folder R is currently using. It's a good habit to run `getwd()` whenever you're unsure why R can't find a file you know exists, since the file may simply be sitting in a different folder.
+
+::: {.terminology}
+**Working directory**: The default folder R uses to look for and save files when you don't specify a full file path.
+:::
+
+### Project Directory
+
+Instead of setting your working directory manually every time with `setwd()`, we'll use an **RStudio Project**. A project locks your working directory to a specific folder, so file paths stay consistent no matter who runs the script or where the folder lives on disk.
+
+::: {.common-mistake}
+Avoid using `setwd("C:/Users/yourname/Desktop/...")` in your scripts. It only works on *your* computer, with *your* folder structure. If you share the script, it will break for anyone else. Projects solve this problem for you.
+:::
+
+Create a new project now: **File > New Project > New Directory > New Project**. Give it a name and pick a location you'll remember.
+
+### Create Your First Script
+
+1. Go to **File > New File > R Script**.
+2. Save it as `week1.R` inside your project folder.
+3. Check the **Files** pane: does `week1.R` show up? If not, make sure you're working inside your project directory.
+
+::: {.terminology}
+**Script**: A plain text file (ending in `.R`) where you write R code that can be saved, edited, and rerun later, as opposed to typing directly into the Console, which is not saved.
+:::
+
+### Sending Code from Script to Console
+
+Type the following in your script:
+
+```r
+1 + 1
+```
+
+Place your cursor on that line and press **Ctrl+Enter** (Windows/Linux) or **Cmd+Enter** (Mac) to run it. The line gets sent to the Console and the result appears there.
+
+::: {.pro-tip}
+You'll use Ctrl+Enter / Cmd+Enter constantly. Get comfortable with it now, since it's much faster than retyping code into the Console by hand.
+:::
+
+You can also leave yourself notes in a script using `#`. Anything after a `#` on a line is ignored by R:
+
+```r
+# This is a comment. R will not run this line.
+1 + 1
+```
+
+### Simple Arithmetic
+
+Try running each of these lines one at a time:
+
+```r
+5 + 3
+5 - 3
+5 * 3
+5 / 3
+5 ^ 3
+5 %% 3
+```
+
+::: {.terminology}
+**`%%`**: The *modulo* operator, it returns the remainder after division. For example, `5 %% 3` returns `2`, because 3 goes into 5 once with a remainder of 2.
+:::
+
+### Creating Your First Object
+
+```r
+x = 5
+```
+
+Check the **Environment** pane: you should see `x` appear with the value `5`.
+
+::: {.terminology}
+**Object**: Anything you create in R (a value, vector, function, etc.) and store with a name, so you can refer to it again later.
+:::
+
+For historical reasons, R can assign values using `<-` (an arrow) or `->`. You'll also see `=` used for assignment, which is the common convention across most other programming languages, and what we'll use in this course.
+
+```r
+x = 5     # what we'll use in this course
+x <- 5    # equivalent, historically the more "R-idiomatic" way
+5 -> x    # also equivalent, less common
+```
+
+::: {.pro-tip}
+All three do the same thing here. Pick one and be consistent, don't worry about which is "more correct." That debate is older than most of us and not worth your time right now.
+:::
+
+You can print an object's value by typing its name alone:
+
+```r
+x
+```
+
+::: {.common-mistake}
+`x = 5` creates an object silently, it does **not** print anything to the Console. If you want to see the value, run `x` on its own line, or wrap the assignment in parentheses: `(x = 5)`.
+:::
+
+### Vectorized Thinking
+
+Create a vector using `c()` (short for "combine"):
+
+```r
+nums = c(1, 2, 3, 4, 5)
+nums * 2
+```
+
+Notice that `nums * 2` multiplied *every* element by 2, without a loop.
+
+::: {.terminology}
+**Vectorized operation**: Applying an operation to an entire vector at once, element by element, without writing an explicit loop. This is a core feature of R and one of the biggest mental shifts if you're coming from Excel or another language.
+:::
+
+::: {.exercise}
+**Exercise 1.1**
+
+1. Create a numeric vector of 6 numbers of your choice.
+2. Add `10` to the whole vector at once. What do you get?
+3. Multiply the vector by itself (`nums * nums`). What happened, element by element?
+4. Create another vector `vec2` of 2 numbers. Try `nums + vec2`. What happened?
+:::

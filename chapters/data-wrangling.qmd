@@ -1,7 +1,566 @@
 # Data wrangling {#data-wrangling}
 
+Real datasets are almost never as clean as `viz_data.csv` has been so far.
+In this chapter you'll get comfortable with the messiness that shows up
+in real public health data, learn how to check a dataset for problems
+before you trust it, and build up a reproducible cleaning workflow using
+some of the most common `dplyr` and `stringr` functions you'll reach for
+again and again.
+
+## Data setup
+
+For this chapter we'll use a deliberately messy dataset,
+[`clinic_raw.csv`](../data/clinic_raw.csv), styled after the kind of
+export you might get from a clinic's Excel records. Download it and move
+it into your `data` folder before continuing.
+
 ```{r}
-#| label: setup
+#| label: create-data
 #| include: false
-source("_common.R")
+#| eval: true
+
+dir.create("data", showWarnings = FALSE)
+set.seed(42)
+
+# simulate a messy export: two junk header lines before the real header
+# (mimicking a title row and a blank row, as Excel exports often have),
+# inconsistent date formats, some values stored as "N/A" or "-" instead
+# of true NA, extra whitespace and inconsistent case in text fields, and
+# a mix of numeric fields stored as character due to stray symbols
+n = 200
+ids = sprintf("PT-%04d", 1:n)
+sites = sample(c("  site a", "Site B", "SITE C ", "site_d"), n, replace = TRUE)
+sex = sample(c("M", "F", "m", "f", NA), n, replace = TRUE, prob = c(0.35, 0.35, 0.1, 0.1, 0.1))
+age = sample(c(18:90, NA), n, replace = TRUE)
+visit_date = format(
+  sample(seq(as.Date("2023-01-01"), as.Date("2023-12-31"), by = "day"), n, replace = TRUE),
+  "%d/%m/%Y"
+)
+
+# blood pressure is recorded as "systolic/diastolic mmHg" in one messy
+# text column, exactly the kind of single-field-holding-two-values
+# problem you'll often hit with real clinic exports
+systolic = sample(90:180, n, replace = TRUE)
+diastolic = sample(55:110, n, replace = TRUE)
+bp_raw = ifelse(
+  runif(n) < 0.08, "N/A",
+  paste0(systolic, "/", diastolic, " mmHg")
+)
+
+weight_kg = ifelse(runif(n) < 0.05, "-", as.character(round(rnorm(n, 70, 12), 1)))
+notes = sample(c("stable", "Stable", "FOLLOW UP", "follow up", "  discharged", NA),
+                 n, replace = TRUE)
+
+clinic_df = data.frame(
+  patient_id = ids,
+  site = sites,
+  sex = sex,
+  age = age,
+  visit_date = visit_date,
+  blood_pressure = bp_raw,
+  weight_kg = weight_kg,
+  notes = notes
+)
+
+junk_lines = c("Clinic Export - Confidential", "")
+out_path = "data/clinic_raw.csv"
+writeLines(junk_lines, out_path)
+write.table(clinic_df, out_path, sep = ",", row.names = FALSE, append = TRUE)
 ```
+
+```{r}
+#| label: import-data
+#| message: false
+
+# load the multiple core tidyverse packages all at once
+library(tidyverse)
+
+# skip = 2 drops the title line and blank line sitting above the real header
+clinic_raw = read_csv("data/clinic_raw.csv", skip = 2)
+head(clinic_raw)
+```
+
+Notice the `skip = 2` argument to `read_csv()`. The raw file has two junk
+lines above the real header (a title line and a blank line), a common
+situation when exporting from Excel, and `skip` tells R to ignore a
+fixed number of lines at the top of the file before looking for column
+names. If you only need specific columns or rows rather than skipping a
+fixed block, `read_csv()`'s `col_select` argument and ordinary row
+indexing (e.g. `clinic_raw[1:20, ]`) work the same way they did with
+`viz_data.csv`.
+
+::: {.pro-tip}
+`1:20` is shorthand for `seq(1, 20, by = 1)`, a function that
+generates a sequence of numbers from a starting value to an ending value
+at a given increment. The colon operator (`:`) is just a quick way to
+write this when your increment is `1` (or `-1` when counting downward),
+but `seq()` is worth knowing too, since it lets you control the
+increment directly, for example generating every second or every tenth
+number in a range.
+:::
+
+```{r}
+#| label: colon-vs-seq
+1:20 # shorthand sequence from 1 to 20, increment of 1
+seq(1, 20, by = 1) # explicit equivalent of 1:20
+seq(1, 20, by = 5) # 1:20 can't do this, seq() lets you set the increment
+```
+
+## The messiness of real-world data
+
+Two problems show up immediately if you inspect `clinic_raw`. First,
+missing values aren't always stored as true `NA`. Here, `blood_pressure`
+uses `"N/A"` and `weight_kg` uses `"-"` for missing entries, both of
+which R reads in as ordinary text rather than recognising them as
+missing. Second, columns that should be numeric, like `blood_pressure`
+(which packs two readings and a unit into one field, e.g.
+`"120/80 mmHg"`) and `weight_kg`, get read in as character columns
+instead, a process called *coercion*, because a single non-numeric value
+anywhere in the column forces the whole column to be stored as text.
+
+```{r}
+#| label: check-column-types
+str(clinic_raw) # lists each column's name and type in one compact view
+```
+
+You'll fix both of these problems later in this chapter, once you've
+seen the cleaning functions designed for exactly this job.
+
+::: {.common-mistake}
+It's easy to assume a column is numeric just because most of its values
+look like numbers. Always check with `str()` or `class()` after
+importing, since a single stray value like `"N/A"` or a trailing unit
+like `"mmHg"` is enough to silently turn an entire column into
+character.
+:::
+
+## Checking data quality
+
+Before cleaning anything, it's worth getting an honest picture of what's
+actually in your dataset.
+
+- **`is.na()`** checks, value by value, whether an entry is missing,
+  and is most useful combined with `sum()` to count how many missing
+  values a column has.
+- **`range()`** returns the minimum and maximum of a numeric variable,
+  handy for spotting impossible values (e.g., a negative age).
+- **`summary()`** gives you a quick five-number-summary-plus-mean for
+  numeric columns, and a count of each category for character or factor
+  columns, all in one call.
+
+```{r}
+#| label: count-missing-age
+sum(is.na(clinic_raw$age)) # TRUE counts as 1, so sum() tallies the NAs
+```
+
+```{r}
+#| label: check-age-range
+range(clinic_raw$age, na.rm = TRUE) # na.rm drops NAs before computing min/max
+```
+
+```{r}
+#| label: summarise-clinic-data
+summary(clinic_raw)
+```
+
+Numbers alone don't always tell the full story, so it's worth pairing
+these checks with a quick plot. A histogram of `age`, for instance, can
+reveal implausible spikes or gaps that summary statistics alone might
+not make obvious.
+
+```{r}
+#| label: plot-age-distribution
+#| message: false
+
+library(ggplot2)
+ggplot(clinic_raw, aes(x = age)) +
+  geom_histogram(binwidth = 5, na.rm = TRUE)
+```
+
+## Reproducible data cleaning
+
+The rest of this chapter walks through a toolkit of functions for
+turning `clinic_raw` into something trustworthy, one small, well-named
+step at a time, so that anyone (including future you) can re-run your
+script and get the exact same cleaned dataset back out.
+
+### Renaming, creating, and selecting columns
+
+- **`rename()`** changes a column's name without touching its values.
+- **`mutate()`** creates a new column, or overwrites an existing one,
+  based on some calculation.
+- **`select()`** keeps (or drops, with a `-`) specific columns.
+- **`filter()`** keeps only the rows that match a condition.
+
+```{r}
+#| label: rename-columns
+clinic_clean =
+    clinic_raw %>%
+    rename(id = patient_id) # patient_id -> id, values untouched
+```
+
+```{r}
+#| label: select-columns
+clinic_clean =
+    clinic_clean %>%
+    select(id, site, sex, age, visit_date, blood_pressure, weight_kg, notes)
+```
+
+```{r}
+#| label: filter-adults
+clinic_clean =
+    clinic_clean %>%
+    filter(age >= 18 | is.na(age)) # keep adults, but don't drop missing ages
+```
+
+### Sorting rows
+
+- **`arrange()`** sorts rows by one or more columns, smallest to
+  largest by default.
+- Wrapping a column in **`desc()`** inside `arrange()` sorts it
+  largest to smallest instead.
+
+```{r}
+#| label: arrange-by-age
+clinic_clean %>% arrange(age) %>% head() # youngest patients first
+```
+
+```{r}
+#| label: arrange-by-age-desc
+clinic_clean %>% arrange(desc(age)) %>% head() # oldest patients first
+```
+
+### Grouped summaries
+
+- **`group_by()`** splits your data into groups based on one or more
+  columns, without changing how it looks yet.
+- **`summarise()`** then collapses each group down to a single summary
+  row, using whatever calculation you specify.
+
+```{r}
+#| label: mean-age-by-site
+clinic_clean %>%
+    group_by(site) %>%
+    summarise(
+          mean_age = mean(age, na.rm = TRUE)
+        , n = n() # count number of rows in each group
+    )
+```
+
+### Cleaning up text
+
+Notice that `site` has inconsistent spacing, capitalisation, and even an
+underscore in one category, and `notes` has similar inconsistencies.
+These are exactly the kind of problems the next set of functions fix.
+
+- **`trimws()`** removes leading and trailing whitespace from text.
+- **`toupper()`** and **`tolower()`** convert text to all-uppercase or
+  all-lowercase, which is a simple way to make categories consistent
+  when only their capitalisation differs.
+- **`substring()`** extracts a portion of a string based on start and
+  end character positions.
+- **`sub()`** replaces the *first* match of a pattern in a string with
+  something else, while its cousin `gsub()` replaces *all* matches.
+
+```{r}
+#| label: clean-site-column
+clinic_clean =
+    clinic_clean %>%
+    mutate(
+          site = tolower(trimws(site)) # lowercase + strip whitespace
+        , site = gsub("_", " ", site)  # replace underscore with space
+    )
+table(clinic_clean$site)
+```
+
+```{r}
+#| label: substring-example
+substring("PT-0001", 4, 7) # characters 4 through 7: "0001"
+```
+
+### Regular expressions
+
+Sometimes the pattern you want to match or extract is more flexible than
+a fixed piece of text, that's where regular expressions come in, a
+mini-language for describing patterns in text.
+
+- **`str_extract()`** (from the `stringr` package) pulls out the part of
+  a string that matches a pattern.
+- **`gsub()`** can also take a regular expression as its pattern, not
+  just a fixed string, making it useful for replacing anything that
+  *looks like* a pattern (e.g., "any digits") rather than one exact
+  value.
+
+Recall that `blood_pressure` packs two readings into one field, like
+`"120/80 mmHg"`. We can pull out the systolic (before the `/`) and
+diastolic (after the `/`) readings separately using two different
+regular expressions.
+
+```{r}
+#| label: extract-systolic-diastolic
+#| message: false
+
+library(stringr)
+clinic_clean =
+    clinic_clean %>%
+    mutate(
+          bp_upper = as.numeric(str_extract(blood_pressure, "^[0-9]+")) # digits before the "/"
+        , bp_lower = as.numeric(str_extract(blood_pressure, "(?<=/)[0-9]+")) # digits after the "/"
+    )
+head(clinic_clean[, c("blood_pressure", "bp_upper", "bp_lower")])
+```
+
+```{r}
+#| label: remove-unit-with-gsub
+gsub("[^0-9.]", "", "72.5 kg") # strip everything except digits and "."
+```
+
+- **`grep()`** returns the *positions* (or, with `value = TRUE`, the
+  actual values) of the elements in a vector that match a pattern.
+- **`grepl()`** returns a `TRUE`/`FALSE` for every element, indicating
+  whether it matches the pattern, which is especially handy inside
+  `filter()`.
+
+```{r}
+#| label: grep-followup-notes
+grep("follow", clinic_clean$notes, ignore.case = TRUE) # ignore.case catches "FOLLOW UP" and "follow up"
+```
+
+```{r}
+#| label: grepl-followup-notes
+clinic_clean %>% filter(grepl("follow", notes, ignore.case = TRUE))
+```
+
+### Converting between data types
+
+Recall from earlier that `blood_pressure` and `weight_kg` were coerced
+into character columns. Now that you've extracted `bp_upper` and
+`bp_lower` as numeric columns above, `weight_kg` still needs the same
+treatment, along with turning `"N/A"` and `"-"` into genuine `NA` values
+and fixing up `visit_date`.
+
+- **`as.numeric()`** and **`as.integer()`** convert text (or other
+  numeric-like values) into numeric or whole-number form.
+- **`as.character()`** converts a value into text.
+- **`as.logical()`** converts a value into `TRUE`/`FALSE`, recognising
+  strings like `"TRUE"`, `"FALSE"`, `"T"`, and `"F"`.
+- **`as.Date()`** converts text into an actual date object, using a
+  `format` argument to tell R how the text is currently laid out.
+
+```{r}
+#| label: clean-weight-and-date
+clinic_clean =
+    clinic_clean %>%
+    mutate(
+          weight_kg = na_if(weight_kg, "-") # turn placeholder "-" into real NA
+        , weight_kg = as.numeric(weight_kg) # now safe to convert to numeric
+        , visit_date = as.Date(visit_date, format = "%d/%m/%Y") # dd/mm/yyyy text -> Date
+    )
+head(clinic_clean)
+```
+
+::: {.common-mistake}
+`as.numeric()` on a column that still has stray text in it (like `"N/A"`
+or a unit such as `"mmHg"`) won't error, it will just silently produce
+`NA` for every value it can't parse, along with a warning message that's
+easy to miss. Always check `sum(is.na(x))` before and after a conversion
+like this to make sure you haven't accidentally lost more data than you
+expected.
+:::
+
+### Conditional logic
+
+- **`ifelse()`** checks a condition for every element of a vector and
+  returns one value if it's `TRUE` and another if it's `FALSE`.
+- **`case_when()`** extends this same idea to any number of conditions,
+  checked in order, which is much easier to read than nesting several
+  `ifelse()` calls inside each other.
+
+```{r}
+#| label: ifelse-example
+clinic_clean =
+    clinic_clean %>%
+    mutate(
+        sex = ifelse(
+              toupper(sex) == "M", "Male"
+            , ifelse(toupper(sex) == "F", "Female", NA) # nested ifelse for the third outcome
+        )
+    )
+```
+
+```{r}
+#| label: case-when-bp-category
+clinic_clean =
+    clinic_clean %>%
+    mutate(
+        bp_category = case_when(
+              is.na(bp_upper)   ~ NA_character_ # keep missing as missing
+            , bp_upper < 120    ~ "Normal"
+            , bp_upper < 140    ~ "Elevated"
+            , TRUE              ~ "High" # catch-all for anything left
+        )
+    )
+table(clinic_clean$bp_category, useNA = "always")
+```
+
+### Writing your own functions
+
+Once you notice yourself repeating the same few lines of cleaning code
+on more than one column, it's worth wrapping that logic into your own
+function instead of copying and pasting it. A function you write
+yourself works exactly like `mean()` or `filter()`, you just define what
+it does once, then call it by name wherever you need it.
+
+```{r}
+#| label: define-clean-text-function
+clean_text = function(x) {
+  x = trimws(x)  # strip whitespace
+  x = tolower(x) # standardise case
+  x
+}
+
+clean_text("  FOLLOW UP")
+```
+
+```{r}
+#| label: apply-clean-text-function
+clinic_clean =
+    clinic_clean %>%
+    mutate(notes = clean_text(notes)) # reuse the function on the notes column
+table(clinic_clean$notes, useNA = "always")
+```
+
+### Reshaping data
+
+- **`pivot_longer()`** takes several columns and stacks them down into
+  two columns, a "names" column and a "values" column, making wide data
+  longer.
+- **`pivot_wider()`** does the reverse, spreading one column's values
+  out into multiple new columns, making long data wider.
+
+`bp_upper` and `bp_lower` are a natural pair to reshape here: they're
+both numeric blood pressure readings taken at the same visit, just two
+components of one measurement, so stacking them into a single `value`
+column (tagged by a `reading` column saying which is which) actually
+makes sense, unlike forcing together two columns of different kinds of
+data.
+
+```{r}
+#| label: pivot-longer-example
+clinic_clean %>%
+    select(id, bp_upper, bp_lower) %>%
+    head(4) %>%
+    tidyr::pivot_longer(
+          cols = c(bp_upper, bp_lower) # the two columns to stack
+        , names_to = "reading"         # new column naming which reading it was
+        , values_to = "value"          # new column holding the actual number
+    )
+```
+
+```{r}
+#| label: pivot-wider-example
+clinic_clean %>%
+    group_by(site, sex) %>%
+    summarise(mean_age = mean(age, na.rm = TRUE), .groups = "drop") %>%
+    tidyr::pivot_wider(names_from = sex, values_from = mean_age)
+```
+
+### Combining datasets
+
+- **`cbind()`** and **`rbind()`** glue data frames together side by side
+  (by column) or stacked on top of each other (by row), assuming the
+  pieces already line up correctly.
+- **`merge()`** joins two data frames together by matching values in a
+  shared column, base R's way of doing what a database would call a
+  join.
+- **`left_join()`**, **`right_join()`**, **`anti_join()`**, and
+  **`semi_join()`** (from `dplyr`) offer the same idea as `merge()` but
+  are usually easier to read: `left_join()` keeps every row from the
+  first (left) table and attaches matching information from the second,
+  `right_join()` does the same but keeps every row from the second
+  table, `anti_join()` keeps only rows from the first table that have
+  *no* match in the second, and `semi_join()` keeps only rows from the
+  first table that *do* have a match, without actually adding any of the
+  second table's columns.
+
+```{r}
+#| label: create-site-lookup
+site_lookup = data.frame(
+      site = c("site a", "site b", "site c", "site d")
+    , region = c("North", "North", "South", "South")
+)
+```
+
+```{r}
+#| label: left-join-site-region
+clinic_clean =
+    clinic_clean %>%
+    left_join(site_lookup, by = "site") # attach region, keep every clinic_clean row
+head(clinic_clean)
+```
+
+### Pipes: `%>%` vs. `|>`
+
+You've been using `%>%` throughout this chapter (from the `magrittr`
+package, loaded automatically with `dplyr`) to chain several steps
+together by passing the result of one line into the next. Base R now
+has its own built-in pipe, `|>`, which works the same way and doesn't
+need any package loaded at all, since it's part of R itself from
+version 4.1 onward.
+
+```{r}
+#| label: compare-pipes
+clinic_clean %>% filter(bp_category == "High") %>% nrow()
+clinic_clean |> filter(bp_category == "High") |> nrow()
+```
+
+In practice, the two behave almost identically for the everyday chaining
+you've done in this chapter, so you'll see both used interchangeably
+across R code you come across. `%>%` has a couple of extra features
+(like letting you refer to the piped value with a `.` in more flexible
+positions) that `|>` doesn't fully replicate, but for straightforward
+step-by-step pipelines like the ones here, neither is objectively
+better, and which one you use often just comes down to personal
+preference or what a particular course or workplace has standardised
+on.
+
+## Exporting cleaned data
+
+Once your data is clean, you'll want to save it out so you (or a
+collaborator) don't have to repeat the cleaning steps every time.
+
+- **`writeLines()`** writes plain text, line by line, to a file, useful
+  for simple text output but not really designed for tabular data.
+- **`write.table()`** writes a data frame to a text file, with
+  arguments controlling the separator, whether to include row names,
+  and so on, base R's general-purpose export function.
+- **`write.csv()`** is `write.table()` with sensible defaults baked in
+  for comma-separated files, the base R equivalent of `read.csv()`.
+- **`write_csv()`** (from `readr`) does the same job as `write.csv()`,
+  but is faster on large datasets and never writes row names by
+  default, avoiding a common annoyance with the base R version.
+
+```{r}
+#| label: export-cleaned-data
+#| eval: false
+
+write_csv(clinic_clean, "data/clinic_clean.csv")
+```
+
+::: {.exercise}
+**Exercise 2.2**
+
+In a new script file,
+
+1. Import `clinic_raw.csv` yourself using `read_csv()`, remembering to
+   skip the junk lines at the top of the file, and use `str()` and
+   `summary()` to check which columns have missing values or the wrong
+   data type.
+2. Clean at least three problems you find: fix a column with the wrong
+   type (using `as.numeric()`, `as.Date()`, or similar), standardise a
+   text column's capitalisation or spacing, and turn a placeholder like
+   `"N/A"` or `"-"` into a true `NA`.
+3. Use `group_by()` and `summarise()` to calculate the mean `age` (or
+   another numeric variable of your choice) by `site`.
+4. Export your cleaned dataset to a new CSV file using `write_csv()`.
+:::

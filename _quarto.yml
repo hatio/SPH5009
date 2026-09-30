@@ -11,6 +11,8 @@ project:
   # No .nojekyll under resources either. Quarto writes that file itself when it
   # publishes, using its contents as a deploy id to confirm the deploy landed.
   # Shipping our own would overwrite the id and break that check.
+  resources:
+    - "data/**"
   execute-dir: project
   post-render:
     # # Records which commit produced the site, so scripts/check-pages-sync.sh
@@ -51,13 +53,17 @@ book:
     - part: "1 - Easing into R"
       chapters:
         - chapters/feel-home.qmd
+        - chapters/data-types.qmd
+        - chapters/functions.qmd
         - chapters/data-import.qmd
         - chapters/data-viz.qmd
+        - chapters/quiz-1.qmd
     - part: "2 - Working with data"
       chapters:
-        - chapters/stat-tests.qmd
+        - chapters/stats.qmd
         - chapters/regression.qmd
         - chapters/data-wrangling.qmd
+        - chapters/quiz-2.qmd
     - part: "3 - Code to workflow"
       chapters:
         - chapters/workflow.qmd
@@ -82,7 +88,7 @@ book:
 format:
   html:
     theme: [litera, scss/nus.scss]
-    toc: false
+    toc: true
     toc-depth: 3
     toc-title: "On this page"
     number-sections: false

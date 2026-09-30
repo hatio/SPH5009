@@ -1,7 +1,188 @@
 # Data importation {#data-import}
 
+This is a short exercise to show you typical ways of importing data into R,
+using both **base R** and **tidyverse** functions.
+
+## Setting up your data folder
+
+First, let's create a folder named `data` in your working directory to store
+all the data files, which you will download from Canvas (or from the links
+below, generated for this book).
+
 ```{r}
-#| label: setup
-#| include: false
-source("_common.R")
+#| label: setup-data-folder
+#| eval: false
+#| warning: false
+
+dir.create("data")
 ```
+
+```{r}
+#| label: create-data
+#| include: false
+#| eval: true
+
+# This chunk runs when the BOOK is rendered (not by students). It generates
+# example data files and writes them into data/, which is listed under
+# `resources:` in _quarto.yml so Quarto copies it into _book/data/ on
+# render. That makes the files downloadable from the published GitHub
+# Pages site at a relative link like `data/data.csv`.
+
+dir.create("data", showWarnings = FALSE)
+
+df <- data.frame(
+  id     = 1:6,
+  name   = c("Alice", "Bob", "Carol", "David", "Ellen", "Frank"),
+  age    = c(25, 30, 22, 41, 36, 29),
+  bmi    = c(22.1, 27.4, 19.8, 31.2, 24.6, 26.0),
+  smoker = c("no", "yes", "no", "yes", "no", "no")
+)
+
+writeLines(as.character(df$age), "data/data.txt")
+write.table(df, "data/data.tsv", sep = "\t", row.names = FALSE, quote = FALSE)
+write.csv(df, "data/data.csv", row.names = FALSE)
+writexl::write_xlsx(df, "data/data.xlsx")
+```
+
+<!-- Download these four files and move them into your local `data` folder:
+[`data.txt`](../data/data.txt), [`data.tsv`](../data/data.tsv),
+[`data.csv`](../data/data.csv), and [`data.xlsx`](../data/data.xlsx). -->
+Download these four files and move them into your local `data` folder:
+<a href="../data/data.txt" download>`data.txt`</a>,
+<a href="../data/data.tsv" download>`data.tsv`</a>,
+<a href="../data/data.csv" download>`data.csv`</a>, and
+<a href="../data/data.xlsx" download>`data.xlsx`</a>.
+
+Check the **Files** pane in RStudio. You should see a new `data` folder
+appear inside your working directory, containing the four files. If they
+don't show up, click the refresh icon at the top of the Files pane.
+
+::: {.common-mistake}
+If the `data` folder or files don't show up where you expect, double-check
+you're looking inside your **project** folder, not some other location on
+your computer. This is exactly the kind of confusion that RStudio Projects
+and a consistent working directory are meant to prevent.
+:::
+
+## Base R import functions
+
+Base R ships with several functions for reading plain-text data, with no
+extra packages required.
+
+- **`readLines()`** reads a text file line by line into a character vector.
+  It doesn't know anything about columns or delimiters — it's the most
+  "raw" way to bring text into R, useful for logs, unstructured text, or
+  files you want to parse yourself.
+
+  ```{r}
+  #| eval: false
+  lines <- readLines("data/data.txt")
+  lines
+  ```
+
+- **`read.table()`** is the general-purpose workhorse for delimited files.
+  You tell it the separator (`sep = "\t"` for tab-delimited, `sep = ","`
+  for comma-delimited, etc.), and it returns a `data.frame`. Its defaults
+  are geared toward "traditional" R usage: strings are sometimes converted
+  to factors (depending on R version/options), and column names may be
+  mangled to valid R names unless you tell it otherwise.
+
+  ```{r}
+  #| eval: false
+  df_tsv <- read.table("data/data.tsv", sep = "\t", header = TRUE)
+  str(df_tsv)
+  ```
+
+- **`read.csv()`** is simply `read.table()` with sensible defaults baked in
+  for comma-separated files (`sep = ","`, `header = TRUE`). It's the
+  function most people reach for first when reading a `.csv` in base R.
+
+  ```{r}
+  #| eval: false
+  df_csv <- read.csv("data/data.csv")
+  str(df_csv)
+  ```
+
+## Tidyverse import functions
+
+The tidyverse (via the **readr** and **readxl** packages) offers analogous
+functions with a more consistent, predictable, and faster implementation.
+
+- **`read_csv()`** (from **readr**) reads comma-separated files into a
+  `tibble` rather than a base `data.frame`. Tibbles print more compactly,
+  never auto-convert strings to factors, guess column types explicitly
+  (printing a helpful message about what it guessed), and preserve column
+  names exactly as they appear in the file (including spaces, if any).
+
+  ```{r}
+  #| eval: false
+  library(readr)
+  df_csv_tv <- read_csv("data/data.csv")
+  df_csv_tv
+  ```
+
+- **`readxl::read_excel()`** reads Excel spreadsheets (`.xls` or `.xlsx`)
+  directly, without needing Excel installed or any conversion step. You can
+  specify which `sheet` and which cell `range` to read, which is handy when
+  a workbook has multiple tabs or extra header rows.
+
+  ```{r}
+  #| eval: false
+  library(readxl)
+  df_xlsx <- read_excel("data/data.xlsx")
+  df_xlsx
+  ```
+
+### A note on the `::` notation
+
+You may notice code like `readxl::read_excel()` instead of just
+`read_excel()`, and `writexl::write_xlsx()` instead of just `write_xlsx()`.
+The double-colon `::` is R's **namespace operator**: `package::function()`
+tells R exactly which package a function should come from, without
+requiring you to load that package with `library()` first.
+
+This is useful for a few reasons:
+
+- **Clarity.** Writing `readxl::read_excel()` makes it immediately obvious,
+  just by reading the code, which package a function belongs to — handy
+  when you're skimming a script months later or reading someone else's
+  code.
+- **Avoiding conflicts.** Sometimes two different packages define a
+  function with the same name (for example, both **dplyr** and **stats**
+  have a function called `filter()`). Using `::` lets you pick exactly the
+  one you want instead of relying on whichever package was loaded most
+  recently (and therefore takes priority).
+- **One-off use.** If you only need a single function from a package, and
+  don't want to load the whole package (which can be slow, or can clutter
+  your environment with functions you don't need), `::` lets you call it
+  directly, as we do above with `readxl::read_excel()` and
+  `writexl::write_xlsx()`, without ever running
+  `library(readxl)` or `library(writexl)`.
+
+By contrast, for **readr**, we did run `library(readr)` before calling
+`read_csv()` — this is a stylistic choice. Both approaches are valid: use
+`library()` when you'll be calling many functions from a package throughout
+your script, and use `::` when you only need a function once or twice, or
+want to be explicit about where it's coming from.
+
+### Base R vs. tidyverse: what's the difference?
+
+Both families ultimately produce a rectangular table you can work with in
+R, but they differ in a few practical ways: base R functions (`read.table`,
+`read.csv`) return a `data.frame` and historically default to converting
+character columns to factors and "cleaning" column names, whereas tidyverse
+functions (`read_csv`, `read_excel`) return a `tibble`, keep strings as
+strings by default, are generally faster on large files, and print explicit
+messages about the column types they've guessed so you can catch parsing
+mistakes early. Neither is "more correct."  Base R functions have no
+dependencies beyond R itself (useful for portable scripts or package
+development), while tidyverse functions are often preferred in interactive
+data analysis for their speed and safer defaults.
+
+::: {.exercise}
+**Exercise 1.4**
+
+Explore any one of the imported datasets with `head()`, `tail()`,
+   `summary()`, `nrow()`, `ncol()`, `dim()`, and `str()`. Note down what
+   each function tells you about the data.
+:::

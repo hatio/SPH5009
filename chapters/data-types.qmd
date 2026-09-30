@@ -1,0 +1,154 @@
+# Data Types {#data-types}
+
+Every object you create in R has a **data type**. The data type determines what kind of values an object can hold, and what operations make sense on it: you can add two numbers together, but adding two pieces of text doesn't mean anything the same way. Knowing an object's data type helps you understand what R will let you do with it, and helps you spot bugs when something doesn't behave the way you expect.
+
+### Vectors
+
+Vectors are data types with one-dimension where all elements in the vector
+are of the same type. R has several basic vector types:
+
+- **character**: text, e.g. `"hello"`
+- **numeric**: decimal numbers, e.g. `3.14`
+- **integer**: whole numbers, e.g. `5L`
+- **logical**: `TRUE` / `FALSE`
+- **factor**: categorical data with fixed levels, e.g. `"low"`, `"medium"`, `"high"`
+
+```r
+char_vec = c("apple", "banana", "cherry")
+num_vec = c(1.5, 2.7, 3.9)
+int_vec = c(1L, 2L, 3L)
+log_vec = c(TRUE, FALSE, TRUE)
+fac_vec = factor(c("low", "high", "medium"), levels = c("low", "medium", "high"))
+```
+
+::: {.terminology}
+**`L` suffix**: Writing `5L` tells R to store the value as an *integer* rather than a *numeric* (double). Without the `L`, a whole number like `5` is stored as numeric by default. In practice the distinction rarely matters for day-to-day analysis, but you'll see `L` used when a function specifically expects an integer (e.g. `nrow`, or arguments like `nrow = 2L` in some packages).
+:::
+
+::: {.terminology}
+**`NA`**: R's representation of a missing value. It can appear inside any vector type (e.g. `c(1, 2, NA, 4)`) and will show up often once you start working with real data.
+:::
+
+### Checking Data Types
+
+```r
+class(char_vec)
+str(fac_vec)
+length(num_vec)
+```
+
+::: {.terminology}
+**`class()`**: Tells you what type an object is. **`str()`**: Gives you a compact summary of an object's structure. **`length()`**: Tells you how many elements are in it.
+:::
+
+### Accessing Elements
+
+```r
+char_vec[1]        # by position
+names(num_vec) = c("a", "b", "c")
+num_vec["b"]        # by name
+```
+
+::: {.common-mistake}
+R indexing starts at **1**, not 0. `char_vec[1]` gives you the *first* element, not the second.
+:::
+
+### Matrix
+
+A **matrix** is a 2-dimensional structure where every element must be the same type (usually numeric).
+
+```r
+m = matrix(1:6, nrow = 2, ncol = 3)
+m
+dim(m)
+m[1, 2]     # row 1, column 2
+```
+
+::: {.terminology}
+**Matrix**: A rectangular grid of values, all of the same data type, arranged in rows and columns.
+:::
+
+#### Naming Rows and Columns
+
+You can give a matrix row names and column names when you create it, using the `dimnames` argument, or by setting `rownames()` and `colnames()` afterward:
+
+```r
+m2 = matrix(1:6, nrow = 2, ncol = 3,
+            dimnames = list(c("row1", "row2"), c("col1", "col2", "col3")))
+m2
+
+# equivalently
+m3 = matrix(1:6, nrow = 2, ncol = 3)
+rownames(m3) = c("row1", "row2")
+colnames(m3) = c("col1", "col2", "col3")
+m3
+```
+
+Once named, you can index by name instead of position:
+
+```r
+m2["row1", "col2"]   # single element, by row name and column name
+m2["row2", ]           # entire row, by row name
+m2[, "col3"]           # entire column, by column name
+```
+
+::: {.pro-tip}
+Naming rows and columns makes your code more readable and less fragile: `m2["row2", ]` is much clearer than `m2[2, ]`, and it keeps working even if you later reorder the rows.
+:::
+
+### List
+
+A **list** can hold elements of different types and lengths, even other lists.
+
+```r
+my_list = list(name = "Alice", age = 25, scores = c(90, 85, 88))
+my_list$name
+my_list[["scores"]]
+```
+
+::: {.terminology}
+**List**: A flexible container that can hold objects of different types and sizes together, accessed using `$` (by name) or `[[ ]]` (by name or position).
+:::
+
+### Data Frame
+
+A **data frame** is the structure you'll use the most, think of it as a spreadsheet: rows are observations, columns are variables, and different columns can hold different types.
+
+```r
+df = data.frame(
+  name = c("Alice", "Bob", "Carol"),
+  age = c(25, 30, 22),
+  passed = c(TRUE, FALSE, TRUE)
+)
+df
+df$age          # access a column by name
+df[1, ]         # access a row by position
+```
+
+::: {.terminology}
+**Data frame**: A table-like structure where each column can be a different data type, but all columns must have the same number of rows. In fact, a data frame is just a special kind of list: each column is an element of the list, and the requirement that makes it a data frame (rather than a plain list) is that every element must have the same length.
+:::
+
+::: {.exercise}
+**Exercise 1.2**
+
+1. Create one of each fundamental data type (character, numeric, integer, logical, factor). Check each with `class()`, `str()`, and `length()`.
+2. Create a small matrix with `matrix()` and access one element using `[row, col]`.
+3. Create the same matrix but with row names and column names, and access the same element using its row name and column name instead.
+4. Create a small list with at least two different types of elements and access one using `$` or `[[ ]]`.
+5. Create a data frame with at least 2 columns and 3 rows. Access a single column and a single row.
+:::
+
+
+
+::: {.exercise}
+**Exercise 1.2**
+
+1. **Type coercion.** Create a vector with `c(1, "two", TRUE)`. Check its `class()` and print it — what type did R coerce everything to, and why? Now try `c(1, TRUE)` and `c(1L, 2.5)` — what type does each become? (Hint: R has an implicit ranking of types it coerces towards: logical → integer → numeric → character.)
+
+2. **Recycling direction in a matrix.** Create a matrix using `matrix(1:6, nrow = 2, ncol = 3)`, then create a vector `v = c(10, 100)` and add it to the matrix with `m + v`. Look carefully at which elements each value of `v` was added to — does R fill the vector down each column first, or across each row first? Now try a longer vector, `v2 = c(1, 10, 100)`, added to a matrix with 3 rows — does it recycle cleanly? What happens if you add a vector whose length doesn't divide evenly into the number of rows (e.g. `c(1, 2, 3)` added to a 4-row matrix)?
+
+3. **Recycling direction in a data frame.** Create a data frame with 4 rows and a column `x = 1:4`. Add a new column with `df$y = c("A", "B")`. What pattern do the recycled values follow down the column? Now try assigning a vector of length 3 to a new column in the same 4-row data frame (e.g. `df$z = c(1, 2, 3)`) — what happens, and why is this different from the matrix case?
+
+4. **Accessing multiple elements.** Using the matrix from Question 2, extract the first two rows using `m[1:2, ]`, and extract columns 1 and 3 together using `m[, c(1, 3)]`. Using the data frame from Question 3, extract rows 2 through 4 with `df[2:4, ]`, and extract the columns `x` and `y` together using `df[, c("x", "y")]`. In each case, check the `class()` of what you get back — is it still the same structure (matrix/data frame), or has it simplified to something else?
+:::

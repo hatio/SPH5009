@@ -1,0 +1,189 @@
+# Summaries and Statistical Tests {#summaries-statistical-tests}
+
+You've already learned how to import data and make plots in R.
+Let's now move further to data analysis. In this
+exercise, you'll learn how to summarise a dataset numerically and run common
+statistical tests using simple R functions.
+
+## Data setup
+
+We will reuse the same data we used for visualisation last week, [`viz_data.csv`](../data/viz_data.csv).
+
+```{r}
+#| label: import-data
+#| message: false
+
+viz_data = readr::read_csv("data/viz_data.csv")
+head(viz_data)
+```
+
+## Common data summaries
+
+Before jumping into formal tests, it's always worth describing your data
+with some simple numbers. These are common measures of center and spread, the building blocks you'll rely on for almost every analysis you do.
+
+- **`mean()`** gives you the arithmetic average of a numeric variable, a
+  quick sense of where your data is "centred".
+- **`median()`** gives you the middle value when the data is sorted,
+  which is often more useful than the mean when your data has outliers
+  (e.g., a few unusually high weight readings).
+- **`min()`** and **`max()`** return the smallest and largest values,
+  handy for spotting data entry errors as much as for describing the
+  variable itself.
+- **`quantile()`** splits your data into percentiles, so you can see, for
+  example, the value below which 25% or 75% of observations fall.
+- **`sd()`** gives you the standard deviation, a measure of how spread
+  out your values are around the mean.
+
+```{r}
+#| label: mean-median-summary
+mean(viz_data$weight)
+median(viz_data$weight)
+```
+
+```{r}
+#| label: range-quantile-sd
+min(viz_data$bmi)
+max(viz_data$bmi)
+quantile(viz_data$bmi)
+sd(viz_data$bmi)
+```
+
+- **`cov()`** tells you whether two numeric variables tend to move
+  together (positive), move in opposite directions (negative), or show no
+  clear linear relationship (close to zero). Its exact value is hard to
+  interpret on its own because it depends on the units of your variables.
+- **`cor()`** standardises this idea into a value between -1 and 1, making
+  it much easier to interpret and compare across variable pairs.
+
+```{r}
+#| label: covariance-height-weight
+cov(viz_data$height, viz_data$weight)
+```
+
+```{r}
+#| label: correlation-height-weight
+cor(viz_data$height, viz_data$weight)
+```
+
+## Common statistical tests
+
+Now that you can describe your data, let's move on to running some tests
+in R. You've already covered the logic behind these tests in your stats
+class, so here we'll focus purely on how to actually call them in code
+and read what they give you back.
+
+### Association of two categorical variables
+
+- **`chisq.test()`** tests whether two categorical variables are
+  associated with one another, by comparing observed counts in a
+  contingency table to what you'd expect if the variables were
+  independent.
+- **`fisher.test()`** answers the same underlying question, but uses an
+  exact calculation rather than an approximation, which makes it more
+  reliable when your contingency table has small cell counts.
+
+```{r}
+#| label: chi-squared-test
+group_outcome_table <- table(viz_data$group, viz_data$outcome)
+chisq.test(group_outcome_table)
+```
+
+```{r}
+#| label: fisher-exact-test
+fisher.test(group_outcome_table)
+```
+
+### Difference between two groups
+
+- **`t.test()`** compares the means of a numeric variable between two
+  groups, and assumes that variable is roughly normally distributed
+  within each group.
+- **`wilcox.test()`** (which performs the Mann-Whitney test when comparing
+  two independent groups) compares the distributions of a numeric
+  variable between two groups without assuming normality, making it a
+  useful backup when that assumption feels shaky.
+
+```{r}
+#| label: t-test-response-dose
+t.test(response ~ group, data = viz_data, subset = group %in% c("High dose", "Low dose"))
+```
+
+```{r}
+#| label: mann-whitney-response-dose
+wilcox.test(response ~ group, data = viz_data, subset = group %in% c("High dose", "Low dose"))
+```
+
+### ANOVA
+
+- **`aov()`** extends the idea behind the t-test to three or more groups,
+  testing whether the means of a numeric variable differ across the
+  levels of a categorical variable.
+
+```{r}
+#| label: anova-response-site
+response_site_aov = aov(response ~ site, data = viz_data)
+summary(response_site_aov)
+```
+
+## Functions in R: base vs. additional packages
+
+Every function you've used so far in this chapter, like `mean()`,
+`t.test()`, and `aov()`, comes bundled with base R, meaning it's available
+the moment you open RStudio with no extra installation needed. As you
+progress in public health analysis, you'll also encounter functions from
+additional packages (installed with `install.packages()` and loaded with
+`library()`, just like you did with `stringr` last week) that
+extend what base R can do.
+
+## Accessing values from output objects
+
+When you run a test like `t.test()` or `chisq.test()`, R doesn't just
+print a result to your console. It actually creates a list-like object
+containing everything about that test, and the printed summary is just
+a friendly display of that object. Other functions, like `summary()`,
+return a named vector rather than a list. This matters because in your
+own code you'll often want to pull out a single number (like a p-value
+or a specific summary statistic) to use later, rather than manually
+reading it off the printed output, and the way you extract that number
+depends on what kind of object you're pulling it from.
+
+- **`str()`** lets you peek inside an output object to see what pieces of
+  information it contains and how they're named, and whether it's a list
+  or a vector.
+- The `$` operator extracts one specific piece from a list-like object by
+  name, once you know what it's called.
+- `[` and `[[` let you extract by name or position from a named vector,
+  which is what functions like `summary()` give you back instead of a
+  list.
+
+```{r}
+#| label: inspect-test-object
+response_ttest = t.test(response ~ group, data = viz_data, subset = group %in% c("High dose", "Low dose"))
+
+str(response_ttest)
+
+response_ttest$p.value
+response_ttest$conf.int
+```
+
+```{r}
+weight_summary = summary(viz_data$weight)
+
+str(weight_summary)
+
+weight_summary["Median"]
+weight_summary[[3]]
+```
+
+::: {.common-mistake} 
+It's tempting to guess the name of the value you want (e.g., typing $pvalue instead of $p.value), but R won't warn you if you get it wrong. It will just silently return NULL. It's also easy to try $ on something like the output of summary(), which will fail since that object is a named vector, not a list. Running str() first to check both the exact names and the type of object you're dealing with will save you this frustration. :::
+:::
+
+::: {.exercise}
+**Exercise 2.1**
+
+1. Compute the 80% interpercentile range for `bmi`. (Hint: `quantile`, output extraction, subtraction).
+2. Check what the default alternative hypothesis is for `t.test`. Try performing a one-sided t-test.
+
+:::
