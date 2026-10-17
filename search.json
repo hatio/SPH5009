@@ -167,7 +167,7 @@
     "href": "chapters/stats.html#common-data-summaries",
     "title": "Summaries and Statistical Tests",
     "section": "Common data summaries",
-    "text": "Common data summaries\nBefore jumping into formal tests, it’s always worth describing your data with some simple numbers. These are common measures of center and spread, the building blocks you’ll rely on for almost every analysis you do.\n\n\nmean() gives you the arithmetic average of a numeric variable, a quick sense of where your data is “centred”.\n\nmedian() gives you the middle value when the data is sorted, which is often more useful than the mean when your data has outliers (e.g., a few unusually high weight readings).\n\nmin() and max() return the smallest and largest values, handy for spotting data entry errors as much as for describing the variable itself.\n\nquantile() splits your data into percentiles, so you can see, for example, the value below which 25% or 75% of observations fall.\n\nsd() gives you the standard deviation, a measure of how spread out your values are around the mean.\n\n\nmean(viz_data$weight)\n#&gt; [1] 120.3777\nmedian(viz_data$weight)\n#&gt; [1] 120.15\n\n\nmin(viz_data$bmi)\n#&gt; [1] 35.4\nmax(viz_data$bmi)\n#&gt; [1] 54.8\nquantile(viz_data$bmi)\n#&gt;     0%    25%    50%    75%   100% \n#&gt; 35.400 42.350 44.400 46.725 54.800\nsd(viz_data$bmi)\n#&gt; [1] 3.547647\n\n\n\ncov() tells you whether two numeric variables tend to move together (positive), move in opposite directions (negative), or show no clear linear relationship (close to zero). Its exact value is hard to interpret on its own because it depends on the units of your variables.\n\ncor() standardises this idea into a value between -1 and 1, making it much easier to interpret and compare across variable pairs.\n\n\ncov(viz_data$height, viz_data$weight)\n#&gt; [1] 34.50298\n\n\ncor(viz_data$height, viz_data$weight)\n#&gt; [1] 0.5827641",
+    "text": "Common data summaries\nBefore jumping into formal tests, it’s always worth describing your data with some simple numbers. These are common measures of center and spread, the building blocks you’ll rely on for almost every analysis you do.\n\n\nmean() gives you the arithmetic average of a numeric variable, a quick sense of where your data is “centred”.\n\nmedian() gives you the middle value when the data is sorted, which is often more useful than the mean when your data has outliers (e.g., a few unusually high weight readings).\n\nmin() and max() return the smallest and largest values, handy for spotting data entry errors as much as for describing the variable itself.\n\nquantile() splits your data into percentiles, so you can see, for example, the value below which 25% or 75% of observations fall.\n\nsd() gives you the standard deviation, a measure of how spread out your values are around the mean.\n\n\nmean(viz_data$weight)\n#&gt; [1] 120.3777\nmedian(viz_data$weight)\n#&gt; [1] 120.15\n\n\nmin(viz_data$bmi)\n#&gt; [1] 35.4\nmax(viz_data$bmi)\n#&gt; [1] 54.8\nquantile(viz_data$bmi)\n#&gt;     0%    25%    50%    75%   100% \n#&gt; 35.400 42.350 44.400 46.725 54.800\nsd(viz_data$bmi)\n#&gt; [1] 3.547647\n\n\n\ncov(), covariance, tells you whether two numeric variables tend to move together (positive), move in opposite directions (negative), or show no clear linear relationship (close to zero). Its exact value is hard to interpret on its own because it depends on the units of your variables.\n\ncor(), correlation, standardises this idea into a value between -1 and 1, making it much easier to interpret and compare across variable pairs.\n\n\ncov(viz_data$height, viz_data$weight)\n#&gt; [1] 34.50298\n\n\ncor(viz_data$height, viz_data$weight)\n#&gt; [1] 0.5827641",
     "crumbs": [
       "2 - Working with data",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Summaries and Statistical Tests</span>"
@@ -347,6 +347,204 @@
     "crumbs": [
       "2 - Working with data",
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Quiz 2</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/workflow.html",
+    "href": "chapters/workflow.html",
+    "title": "Why workflow?",
+    "section": "",
+    "text": "Conditions for Reproducibility\nTo achieve reproducibility, we need to control several factors:",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Why workflow?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/workflow.html#conditions-for-reproducibility",
+    "href": "chapters/workflow.html#conditions-for-reproducibility",
+    "title": "Why workflow?",
+    "section": "",
+    "text": "Data: Use the exact same data. This often means versioning your data or ensuring it’s immutable.\nCode: Every data wrangling step and output (summaries, plots, analyses) must be generated via code, executed in the same sequence. No manual tweaks!\nEnvironment: This is crucial. You need the same version of R, and critically, the same versions of all the R packages you used. Different package versions can behave differently, leading to different results.\n\nTechnical methods to keep the environment the same (as much as possible): dependencies lockfiles, Docker containers, fixed random seeds.\n\nVersion Control: Keeping track of changes to your data, code, and environment configurations. (We’ll dive deeper into this next week with Git!)",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Why workflow?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/workflow.html#conditions-for-reusability-brief-introduction",
+    "href": "chapters/workflow.html#conditions-for-reusability-brief-introduction",
+    "title": "Why workflow?",
+    "section": "Conditions for Reusability (Brief Introduction)",
+    "text": "Conditions for Reusability (Brief Introduction)\nFor reusability, we focus on flexibility and adaptability:\n\nUnderstandable Code: Well-documented, commented, and clearly structured so you know where to tweak it for different inputs.\nHandles Altered Inputs: Your code should reliably process new data, ideally with checks and conditions to flag unexpected inputs.\nEnvironment: Able to behave as intended across a broad range of environments (e.g., minimal package requirements, compatible with many package versions).\n\nQuick comparison of these two concepts:\n\n\n\n\n\n\n\n\nFeature\nReproducible Workflow\nReusable Workflow\n\n\n\n\nData\nIdentical data (versioned, locked, immutable).\nNew/altered data (validated upon entry).\n\n\nCode\nStrict execution order, hardcoded random seeds.\nModular, heavily parameterized, well-documented.\n\n\nEnvironment\nStrictly locked down to the exact patch version.\nBroadly compatible across a wide range of versions.\n\n\n\nWe’ll focus on reproducibility today, and then next week we’ll really dig into the hands-on aspects of making things reusable.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>Why workflow?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html",
+    "href": "chapters/renv.html",
+    "title": "Environment Management in R",
+    "section": "",
+    "text": "Step 0: Start a New RStudio Project\nYou learned about RStudio Projects (.Rproj) back in Week 1. As a quick recap:\nWhy do we always start with a Project? Because it fixes your working directory to this folder, keeping all your files, data, and scripts self-contained. This is the same reason renv works on a per-project basis. Each project gets its own isolated package library, so projects never interfere with each other.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-0-start-a-new-rstudio-project",
+    "href": "chapters/renv.html#step-0-start-a-new-rstudio-project",
+    "title": "Environment Management in R",
+    "section": "",
+    "text": "In RStudio, go to File → New Project → New Directory → New Project.\nName it something like week3-renv-practice, and choose a location on your computer.\nClick Create Project. RStudio will reopen in this new project, and you’ll see a week3-renv-practice.Rproj file in your file pane.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-1-install-and-initialize-renv",
+    "href": "chapters/renv.html#step-1-install-and-initialize-renv",
+    "title": "Environment Management in R",
+    "section": "Step 1: Install and Initialize renv",
+    "text": "Step 1: Install and Initialize renv\nIf you don’t already have renv installed, install it once (this is the only package you install the “normal” way for this exercise):\ninstall.packages(\"renv\")\nNow, inside your new project, initialize renv:\nrenv::init()\nWhat just happened? Check your file pane. You should now see:\n\nA new renv/ folder (this stores the project’s private package library).\nA renv.lock file (currently a near-empty lockfile).\nA .Rprofile file has been created or updated. This is what automatically activates renv every time you open this project. You may see a message asking renv to scan your project for package dependencies. Since your project is empty right now, it likely won’t find anything yet.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-2-install-some-packages-and-write-some-code",
+    "href": "chapters/renv.html#step-2-install-some-packages-and-write-some-code",
+    "title": "Environment Management in R",
+    "section": "Step 2: Install Some Packages and Write Some Code",
+    "text": "Step 2: Install Some Packages and Write Some Code\nLet’s simulate a real workflow. Install a couple of packages you’d normally use:\ninstall.packages(c(\"dplyr\", \"ggplot2\"))\nCreate a new R script called analysis.R in your project, and add a few lines that use these packages:\nlibrary(dplyr)\nlibrary(ggplot2)\n\n# A tiny example dataset\ndf &lt;- data.frame(\n  group = c(\"A\", \"A\", \"B\", \"B\"),\n  value = c(10, 15, 20, 25)\n)\n\nsummary_df &lt;- df %&gt;%\n  group_by(group) %&gt;%\n  summarise(mean_value = mean(value))\n\nprint(summary_df)\n\nggplot(df, aes(x = group, y = value)) +\n  geom_boxplot()\nRun the script (Ctrl/Cmd + Shift + S or source it line-by-line) to make sure it works.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-3-take-your-first-snapshot",
+    "href": "chapters/renv.html#step-3-take-your-first-snapshot",
+    "title": "Environment Management in R",
+    "section": "Step 3: Take Your First Snapshot",
+    "text": "Step 3: Take Your First Snapshot\nNow that you’ve installed packages and written code that uses them, “snapshot” your environment. This tells renv to record the exact versions of dplyr, ggplot2, and their dependencies into renv.lock:\nrenv::snapshot()\nrenv will scan your project files, detect which packages are actually used in your code, and ask you to confirm before writing to the lockfile. Type y and press Enter.\nOpen renv.lock (it’s a plain text/JSON file) and take a look. You’ll see entries like this for each package:\n\"dplyr\": {\n  \"Package\": \"dplyr\",\n  \"Version\": \"1.1.4\",\n  \"Source\": \"Repository\",\n  \"Repository\": \"CRAN\"\n}\nThis is your “receipt” of exactly which package versions your analysis depends on.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-4-update-your-snapshot",
+    "href": "chapters/renv.html#step-4-update-your-snapshot",
+    "title": "Environment Management in R",
+    "section": "Step 4: Update Your Snapshot",
+    "text": "Step 4: Update Your Snapshot\nWorkflows evolve. Let’s add one more package and update the lockfile accordingly.\ninstall.packages(\"tidyr\")\nAdd a line to analysis.R that uses it. (It doesn’t need to do anything meaningful. This is just practice):\nlibrary(tidyr)\nSave the script, then snapshot again:\nrenv::snapshot()\nCheck renv.lock again. you should now see tidyr added to the file alongside dplyr and ggplot2.\nCheckpoint: Every time you add, remove, or update a package your project depends on, you should re-run renv::snapshot() to keep the lockfile in sync with reality.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-5-close-the-session",
+    "href": "chapters/renv.html#step-5-close-the-session",
+    "title": "Environment Management in R",
+    "section": "Step 5: Close the Session",
+    "text": "Step 5: Close the Session\nNow, fully close RStudio (not just the project). Quit the application entirely. This simulates what happens when you come back to a project days or weeks later, or hand it off to someone else.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/renv.html#step-6-reopen-and-restore",
+    "href": "chapters/renv.html#step-6-reopen-and-restore",
+    "title": "Environment Management in R",
+    "section": "Step 6: Reopen and Restore",
+    "text": "Step 6: Reopen and Restore\nReopen RStudio by double-clicking the .Rproj file. Because of the .Rprofile that renv::init() set up, renv will automatically activate for this project. You may see a message in the console about renv being active.\nTo restore the exact package versions recorded in renv.lock, run:\nrenv::restore()\nrenv will compare the lockfile against your project’s private library and install anything that’s missing or mismatched. Since nothing has changed, it will likely report that the library is already in sync.\nTry this: To really see renv::restore() in action, manually delete the renv/library folder inside your project folder (not the whole renv/ folder, just library), then run renv::restore() again. Watch as it reinstalls the exact versions listed in renv.lock from scratch.\n\nYou now have a project where:\nrenv.lock is a precise, shareable record of every package version your analysis depends on. Anyone who receives your project folder (including the renv.lock file) can run renv::restore() and get the exact same package environment.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>Environment Management in R</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-workflow.html",
+    "href": "chapters/reproducible-workflow.html",
+    "title": "Building Your First Workflow",
+    "section": "",
+    "text": "Now it’s your turn!\n\nExercise 3.1:\nRevise the R script you wrote in week 2 such that it becomes a reproducible workflow. This means:\n\nStart a new RStudio Project for this week’s work.\nInitialize renv in your new project using renv::init().\nCopy your Week 2 R script (Exercise 2.2) into this new project.\nEnsure your script runs from start to finish without errors, covering data import, wrangling, summary, analysis, and visualization.\nSnapshot your renv environment using renv::snapshot() once your script is finalized and all necessary packages are installed.\nPair with a friend in class. Share your project folder (or just the .R, renv.lock, and .Rprofile files).\nYour friend should open your project, run renv::restore(), and then try running your R script.\nIs it reproducible? Did they get the exact same outputs? Discuss any differences and improve your script and renv setup as per your peer’s feedback.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>Building Your First Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html",
+    "href": "chapters/reproducible-report.html",
+    "title": "From Workflow to Reproducible Report",
+    "section": "",
+    "text": "Do I Need to Install Quarto?\nIf you’re using a reasonably recent version of RStudio (2022.07 or later), Quarto is already bundled in. You don’t need to install anything separately. You can check by typing the following into your Console:\nIf this returns a version number (e.g., 1.4.x), you’re good to go. If you get an error saying the package isn’t found, install it once with:",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html#do-i-need-to-install-quarto",
+    "href": "chapters/reproducible-report.html#do-i-need-to-install-quarto",
+    "title": "From Workflow to Reproducible Report",
+    "section": "",
+    "text": "quarto::quarto_version()\n\ninstall.packages(\"quarto\")",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html#a-quick-primer-on-markdown-syntax",
+    "href": "chapters/reproducible-report.html#a-quick-primer-on-markdown-syntax",
+    "title": "From Workflow to Reproducible Report",
+    "section": "A Quick Primer on Markdown Syntax",
+    "text": "A Quick Primer on Markdown Syntax\nBefore we look at .qmd files, you need to know Markdown, a simple way to format plain text using symbols instead of buttons (like you would in Word). You’ve likely never used it before, so here’s everything you need for this exercise:\n\n\nWhat you type\nWhat it becomes\n\n\n\n# Heading 1\nA large heading\n\n\n## Heading 2\nA smaller heading\n\n\n**bold text**\nbold text\n\n\n*italic text*\nitalic text\n\n\n\n- item or * item\n\nA bullet point\n\n\n1. item\nA numbered list item\n\n\n`code`\ninline code font\n\n\n\nThat’s it. Markdown is just plain text with a few symbols sprinkled in. Quarto reads this and converts it into nicely formatted text in your final report.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html#how-quarto-works",
+    "href": "chapters/reproducible-report.html#how-quarto-works",
+    "title": "From Workflow to Reproducible Report",
+    "section": "How Quarto Works",
+    "text": "How Quarto Works\nA Quarto document (a .qmd file) is a plain text file that blends narrative text (written in Markdown) with executable code chunks (e.g. R). When you “render” a .qmd file, Quarto executes the code, embeds the results (tables, plots, etc.) directly into your document, and converts it into your desired output format (like HTML, PDF, or Word).\nA .qmd file has four key components:\n1. YAML Header\nLocated at the very top of the file, enclosed by --- on both sides. It contains metadata like title, author, date, and format (e.g., html, pdf). This tells Quarto what kind of document to produce and how to label it.\n2. Code Chunks\nBlocks of executable R code, enclosed in triple backticks with curly braces specifying the language, like this:\n```{r}\n1 + 1\n```\nYou can add options inside the curly braces to control how the chunk behaves, for example:\n\n\n{r} — a standard, visible code chunk.\n\n{r, echo=FALSE} — runs the code but hides the code itself in the report (only shows the output).\n\n{r, eval=FALSE} — shows the code but does not run it.\n3. Text\nNarrative content written using the Markdown syntax above. This is where you explain your analysis, interpret results, and provide context (just like you would write in a lab report), but interwoven directly with your code and results.\n4. Inline Code\nSmall snippets of R code embedded directly within a sentence of text, using a single backtick followed by r (see example below). This lets you report a single computed value (like a mean or p-value) directly in your sentence, so it updates automatically if your data changes.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html#example-a-minimal-.qmd-file",
+    "href": "chapters/reproducible-report.html#example-a-minimal-.qmd-file",
+    "title": "From Workflow to Reproducible Report",
+    "section": "Example: A Minimal .qmd File",
+    "text": "Example: A Minimal .qmd File\nBelow is a short, complete example containing all four components. Create a new file in RStudio (File → New File → Quarto Document, or just a plain text file saved with a .qmd extension) and paste this in:\n\n---\ntitle: \"My First Quarto Report\"\nauthor: \"Your Name\"\ndate: \"2026-10-10\"\nformat: html\n---\n\n## Introduction\n\nThis report summarises a small example dataset to demonstrate how Quarto combines **code**, **text**, and *results* in one document.\n\n## The Data\n\n```{r}\ndf = data.frame(\n  group = c(\"A\", \"A\", \"B\", \"B\"),\n  value = c(10, 15, 20, 25)\n)\n\ndf\n```\n\n## Summary\n\n```{r}\navg_value = mean(df$value)\navg_value\n```\n\nThe average value across all groups is `r avg_value`. This sentence used **inline code** to insert that number automatically.\n\n## Visualization\n\n```{r}\nplot(df$group, df$value, main = \"Value by Group\")\n```",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/reproducible-report.html#rendering-a-.qmd-file",
+    "href": "chapters/reproducible-report.html#rendering-a-.qmd-file",
+    "title": "From Workflow to Reproducible Report",
+    "section": "Rendering a .qmd File",
+    "text": "Rendering a .qmd File\nSave your .qmd file and turn it into a finished report:\n\nEnsure the .qmd file is open in RStudio (appear in the Source pane).\nLook at the top of that pane. You’ll see a toolbar with a blue arrow icon and the word Render next to it (it’s a button, not a menu item). Click it.\n\nAlternatively, use the keyboard shortcut Ctrl + Shift + K (Windows) or Cmd + Shift + K (Mac).\n\n\nRStudio will run all the code chunks in order, then open a preview of your finished report (by default, in the Viewer pane, or in a separate window).\nCheck your project folder. You’ll find a new .html file with the same name as your .qmd file. This is the rendered report.\n\nTip: If rendering fails, RStudio will show you an error message in the Render tab at the bottom, usually pointing to the exact line and code chunk that caused the problem. Fix the code chunk, save, and click Render again.\nNotice how the final rendered report will show your data table, the computed average written directly into a sentence, and a plot — all generated live from the code, not typed in by hand.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   }
 ]

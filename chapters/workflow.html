@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>From code to workflow – Public health coding with R</title>
+
+
+<title>Why workflow? – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -26,7 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/apply.html" rel="next">
+<link href="../chapters/renv.html" rel="next">
 <link href="../chapters/quiz-2.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -37,7 +41,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -63,25 +68,35 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 </head>
+
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/workflow.html">3 - Code to workflow</a></li><li class="breadcrumb-item"><a href="../chapters/workflow.html"><span class="chapter-title">From code to workflow</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/workflow.html">3 - Code to workflow</a></li><li class="breadcrumb-item"><a href="../chapters/workflow.html"><span class="chapter-title">Why workflow?</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Public health coding with R</a> 
         <div class="sidebar-tools-main">
@@ -101,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
@@ -114,8 +129,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/feel-home.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Feeling at home with R</span></a>
   </div>
@@ -146,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -155,8 +170,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
@@ -177,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
@@ -186,14 +201,29 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">From code to workflow</span></a>
+  <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Why workflow?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/renv.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment Management in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/reproducible-workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Building Your First Workflow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/reproducible-report.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Workflow to Reproducible Report</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -202,14 +232,14 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/apply.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world public health analytical workflows</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -218,24 +248,35 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/assist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#conditions-for-reproducibility" id="toc-conditions-for-reproducibility" class="nav-link active" data-scroll-target="#conditions-for-reproducibility">Conditions for Reproducibility</a></li>
+  <li><a href="#conditions-for-reusability-brief-introduction" id="toc-conditions-for-reusability-brief-introduction" class="nav-link" data-scroll-target="#conditions-for-reusability-brief-introduction">Conditions for Reusability (Brief Introduction)</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/workflow.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/workflow.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/workflow.html">3 - Code to workflow</a></li><li class="breadcrumb-item"><a href="../chapters/workflow.html"><span class="chapter-title">From code to workflow</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="workflow" class="quarto-section-identifier"><span class="chapter-title">From code to workflow</span></span></h1>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/workflow.html">3 - Code to workflow</a></li><li class="breadcrumb-item"><a href="../chapters/workflow.html"><span class="chapter-title">Why workflow?</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="workflow" class="quarto-section-identifier"><span class="chapter-title">Why workflow?</span></span></h1>
 </div>
 
 
@@ -252,7 +293,72 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<p>Welcome back! So far, we’ve learned the building blocks of data analysis in R: data import, wrangling, plotting, statistical tests, and basic analytics like regression. Today, we’re going to elevate our R skills from individual tasks to complete, reliable workflows.</p>
+<p>A workflow is simply a series of steps, from start-to-finish, that takes raw data and transforms it into insights or reports. We aim for two key qualities in our workflows: <strong>reproducibility</strong> and <strong>reusability</strong>.</p>
+<ul>
+<li><p><strong>Reproducible Workflow:</strong> This means you can recreate <em>identical</em> outcomes using the identical data, code, and environments. Why is this critical? For verification, trust in results, and ensuring scientific integrity. If someone else (or even you, six months later) can’t get the same numbers from the same inputs, your analysis isn’t trustworthy.</p></li>
+<li><p><strong>Reusable Workflow:</strong> This means your workflow is designed to be repurposed, modularized, or applied to different datasets and new contexts. Why is this important? To avoid reinventing the wheel, save time, and scale your analyses efficiently.</p></li>
+</ul>
+<section id="conditions-for-reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="conditions-for-reproducibility">Conditions for Reproducibility</h2>
+<p>To achieve reproducibility, we need to control several factors:</p>
+<ul>
+<li><strong>Data:</strong> Use the exact same data. This often means versioning your data or ensuring it’s immutable.</li>
+<li><strong>Code:</strong> Every data wrangling step and output (summaries, plots, analyses) must be generated via code, executed in the same sequence. No manual tweaks!</li>
+<li><strong>Environment:</strong> This is crucial. You need the same version of R, and critically, the same versions of all the R packages you used. Different package versions can behave differently, leading to different results.
+<ul>
+<li>Technical methods to keep the environment the same (as much as possible): <em>dependencies lockfiles</em>, Docker containers, fixed random seeds.</li>
+</ul></li>
+<li><strong>Version Control:</strong> Keeping track of changes to your data, code, and environment configurations. (We’ll dive deeper into this next week with Git!)</li>
+</ul>
+</section>
+<section id="conditions-for-reusability-brief-introduction" class="level2">
+<h2 class="anchored" data-anchor-id="conditions-for-reusability-brief-introduction">Conditions for Reusability (Brief Introduction)</h2>
+<p>For reusability, we focus on flexibility and adaptability:</p>
+<ul>
+<li><strong>Understandable Code:</strong> Well-documented, commented, and clearly structured so you know where to tweak it for different inputs.</li>
+<li><strong>Handles Altered Inputs:</strong> Your code should reliably process new data, ideally with checks and conditions to flag unexpected inputs.</li>
+<li><strong>Environment:</strong> Able to behave as intended across a broad range of environments (e.g., minimal package requirements, compatible with many package versions).</li>
+</ul>
+<p>Quick comparison of these two concepts:</p>
+<table class="table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;"><strong>Reproducible Workflow</strong></th>
+<th style="text-align: left;"><strong>Reusable Workflow</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Data</strong></td>
+<td style="text-align: left;">Identical data (versioned, locked, immutable).</td>
+<td style="text-align: left;">New/altered data (validated upon entry).</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Code</strong></td>
+<td style="text-align: left;">Strict execution order, hardcoded random seeds.</td>
+<td style="text-align: left;">Modular, heavily parameterized, well-documented.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Environment</strong></td>
+<td style="text-align: left;"><strong>Strictly locked</strong> down to the exact patch version.</td>
+<td style="text-align: left;"><strong>Broadly compatible</strong> across a wide range of versions.</td>
+</tr>
+</tbody>
+</table>
+<p>We’ll focus on reproducibility today, and then next week we’ll really dig into the hands-on aspects of making things reusable.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -710,33 +816,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="../chapters/quiz-2.html" class="pagination-link" aria-label="Quiz 2">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Quiz 2</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/apply.html" class="pagination-link" aria-label="Real-world public health analytical workflows">
-        <span class="nav-page-text"><span class="chapter-title">Real-world public health analytical workflows</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/renv.html" class="pagination-link" aria-label="Environment Management in R">
+        <span class="nav-page-text"><span class="chapter-title">Environment Management in R</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <div class="footer-logos">
-<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"><img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
+<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"> <img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
 </div>
 <p>Released under the <a href="https://github.com/CERM-NUS/r-intro/blob/main/LICENSE">MIT Licence</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/workflow.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/workflow.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/workflow.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/workflow.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>

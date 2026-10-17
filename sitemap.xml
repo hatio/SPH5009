@@ -30,7 +30,7 @@
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/stats.html</loc>
-    <lastmod>2026-09-14T07:43:42.315Z</lastmod>
+    <lastmod>2026-10-10T03:27:34.516Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/regression.html</loc>
@@ -46,7 +46,19 @@
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/workflow.html</loc>
-    <lastmod>2026-09-08T06:04:03.155Z</lastmod>
+    <lastmod>2026-10-10T05:26:29.641Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/renv.html</loc>
+    <lastmod>2026-10-10T06:10:30.585Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/reproducible-workflow.html</loc>
+    <lastmod>2026-10-10T06:11:44.159Z</lastmod>
+  </url>
+  <url>
+    <loc>https://hatio.github.io/SPH5009/chapters/reproducible-report.html</loc>
+    <lastmod>2026-10-10T07:06:08.640Z</lastmod>
   </url>
   <url>
     <loc>https://hatio.github.io/SPH5009/chapters/apply.html</loc>

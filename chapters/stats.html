@@ -223,7 +223,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
 <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From code to workflow</span></a>
+  <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Why workflow?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/renv.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Environment Management in R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/reproducible-workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Building Your First Workflow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/reproducible-report.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">From Workflow to Reproducible Report</span></a>
   </div>
 </li>
       </ul>
@@ -347,9 +362,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <ul>
 <li>
-<strong><code><a href="https://rdrr.io/r/stats/cor.html">cov()</a></code></strong> tells you whether two numeric variables tend to move together (positive), move in opposite directions (negative), or show no clear linear relationship (close to zero). Its exact value is hard to interpret on its own because it depends on the units of your variables.</li>
+<strong><code><a href="https://rdrr.io/r/stats/cor.html">cov()</a></code></strong>, covariance, tells you whether two numeric variables tend to move together (positive), move in opposite directions (negative), or show no clear linear relationship (close to zero). Its exact value is hard to interpret on its own because it depends on the units of your variables.</li>
 <li>
-<strong><code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code></strong> standardises this idea into a value between -1 and 1, making it much easier to interpret and compare across variable pairs.</li>
+<strong><code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code></strong>, correlation, standardises this idea into a value between -1 and 1, making it much easier to interpret and compare across variable pairs.</li>
 </ul>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cov</a></span><span class="op">(</span><span class="va">viz_data</span><span class="op">$</span><span class="va">height</span>, <span class="va">viz_data</span><span class="op">$</span><span class="va">weight</span><span class="op">)</span></span>
