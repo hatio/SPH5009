@@ -1,0 +1,167 @@
+# From Workflow to Reproducible Report
+
+You've got all your outputs (summaries, analysis results, plots) in your R script, but you still have to put them into a report. Wouldn't it be great if the report was generated *together* with the outputs? This assures that the outputs in the report are truly generated from the code, not manually copied and pasted.
+
+We'll use **Quarto** for this. Quarto is a modern scientific and technical publishing system that allows you to combine narrative text with code to create dynamic reports, presentations, websites, and more. It's a powerful evolution of R Markdown, offering more flexibility and modern features.
+
+## Do I Need to Install Quarto?
+
+If you're using a reasonably recent version of RStudio (2022.07 or later), **Quarto is already bundled in. You don't need to install anything separately.** You can check by typing the following into your Console:
+
+```r
+quarto::quarto_version()
+```
+
+If this returns a version number (e.g., `1.4.x`), you're good to go. If you get an error saying the package isn't found, install it once with:
+
+```r
+install.packages("quarto")
+```
+
+## A Quick Primer on Markdown Syntax
+
+Before we look at `.qmd` files, you need to know **Markdown,** a simple way to format plain text using symbols instead of buttons (like you would in Word). You've likely never used it before, so here's everything you need for this exercise:
+
+| What you type | What it becomes |
+| :--- | :--- |
+| `# Heading 1` | A large heading |
+| `## Heading 2` | A smaller heading |
+| `**bold text**` | **bold text** |
+| `*italic text*` | *italic text* |
+| `- item` or `* item` | A bullet point |
+| `1. item` | A numbered list item |
+| `` `code` `` | `inline code font` |
+
+That's it. Markdown is just plain text with a few symbols sprinkled in. Quarto reads this and converts it into nicely formatted text in your final report.
+
+## How Quarto Works
+
+A Quarto document (a `.qmd` file) is a plain text file that blends narrative text (written in Markdown) with executable code chunks (e.g. R). When you "render" a `.qmd` file, Quarto executes the code, embeds the results (tables, plots, etc.) directly into your document, and converts it into your desired output format (like HTML, PDF, or Word).
+
+A `.qmd` file has four key components:
+
+### 1. YAML Header
+
+Located at the very top of the file, enclosed by `---` on both sides. It contains metadata like `title`, `author`, `date`, and `format` (e.g., `html`, `pdf`). This tells Quarto what kind of document to produce and how to label it.
+
+### 2. Code Chunks
+
+Blocks of executable R code, enclosed in triple backticks with curly braces specifying the language, like this:
+
+````text
+```{{r}}
+1 + 1
+```
+````
+
+You can add options inside the curly braces to control how the chunk behaves, for example:
+
+- `{r}` — a standard, visible code chunk.
+- `{r, echo=FALSE}` — runs the code but hides the code itself in the report (only shows the output).
+- `{r, eval=FALSE}` — shows the code but does *not* run it.
+
+### 3. Text
+
+Narrative content written using the Markdown syntax above. This is where you explain your analysis, interpret results, and provide context (just like you would write in a lab report), but interwoven directly with your code and results.
+
+### 4. Inline Code
+
+Small snippets of R code embedded directly within a sentence of text, using a single backtick followed by `r` (see example below). This lets you report a single computed value (like a mean or p-value) directly in your sentence, so it updates automatically if your data changes.
+
+
+## Example: A Minimal `.qmd` File
+
+Below is a short, complete example containing all four components. Create a new file in RStudio (**File → New File → Quarto Document**, or just a plain text file saved with a `.qmd` extension) and paste this in:
+
+````{markdown, eval = FALSE}
+---
+title: "My First Quarto Report"
+author: "Your Name"
+date: "2026-10-10"
+format: html
+---
+
+## Introduction
+
+This report summarises a small example dataset to demonstrate how Quarto combines **code**, **text**, and *results* in one document.
+
+## The Data
+
+```{r}
+df = data.frame(
+  group = c("A", "A", "B", "B"),
+  value = c(10, 15, 20, 25)
+)
+
+df
+```
+
+## Summary
+
+```{r}
+avg_value = mean(df$value)
+avg_value
+```
+
+The average value across all groups is `r avg_value`. This sentence used **inline code** to insert that number automatically.
+
+## Visualization
+
+```{r}
+plot(df$group, df$value, main = "Value by Group")
+```
+````
+
+## Rendering a `.qmd` File
+
+Save your `.qmd` file and turn it into a finished report:
+
+1. Ensure the `.qmd` file is open in RStudio (appear in the **Source** pane).
+2. Look at the top of that pane. You'll see a toolbar with a blue arrow icon and the word **Render** next to it (it's a button, not a menu item). Click it.
+   - Alternatively, use the keyboard shortcut `Ctrl + Shift + K` (Windows) or `Cmd + Shift + K` (Mac).
+3. RStudio will run all the code chunks in order, then open a preview of your finished report (by default, in the **Viewer** pane, or in a separate window).
+4. Check your project folder. You'll find a new `.html` file with the same name as your `.qmd` file. This is the rendered report.
+
+**Tip:** If rendering fails, RStudio will show you an error message in the **Render** tab at the bottom, usually pointing to the exact line and code chunk that caused the problem. Fix the code chunk, save, and click **Render** again.
+
+Notice how the final rendered report will show your data table, the computed average written directly into a sentence, and a plot — all generated live from the code, not typed in by hand.
+
+
+# Graded Exercise
+
+::: {.exercise}
+**Exercise 3.3 (Graded, see rubric):**
+
+Turn your R script workflow from Exercise 3.1 into a Quarto (`.qmd`) file and generate your first Quarto report.
+
+**Your `.qmd` file must include all four components discussed:**
+
+1.  **YAML Header:** With at least `title`, `author`, `date`, and `format: html`.
+2.  **Code Chunks:** All your R code (import, wrangle, summary, analysis, visualize) should be in separate, well-organized code chunks.
+3.  **Text:** Add narrative text using Markdown to explain each section of your analysis.
+4.  **Inline Code:** Use at least one piece of inline R code to report a key value (e.g., a mean, a p-value) directly in your text.
+
+Render your `.qmd` file to an HTML report. Pair with a classmate to ensure your `.qmd` runs and renders correctly before submitting to Canvas.
+:::
+
+Submit both the **Quarto markdown file (Qmd)** and the **generated HTML file** to *Canvas (Assignment: Workflow)* before **5pm of October 30, 2026**. Use the following file naming convention:
+
+- `Workflow_[NUS_ID].Qmd`
+- `Workflow_[NUS_ID].html`
+
+::: {.exercise}
+**Rubric (4 points total)**
+
+- All four sections present in Qmd file (1 point total)
+    - YAML Header (0.25 point)
+    - Code Chunks (0.25 point)
+    - Text narrative (0.25 point)
+    - Inline Code (0.25 point)
+- Qmd can be re-rendered without error (1 point maximum)
+    - 0.1 point deducted per error encountered
+- Rendering the Qmd generates an HTML file (1 point)
+    - Point awarded only if rendering the submitted Qmd successfully produces an html file
+- Content in the newly generated HTML file matches the submitted HTML file (1 point)
+    - Full credit (1 point) if the content is identical
+    - Partial credit (0.5 point) if the two differ
+:::

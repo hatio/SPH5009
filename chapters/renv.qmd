@@ -1,0 +1,144 @@
+# Environment Management in R {#renv}
+
+Ensuring the *same environment* is a key condition for reproducibility, but how? If you share your R script with a colleague, and they have a different version of `dplyr` installed, your code might break. Or worse, produce slightly different results without you knowing!
+
+`renv` (R environment) is an R package that helps you create isolated, project-specific R environments. It creates a **lockfile** that records the exact versions of every package your project uses, so anyone (including future-you) can recreate that exact setup.
+
+Follow the steps below on your own machine. **Work through them in order.** Each step builds on the previous one.
+
+## Step 0: Start a New RStudio Project
+
+You learned about RStudio Projects (`.Rproj`) back in Week 1. As a quick recap:
+
+1. In RStudio, go to **File → New Project → New Directory → New Project**.
+2. Name it something like `week3-renv-practice`, and choose a location on your computer.
+3. Click **Create Project**. RStudio will reopen in this new project, and you'll see a `week3-renv-practice.Rproj` file in your file pane.
+
+Why do we always start with a Project? Because it fixes your **working directory** to this folder, keeping all your files, data, and scripts self-contained. This is the same reason `renv` works on a *per-project* basis. Each project gets its own isolated package library, so projects never interfere with each other.
+
+## Step 1: Install and Initialize `renv`
+
+If you don't already have `renv` installed, install it once (this is the only package you install the "normal" way for this exercise):
+
+```r
+install.packages("renv")
+```
+
+Now, inside your new project, initialize `renv`:
+
+```r
+renv::init()
+```
+
+What just happened? Check your file pane. You should now see:
+
+- A new `renv/` folder (this stores the project's private package library).
+- A `renv.lock` file (currently a near-empty lockfile).
+- A `.Rprofile` file has been created or updated. This is what automatically activates `renv` every time you open this project.
+You may see a message asking `renv` to scan your project for package dependencies. Since your project is empty right now, it likely won't find anything yet.
+
+## Step 2: Install Some Packages and Write Some Code
+
+Let's simulate a real workflow. Install a couple of packages you'd normally use:
+
+```r
+install.packages(c("dplyr", "ggplot2"))
+```
+
+Create a new R script called `analysis.R` in your project, and add a few lines that use these packages:
+
+```r
+library(dplyr)
+library(ggplot2)
+
+# A tiny example dataset
+df <- data.frame(
+  group = c("A", "A", "B", "B"),
+  value = c(10, 15, 20, 25)
+)
+
+summary_df <- df %>%
+  group_by(group) %>%
+  summarise(mean_value = mean(value))
+
+print(summary_df)
+
+ggplot(df, aes(x = group, y = value)) +
+  geom_boxplot()
+```
+
+Run the script (**Ctrl/Cmd + Shift + S** or source it line-by-line) to make sure it works.
+
+## Step 3: Take Your First Snapshot
+
+Now that you've installed packages and written code that uses them, "snapshot" your environment. This tells `renv` to record the exact versions of dplyr, ggplot2, and their dependencies into renv.lock:
+
+```r
+renv::snapshot()
+```
+
+renv will scan your project files, detect which packages are actually used in your code, and ask you to confirm before writing to the lockfile. Type `y` and press Enter.
+
+Open `renv.lock` (it's a plain text/JSON file) and take a look. You'll see entries like this for each package:
+
+```json
+"dplyr": {
+  "Package": "dplyr",
+  "Version": "1.1.4",
+  "Source": "Repository",
+  "Repository": "CRAN"
+}
+```
+
+This is your "receipt" of exactly which package versions your analysis depends on.
+
+
+## Step 4: Update Your Snapshot
+
+Workflows evolve. Let's add one more package and update the lockfile accordingly.
+
+```r
+install.packages("tidyr")
+```
+
+Add a line to `analysis.R` that uses it. (It doesn't need to do anything meaningful. This is just practice):
+
+```r
+library(tidyr)
+```
+
+Save the script, then snapshot again:
+
+```r
+renv::snapshot()
+```
+
+Check `renv.lock` again. you should now see tidyr added to the file alongside dplyr and ggplot2.
+
+**Checkpoint:** Every time you add, remove, or update a package your project depends on, you should re-run `renv::snapshot()` to keep the lockfile in sync with reality.
+
+
+## Step 5: Close the Session
+
+Now, fully close RStudio (not just the project). Quit the application entirely. This simulates what happens when you come back to a project days or weeks later, or hand it off to someone else.
+
+## Step 6: Reopen and Restore
+
+Reopen RStudio by double-clicking the `.Rproj` file. Because of the `.Rprofile` that `renv::init()` set up, `renv` will automatically activate for this project. You may see a message in the console about renv being active.
+
+To restore the exact package versions recorded in `renv.lock`, run:
+
+```r
+renv::restore()
+```
+
+`renv` will compare the lockfile against your project's private library and install anything that's missing or mismatched. Since nothing has changed, it will likely report that the library is already in sync.
+
+**Try this:** To really see `renv::restore()` in action, manually delete the `renv/library` folder inside your project folder (not the whole `renv/` folder, just `library`), then run `renv::restore()` again. Watch as it reinstalls the exact versions listed in `renv.lock` from scratch.
+
+---
+
+You now have a project where:
+
+`renv.lock` is a precise, shareable record of every package version your analysis depends on.
+Anyone who receives your project folder (including the `renv.lock` file) can run `renv::restore()` and get the exact same package environment. 

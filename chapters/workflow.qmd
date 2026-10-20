@@ -1,7 +1,39 @@
-# From code to workflow {#workflow}
+# Why workflow? {#workflow}
 
-```{r}
-#| label: setup
-#| include: false
-source("_common.R")
-```
+Welcome back! So far, we've learned the building blocks of data analysis in R: data import, wrangling, plotting, statistical tests, and basic analytics like regression. Today, we're going to elevate our R skills from individual tasks to complete, reliable workflows.
+
+A workflow is simply a series of steps, from start-to-finish, that takes raw data and transforms it into insights or reports.
+We aim for two key qualities in our workflows: **reproducibility** and **reusability**.
+
+*   **Reproducible Workflow:** This means you can recreate *identical* outcomes using the identical data, code, and environments. Why is this critical? For verification, trust in results, and ensuring scientific integrity. If someone else (or even you, six months later) can't get the same numbers from the same inputs, your analysis isn't trustworthy.
+
+*   **Reusable Workflow:** This means your workflow is designed to be repurposed, modularized, or applied to different datasets and new contexts. Why is this important? To avoid reinventing the wheel, save time, and scale your analyses efficiently.
+
+
+## Conditions for Reproducibility
+
+To achieve reproducibility, we need to control several factors:
+
+*   **Data:** Use the exact same data. This often means versioning your data or ensuring it's immutable.
+*   **Code:** Every data wrangling step and output (summaries, plots, analyses) must be generated via code, executed in the same sequence. No manual tweaks!
+*   **Environment:** This is crucial. You need the same version of R, and critically, the same versions of all the R packages you used. Different package versions can behave differently, leading to different results.
+    *   Technical methods to keep the environment the same (as much as possible): *dependencies lockfiles*, Docker containers, fixed random seeds.
+*   **Version Control:** Keeping track of changes to your data, code, and environment configurations. (We'll dive deeper into this next week with Git!)
+
+## Conditions for Reusability (Brief Introduction)
+
+For reusability, we focus on flexibility and adaptability:
+
+*   **Understandable Code:** Well-documented, commented, and clearly structured so you know where to tweak it for different inputs.
+*   **Handles Altered Inputs:** Your code should reliably process new data, ideally with checks and conditions to flag unexpected inputs.
+*   **Environment:** Able to behave as intended across a broad range of environments (e.g., minimal package requirements, compatible with many package versions).
+
+Quick comparison of these two concepts:
+
+| Feature | **Reproducible Workflow** | **Reusable Workflow** |
+| :--- | :--- | :--- |
+| **Data** | Identical data (versioned, locked, immutable). | New/altered data (validated upon entry). |
+| **Code** | Strict execution order, hardcoded random seeds. | Modular, heavily parameterized, well-documented. |
+| **Environment** | **Strictly locked** down to the exact patch version. | **Broadly compatible** across a wide range of versions. |
+
+We'll focus on reproducibility today, and then next week we'll really dig into the hands-on aspects of making things reusable.

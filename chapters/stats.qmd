@@ -49,11 +49,11 @@ quantile(viz_data$bmi)
 sd(viz_data$bmi)
 ```
 
-- **`cov()`** tells you whether two numeric variables tend to move
+- **`cov()`**, covariance, tells you whether two numeric variables tend to move
   together (positive), move in opposite directions (negative), or show no
   clear linear relationship (close to zero). Its exact value is hard to
   interpret on its own because it depends on the units of your variables.
-- **`cor()`** standardises this idea into a value between -1 and 1, making
+- **`cor()`**, correlation, standardises this idea into a value between -1 and 1, making
   it much easier to interpret and compare across variable pairs.
 
 ```{r}

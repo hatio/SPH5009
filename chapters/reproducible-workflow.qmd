@@ -1,0 +1,15 @@
+# Building Your First Workflow
+
+Now it's your turn!
+
+::: {.exercise}
+**Exercise 3.1:**
+
+Revise the R script you wrote in week 2 such that it becomes a reproducible workflow. This means:
+
+1.  **Start a new RStudio Project** for this week's work.
+2.  **Initialize `renv`** in your new project using `renv::init()`.
+3.  **Copy your Week 2 R script (Exercise 2.2)** into this new project.
+4.  **Ensure your script runs from start to finish** without errors, covering data import, wrangling, summary, analysis, and visualization.
+5.  **Snapshot your `renv` environment** using `renv::snapshot()` once your script is finalized and all necessary packages are installed.
+:::

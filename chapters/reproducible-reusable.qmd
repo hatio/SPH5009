@@ -1,0 +1,14 @@
+# Making Your Workflow Reusable
+
+Imagine your boss loves your report and asks you to generate a similar one for a *different* project or dataset. What would you do right now? You'd probably copy your `.qmd` file, change the data import line, and hope for the best.
+
+This is where reusability comes in. We want to design our code so that parts of it, or even the whole thing, can be easily adapted for new situations without extensive manual changes.
+
+*   **Reusing Parts (Component-level):** This is about making your code modular. Think of it like Lego bricks. Instead of rewriting the same data cleaning steps every time, you could put those steps into a **function**. A function is a self-contained unit of code that takes inputs and produces outputs. It's like a mini-program you can call whenever you need it.
+    *   *(Verbal: For example, if you always calculate BMI and categorize it, you could write a `calculate_bmi_category()` function. Then, in any project, you just call that function.)*
+    *   The key here is clear input/output interfaces and good documentation so you know what each "Lego brick" does.
+
+*   **End-to-End Reuse (Pipeline-level):** This is about making your entire report adaptable. Instead of hardcoding filenames, you might use parameters in your YAML header that let you easily swap out datasets.
+
+*(Verbal: We've just scratched the surface of reusability today. Next week, we'll dive much deeper into how to actually build these modular functions and how to use version control (Git and GitHub) to manage, share, and collaborate on reusable code effectively. For now, just keep this concept in mind as you look at your own code.)*
+
