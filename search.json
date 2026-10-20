@@ -475,10 +475,65 @@
     "href": "chapters/reproducible-workflow.html",
     "title": "Building Your First Workflow",
     "section": "",
-    "text": "Now it’s your turn!\n\nExercise 3.1:\nRevise the R script you wrote in week 2 such that it becomes a reproducible workflow. This means:\n\nStart a new RStudio Project for this week’s work.\nInitialize renv in your new project using renv::init().\nCopy your Week 2 R script (Exercise 2.2) into this new project.\nEnsure your script runs from start to finish without errors, covering data import, wrangling, summary, analysis, and visualization.\nSnapshot your renv environment using renv::snapshot() once your script is finalized and all necessary packages are installed.\nPair with a friend in class. Share your project folder (or just the .R, renv.lock, and .Rprofile files).\nYour friend should open your project, run renv::restore(), and then try running your R script.\nIs it reproducible? Did they get the exact same outputs? Discuss any differences and improve your script and renv setup as per your peer’s feedback.",
+    "text": "Now it’s your turn!\n\nExercise 3.1:\nRevise the R script you wrote in week 2 such that it becomes a reproducible workflow. This means:\n\nStart a new RStudio Project for this week’s work.\nInitialize renv in your new project using renv::init().\nCopy your Week 2 R script (Exercise 2.2) into this new project.\nEnsure your script runs from start to finish without errors, covering data import, wrangling, summary, analysis, and visualization.\nSnapshot your renv environment using renv::snapshot() once your script is finalized and all necessary packages are installed.",
     "crumbs": [
       "3 - Code to workflow",
       "<span class='chapter-number'>14</span>  <span class='chapter-title'>Building Your First Workflow</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/git.html",
+    "href": "chapters/git.html",
+    "title": "Version Control via Git",
+    "section": "",
+    "text": "Sharing Code: The Wrong Way(s) and the Right Way\nThink about how you might share an R script with a classmate or colleague. Chances are it looks something like one of these:",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Version Control via Git</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/git.html#sharing-code-the-wrong-ways-and-the-right-way",
+    "href": "chapters/git.html#sharing-code-the-wrong-ways-and-the-right-way",
+    "title": "Version Control via Git",
+    "section": "",
+    "text": "Emailing scripts back and forth. It’s hard to track which version of code was used to generate what results, and nobody can say for certain which copy is the current one. Email attachments also strip away your folder structure, which you now know is essential for reproducibility.\nPutting files in a synced drive (Dropbox, Google Drive, OneDrive, etc.). It’s hard to track when things get changed, by whom, and for what reason. There’s no clear trace of changes, which makes it challenging to revert cleanly when something breaks.\n\n\nAdvantages of Version Control\n\nComplete history: Every change is recorded, along with who made it, when, and (ideally) why.\nSafe experimentation: You can try out new approaches on “branches” without risking your working code.\nCollaboration: Multiple people can work on the same project simultaneously, and Git provides tools to merge everyone’s changes together sensibly.\nAccountability and reproducibility: Combined with what you learned about renv last section, Git lets you say precisely “this exact version of the code, with this exact environment, produced this exact result.”",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Version Control via Git</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/git.html#what-is-git",
+    "href": "chapters/git.html#what-is-git",
+    "title": "Version Control via Git",
+    "section": "What is Git?",
+    "text": "What is Git?\nGit is a distributed version control system (DVCS). In plain terms: it’s a tool that takes periodic “snapshots” of your project folder (called commits), and keeps a complete history of those snapshots so you can inspect, compare, or revert to any of them at any time.\nThe word distributed matters. In older, centralized version control systems, there was one central server holding the “real” history, and everyone’s computer held just the files they were currently working on. If the central server went down, nobody could see the project history. With Git, every single person who clones a project gets the entire history, on their own machine. There is no single point of failure, and you can commit, branch, and review history even while offline. (see Conceptual diagram.)\nIn everyday use, Git tracks your files through a simple pipeline: changes you make live in your working directory, you selectively mark the changes you want to record using git add (moving them to the staging area), and then git commit permanently saves that snapshot into your local repository. Whenever you’re ready to share your work, git push sends your commits to a remote repository that others can access, and git pull (or git fetch) brings down commits that others have made.\n\n\n\n\n\nflowchart LR\n    A[Working Directory] --&gt;|git add| B[Staging Area]\n    B --&gt;|git commit| C[Local Repository]\n    C --&gt;|git push| D[Remote Repository\\ne.g. GitHub]\n    D --&gt;|git pull| C\n\n\n Git’s basic workflow: staging, committing, and syncing with a remote (adapted from the Pro Git book, git-scm.com).",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Version Control via Git</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/git.html#what-is-github-is-it-the-only-option",
+    "href": "chapters/git.html#what-is-github-is-it-the-only-option",
+    "title": "Version Control via Git",
+    "section": "What is GitHub? Is It the Only Option?",
+    "text": "What is GitHub? Is It the Only Option?\nGit itself is just a program that runs on your computer. It does not require the Internet, and it does not require GitHub. GitHub is a separate, web-based hosting service for Git repositories. It stores a copy of your repository “in the cloud” so that you and your collaborators have a shared, always-available remote to push to and pull from, plus a web interface for browsing code, discussing changes, and managing projects.\nGitHub is simply the most popular option, but it isn’t the only one. Alternatives you’ll encounter include GitLab and Bitbucket, which offer similar hosting with their own features, and many organizations (hospitals, universities, government agencies working with sensitive health data) run their own self-hosted Git servers. You can even push and pull between two personal computers directly, with no hosting service involved at all, since Git fundamentally only needs a reachable file location to treat as a “remote.” For this course, we’ll use GitHub because of its popularity, its free tier for public and private repositories, and its gentle integration with RStudio.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Version Control via Git</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/git.html#setting-up-github",
+    "href": "chapters/git.html#setting-up-github",
+    "title": "Version Control via Git",
+    "section": "Setting up GitHub",
+    "text": "Setting up GitHub\n\nStep 1: Sign Up for a GitHub Account\nIf you don’t already have one, create a free account at github.com. Use an email address you’ll have long-term access to (not one tied to an employer or school you might leave), since this account will likely follow your work for years.\n\n\nStep 2: Install Git and Connect It to RStudio\n\nInstall Git on your computer, if it isn’t already installed:\n\nWindows: Download and install from git-scm.com.\nMac: Install via Xcode Command Line Tools (run xcode-select --install in Terminal) or download from git-scm.com.\n\nOpen RStudio and go to Tools → Global Options → Git/SVN. Confirm that RStudio has correctly detected the path to your Git executable.\nTell Git who you are (run once, in the RStudio Terminal tab, not the R console):\ngit config --global user.name \"Your Name\"\ngit config --global user.email \"your_email@example.com\"\nUse the same email address as your GitHub account so your commits are correctly linked to your profile.\nSet up authentication between RStudio and GitHub. GitHub no longer accepts your account password for this; instead, you’ll generate a Personal Access Token (PAT). The usethis R package makes this painless:\ninstall.packages(\"usethis\")\nusethis::create_github_token()   # opens GitHub in your browser to generate a token\ngitcreds::gitcreds_set()         # paste the token here to store it securely\n\nFor a more detailed, well-regarded walkthrough of this entire setup process, Jenny Bryan’s online guide Happy Git and GitHub for the useR is an excellent free resource, and is used in many university-level R courses. The RStudio documentation on version control with Git is also a concise companion reference.\n\n\nStep 3: Create Your First Repository\n\nOpen the RStudio Project you want to turn into a Git repository (for example, your week3-renv-practice project, or a fresh project with your analysis.R script from Exercise 3.1). In the R console, run:\nusethis::use_git()\nYou’ll be asked whether to commit all existing files as a first commit, type 1 for Yes. RStudio will then restart the project. Once it reopens, you should see a new Git pane (top right, next to Environment/History), confirming your project is now a Git repository.\nPush this repository to GitHub, creating the remote copy, directly from R:\nusethis::use_github()\nThis creates a new repository under your GitHub account with the same name as your project, links it to your local repo, and pushes your commit(s) up in one step. When it finishes, your repository’s URL will print in the console; open it in your browser to confirm your files are there. By default this creates a public repository, which is what you want for this exercise so your friend can access it.\nIf use_github() doesn’t work for you (for example, if authentication isn’t configured correctly), you can instead create the repository manually: go to github.com, click the + icon (top right) → New repository, give it a name, keep it Public, and click Create repository (leave “Add a README” unticked, since your project already has files). GitHub will show you a page with commands under “…or push an existing repository from the command line”; copy the two git remote add origin ... and git push ... lines and run them in RStudio’s Terminal tab.\nAdd or edit a file (for example, edit the README.md, or confirm your analysis.R script is present). Then, in RStudio’s Git pane, tick the checkbox next to the changed file(s) to stage them, click Commit, write a short commit message describing what changed, and click Commit again.\nClick Push (the green up-arrow icon) to send your commit up to GitHub.\nSend the repository link to a friend. They can clone it themselves (File → New Project → Version Control → Git in their own RStudio, pasting in your repository’s URL from the green Code button on GitHub) or, if you add them as a collaborator (Settings → Collaborators on GitHub), they can push changes back too.\nWhen your friend makes changes and pushes them, click Pull (the blue down-arrow icon) in your own RStudio Git pane to bring their changes down into your local copy.\n\nA note on the commit hash: After committing, look at the History view in the Git pane (the clock icon). Each commit is labeled with a hash. You can always reference a specific commit by this hash, which is how you’d tell someone exactly which version of your project to check out or restore.\n\nEvery commit you make is given a unique identifier called a hash (something like a3f5c9e..., a long string of letters and numbers). This hash isn’t arbitrary. It’s generated from the content of the commit itself, so even the tiniest change to your code produces a completely different hash. This is actually a core part of what makes Git trustworthy for reproducibility: you can tell someone “run commit a3f5c9e” and know, with certainty, they are running the exact same code you ran, not some similar-looking copy.\n\n\n\nStep 4: Comments and Issues on GitHub\nGitHub isn’t just for code storage. It includes lightweight project management tools built around your repository:\n\nComments on commits: Click any commit in your repository’s Commits tab on GitHub, and you can leave a comment directly on it, useful for asking “why did you change this line?” or leaving feedback.\nCreating an Issue: On your repository’s GitHub page, click the Issues tab → New issue. Issues are used to track bugs, questions, or tasks, for example, “Script fails when df has missing values.” Give it a clear title and description.\nResolving an Issue: Once the problem is fixed (perhaps in a later commit), you can reference the issue number in your commit message (e.g., Fixes #3), which will automatically close it on GitHub once pushed. Alternatively, open the issue directly and click Close issue once resolved, optionally leaving a comment explaining the fix.\n\n\nYou now have the final piece of a reproducible, shareable workflow: your data, your code, your environment (via renv), and now your version history (via Git and GitHub), all able to travel together as a single, inspectable package.\n\nExercise 3.2:\n\nPair with a friend in class. Pull each other’s repository.\nYour friend should open your project, run renv::restore(), and then try running your R script.\nIs it reproducible? Did they get the exact same outputs? Discuss any differences and improve your script and renv setup as per your peer’s feedback.",
+    "crumbs": [
+      "3 - Code to workflow",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Version Control via Git</span>"
     ]
   },
   {
@@ -489,7 +544,7 @@
     "text": "Do I Need to Install Quarto?\nIf you’re using a reasonably recent version of RStudio (2022.07 or later), Quarto is already bundled in. You don’t need to install anything separately. You can check by typing the following into your Console:\nIf this returns a version number (e.g., 1.4.x), you’re good to go. If you get an error saying the package isn’t found, install it once with:",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   },
   {
@@ -500,7 +555,7 @@
     "text": "quarto::quarto_version()\n\ninstall.packages(\"quarto\")",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   },
   {
@@ -511,7 +566,7 @@
     "text": "A Quick Primer on Markdown Syntax\nBefore we look at .qmd files, you need to know Markdown, a simple way to format plain text using symbols instead of buttons (like you would in Word). You’ve likely never used it before, so here’s everything you need for this exercise:\n\n\nWhat you type\nWhat it becomes\n\n\n\n# Heading 1\nA large heading\n\n\n## Heading 2\nA smaller heading\n\n\n**bold text**\nbold text\n\n\n*italic text*\nitalic text\n\n\n\n- item or * item\n\nA bullet point\n\n\n1. item\nA numbered list item\n\n\n`code`\ninline code font\n\n\n\nThat’s it. Markdown is just plain text with a few symbols sprinkled in. Quarto reads this and converts it into nicely formatted text in your final report.",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   },
   {
@@ -522,7 +577,7 @@
     "text": "How Quarto Works\nA Quarto document (a .qmd file) is a plain text file that blends narrative text (written in Markdown) with executable code chunks (e.g. R). When you “render” a .qmd file, Quarto executes the code, embeds the results (tables, plots, etc.) directly into your document, and converts it into your desired output format (like HTML, PDF, or Word).\nA .qmd file has four key components:\n1. YAML Header\nLocated at the very top of the file, enclosed by --- on both sides. It contains metadata like title, author, date, and format (e.g., html, pdf). This tells Quarto what kind of document to produce and how to label it.\n2. Code Chunks\nBlocks of executable R code, enclosed in triple backticks with curly braces specifying the language, like this:\n```{r}\n1 + 1\n```\nYou can add options inside the curly braces to control how the chunk behaves, for example:\n\n\n{r} — a standard, visible code chunk.\n\n{r, echo=FALSE} — runs the code but hides the code itself in the report (only shows the output).\n\n{r, eval=FALSE} — shows the code but does not run it.\n3. Text\nNarrative content written using the Markdown syntax above. This is where you explain your analysis, interpret results, and provide context (just like you would write in a lab report), but interwoven directly with your code and results.\n4. Inline Code\nSmall snippets of R code embedded directly within a sentence of text, using a single backtick followed by r (see example below). This lets you report a single computed value (like a mean or p-value) directly in your sentence, so it updates automatically if your data changes.",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   },
   {
@@ -533,7 +588,7 @@
     "text": "Example: A Minimal .qmd File\nBelow is a short, complete example containing all four components. Create a new file in RStudio (File → New File → Quarto Document, or just a plain text file saved with a .qmd extension) and paste this in:\n\n---\ntitle: \"My First Quarto Report\"\nauthor: \"Your Name\"\ndate: \"2026-10-10\"\nformat: html\n---\n\n## Introduction\n\nThis report summarises a small example dataset to demonstrate how Quarto combines **code**, **text**, and *results* in one document.\n\n## The Data\n\n```{r}\ndf = data.frame(\n  group = c(\"A\", \"A\", \"B\", \"B\"),\n  value = c(10, 15, 20, 25)\n)\n\ndf\n```\n\n## Summary\n\n```{r}\navg_value = mean(df$value)\navg_value\n```\n\nThe average value across all groups is `r avg_value`. This sentence used **inline code** to insert that number automatically.\n\n## Visualization\n\n```{r}\nplot(df$group, df$value, main = \"Value by Group\")\n```",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   },
   {
@@ -544,7 +599,7 @@
     "text": "Rendering a .qmd File\nSave your .qmd file and turn it into a finished report:\n\nEnsure the .qmd file is open in RStudio (appear in the Source pane).\nLook at the top of that pane. You’ll see a toolbar with a blue arrow icon and the word Render next to it (it’s a button, not a menu item). Click it.\n\nAlternatively, use the keyboard shortcut Ctrl + Shift + K (Windows) or Cmd + Shift + K (Mac).\n\n\nRStudio will run all the code chunks in order, then open a preview of your finished report (by default, in the Viewer pane, or in a separate window).\nCheck your project folder. You’ll find a new .html file with the same name as your .qmd file. This is the rendered report.\n\nTip: If rendering fails, RStudio will show you an error message in the Render tab at the bottom, usually pointing to the exact line and code chunk that caused the problem. Fix the code chunk, save, and click Render again.\nNotice how the final rendered report will show your data table, the computed average written directly into a sentence, and a plot — all generated live from the code, not typed in by hand.",
     "crumbs": [
       "3 - Code to workflow",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>From Workflow to Reproducible Report</span>"
     ]
   }
 ]
