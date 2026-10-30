@@ -1,0 +1,99 @@
+## An Example Template {#sph5009-project-template}
+
+**[sph5009-project-template](https://github.com/hatio/sph5009-project-template)** is a fuller, production-style template example expanding the exact same skeleton you built in Section 1.
+Expansions: a real `main.R` pipeline, working scripts in each `scripts/` subfolder, a committed `renv.lock`, and importantly, a much more thorough `README.md`.
+
+::: {.callout-tip}
+## Read the README first
+
+Before touching any code, open the root `README.md`. It walks through cloning the repo, restoring the `renv` environment, and (most importantly for this week) explains the project's approach to data sensitivity. Treat this as the model for how *your* future project READMEs should read: assume the reader has never seen your project before.
+:::
+
+Spend a few minutes exploring the repo structure. Notice that most folders (`scripts/data/import/`, `scripts/data/process/`, `scripts/data/explore/`, `scripts/analysis/`) have their own short, local `README.md` explaining what belongs in that specific folder. This is a useful habit for larger projects: a root README explains the project as a whole, while folder-level READMEs explain local conventions exactly where someone would need them.
+
+### Forking the Template to Your Own GitHub
+
+Before cloning `sph5009-project-template` to your computer, let's get it onto *your* GitHub account first. Your instructor's copy lives in their GitHub repository; to work with it, track your own changes, and push your own commits, you need your own copy of that repository on GitHub, linked back to the original.
+
+This is exactly what **forking** does. A fork creates a full copy of someone else's repository under your own account, complete with its entire commit history, but as an independent repository you fully own and control. You can commit, push, and modify your fork freely without affecting the original, and GitHub keeps track of the relationship between the two, so you can later open a **Pull Request** if you ever want to propose your changes back to the original repository (not required for this exercise, but it's how most open-source collaboration works in practice).
+
+Forking differs from the `use_github()` cloning you've done before in one key way: cloning on its own just downloads a copy of a repo to your computer, your local copy still points back at the *original* remote (`origin`), and you likely won't have permission to push to it. Forking instead creates a new, separate repository on GitHub itself, one that *you* own and can push to, before you ever clone anything to your machine.
+
+### Step-by-Step: Forking `sph5009-project-template`
+
+1.  Navigate to your instructor's **[sph5009-project-template](https://github.com/hatio/sph5009-project-template)** repository on GitHub.
+2.  Click the **Fork** button near the top right of the page.
+3.  GitHub will ask which account to fork it into; choose your own account. You can optionally rename the fork (for this exercise, keeping the default name `sph5009-project-template` is fine) and add a brief description.
+4.  Click **Create fork**. After a few seconds, GitHub redirects you to your own copy of the repository, now living at `github.com/<your-username>/sph5009-project-template`. Notice the small text under the repo name reading "forked from `<instructor-username>/sph5009-project-template`", this is GitHub's record of the fork relationship.
+
+From this point on, this forked repository is yours: you can clone it, commit to it, and push to it exactly as you would any repository you created yourself.
+
+::: {.callout-note}
+## Fork vs. Clone vs. Template
+
+These three GitHub features sound similar but serve different purposes. A **template** (Section 1) creates a brand-new, independent repository with no shared history or connection to the original, appropriate when you're starting a fresh project that merely reuses a *structure*. A **fork** creates a copy that retains a tracked connection to the original, appropriate when you intend to build on top of someone else's actual codebase (as you're doing now) or eventually contribute changes back to it. A **clone** doesn't involve GitHub creating anything new at all, it just downloads an existing GitHub repository (yours, forked, or someone else's you have access to) onto your local computer.
+:::
+
+
+::: {.exercise}
+**Exercise 4.2:**
+
+1.  Clone **your forked copy** of `sph5009-project-template` (not the instructor's original) to your computer, using **File → New Project → Version Control → Git** in RStudio and your fork's URL (`github.com/<your-username>/sph5009-project-template`).
+2.  Run `renv::restore()` following the instructions in the root `README.md`.
+3.  Open each sub-folder's local `README.md` under `scripts/`. In one sentence per folder, note what kind of script belongs there.
+4.  Run `main.R` from start to finish. Confirm it runs without errors.
+:::
+
+
+
+## Symlinks: Having Data There but Not There
+
+Look closely at `sph5009-project-template`: there is **no `data/` folder**. This is deliberate, not an oversight, and the root `README.md`'s "Data Sensitivity" section explains the reasoning in full. The short version:
+
+Data files are excluded from Git entirely (recall Section 2), but a project that reads data still needs *some* consistent file path to read it from. The template's solution is to keep the actual data in an external location outside the Git repo altogether (a shared drive, a secure data server, or similar), and create a **symbolic link** ("symlink") inside the project that points to it. To your R scripts, the symlinked folder looks and behaves exactly like a normal local folder, `read.csv("data/raw/survey.csv")` works fine, but nothing about the data itself is ever tracked by Git, since Git only sees a tiny pointer file, not the data.
+
+The exact command differs by operating system, but the README documents all three:
+
+*   **macOS / Linux:** `ln -s /path/to/external/data data`
+*   **Windows (Command Prompt, as Administrator):** `mklink /D data C:\path\to\external\data`
+*   **Windows (PowerShell):** `New-Item -ItemType SymbolicLink -Path data -Target C:\path\to\external\data`
+
+This solves *access*, but not *provenance*: if the data itself isn't in Git, how do you prove which exact version of the data your results came from? The template's answer is a **hash manifest**: `data_manifest.csv` at the project root records a cryptographic hash (a fixed-length fingerprint that changes if even one byte of the file changes) for each data file your project depends on. The script `scripts/data/import/verify_data_hash.R` recomputes the hash of your current data and compares it against the recorded value, flagging a mismatch if the data has changed since the hash was recorded.
+
+::: {.callout-note}
+## Why a hash instead of just a filename or date?
+
+Filenames and modification dates can be wrong or misleading. Someone could fix a typo in a dataset without renaming it, or your computer's reported file date could be unreliable after copying between systems. A hash is a precise, bit-for-bit fingerprint, it cannot lie about whether the content has changed, even by one cell.
+:::
+
+::: {.exercise}
+**Exercise 4.3:**
+
+1.  Create a small dummy dataset somewhere *outside* your `sph5009-project-template` folder (for example, `~/external-data/dummy.csv` with a few made-up rows).
+2.  Create a symlink inside your project pointing `data/` to that external folder, using the command appropriate to your operating system from the README.
+3.  Run `scripts/data/import/generate_data_hash.R` to compute a real hash for your dummy file and automatically write it into `data_manifest.csv`, replacing the placeholder value.
+4.  Edit your dummy CSV slightly (change one value), then run the verification script. Confirm it correctly flags a mismatch.
+5.  Run `git status` and confirm that your actual data file does **not** appear as trackable, only your updated `data_manifest.csv` and any script changes do. Only once you've verified this, stage and commit those changes.
+:::
+
+::: {.callout-note}
+## Two scripts, two purposes
+
+`generate_data_hash.R` computes hashes for your current data and writes them into `data_manifest.csv`, run this once when you first add data, or deliberately whenever the data legitimately changes. `verify_data_hash.R` does the opposite: it checks your current data *against* the manifest and reports a mismatch if something's different. You (or a collaborator) will run `verify_data_hash.R` far more often than `generate_data_hash.R`, since generating a new hash should be a deliberate, rare action, not something run reflexively.
+:::
+
+## A Project Is More Than One Script
+
+As your pipeline grows (import, then process, then explore, then analyze), resist the temptation to cram everything into one ever-growing script. The `sph5009-project-template` demonstrates the `main.R` as table-of-contents pattern discussed earlier today: open `main.R` now and look at its contents.
+
+Each stage of the pipeline lives in its own file, under the folder matching its purpose, and `main.R` simply `source()`s them in order. This has a few concrete advantages worth noticing as you read through it: you can re-run a single stage in isolation while developing (just run that one script directly, rather than the whole pipeline); each file is small enough to understand at a glance.
+
+
+::: {.exercise}
+**Exercise 4.4:**
+
+1.  In `sph5009-project-template`, add a new script under `scripts/data/process/` that performs one additional transformation of your choosing on the data from Exercise 4.3 (for example, filtering out rows, or adding a derived column).
+2.  Add a `source()` line for your new script into `main.R`, in the correct position in the pipeline.
+3.  Re-run `main.R` end to end and confirm it still runs without errors, and that your new processing step took effect.
+4.  Commit and push your changes, with a commit message describing what you added.
+:::

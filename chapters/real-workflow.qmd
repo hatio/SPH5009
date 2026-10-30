@@ -1,0 +1,120 @@
+# Real-world Public Health Analytical Workflows {#workflow-week4}
+
+You have gradually built a workflow through exercises. You now know how to make an analysis reproducible with `renv`, and how to share and track it with Git and GitHub. To equip you with the confidence that you can go back and start building workflows on your own, today we will focus on *building a structured workflow from scratch*.
+
+## Building a Template Repo, Step-by-Step
+
+Every project you start from here on will need the same basic scaffolding: an RStudio project, a Git repository, folders organized sensibly, and some baseline documentation. Rather than redoing this setup by hand every time, let's build it once, carefully, as a **template repository** you can reuse for every future project.
+
+### Step 1: Create a New Repository on GitHub
+
+Go to [github.com](https://github.com), click the **+** icon (top right) → **New repository**, and configure it as follows:
+
+*   **Repository name:** `project-template`
+*   **Public vs. Private:** Choose **Public** for this exercise. A public repo is visible to anyone on the internet; a private repo is visible only to you and people you explicitly invite. For real research projects involving unpublished data or sensitive health information, you would almost always choose **Private** until you're ready to share results publicly.
+*   **Start from a template:** Choose **No**. This option would let you pre-fill the repo from an *existing* template repository, but since we're building our own template from scratch today, we don't need one yet.
+*   **Add a README file:** Choose **Yes**. This creates a basic `README.md` immediately, so your repository isn't empty, and gives you something to practice editing shortly.
+*   **Add .gitignore:** Choose the **R** template from the dropdown. GitHub maintains a library of sensible `.gitignore` starting points per language; the R template pre-fills common R-specific clutter to ignore (like `.Rhistory` and `.RData` files), saving you from typing it out yourself.
+*   **Choose a license:** This determines what others are legally allowed to do with your code. A few common options:
+    *   **MIT License:** Very permissive. Anyone can use, modify, or distribute your code, including commercially, as long as they credit you.
+    *   **GNU GPLv3:** Permissive but "viral": anyone can use and modify your code, but anything they build using it must *also* be released under GPL and stay open-source.
+    *   **No license:** Legally, this means no one else has any rights to use, copy, or modify your code at all, even though it's publicly visible on GitHub. This is often the default by accident, and rarely what people intend.
+
+    For this exercise, pick **MIT**, a reasonable default for teaching materials and most academic code.
+
+Click **Create repository**.
+
+::: {.callout-note}
+## Why does the license matter even for a class exercise?
+
+You might not think much about licensing for a practice repo, but the habit matters. Public health code often gets reused by other researchers or public health units; an unclear or missing license can actually prevent otherwise-willing collaborators from legally reusing your work, even if that was never your intention.
+:::
+
+### Step 2: Clone the Repository to Your Computer
+
+Back in RStudio, go to **File → New Project → Version Control → Git**, and paste in your repository's URL (click the green **Code** button on your repo's GitHub page to copy it). Choose a location to save it locally, and click **Create Project**.
+
+### Step 3: Explore What GitHub Already Gave You
+
+Look at the Files pane in RStudio. Because of the options you chose during creation, your cloned repo already contains:
+
+*   `README.md`: a short Markdown file, currently just the repo name. This is the first thing anyone sees when visiting your repository on GitHub.
+*   `.gitignore`: a plain text file listing patterns of files Git should never track. Since you chose the R template, open it now and skim through; you'll recognize some entries like `.Rhistory` and `.Rproj.user/`.
+*   `LICENSE`: the full legal text of the MIT license you selected.
+
+Notice that there is **no `.Rproj` file yet**. GitHub has no concept of RStudio Projects, it only knows about files and folders, so this step is still ours to do.
+
+### Step 4: Turn the Repo into an RStudio Project
+
+Recall from Week 3: a Project fixes your working directory and keeps everything self-contained. Since you cloned via **File → New Project → Version Control → Git**, RStudio actually already created the `.Rproj` file for you automatically as part of that process, look in your Files pane for `project-template.Rproj`. If, for any reason, it isn't there (for example, if you cloned using the Terminal or GitHub Desktop instead), you can create it manually: go to **File → New Project → Existing Directory**, and point RStudio to your cloned folder.
+
+### Step 5: Build Out the Folder Structure
+
+A single `analysis.R` worked fine for small weekly exercises, but real projects accumulate many scripts for different purposes, and need a predictable place for each. Inside your project, create the following folders and empty placeholder files:
+
+```
+project-template/
+├── project-template.Rproj
+├── README.md
+├── .gitignore
+├── LICENSE
+└── scripts/
+    ├── data/
+    │   ├── import/
+    │   ├── process/
+    │   └── explore/
+    └── analysis/
+```
+
+You can create folders either through the Files pane (**New Folder** button) or directly in the Terminal tab:
+
+```bash
+mkdir -p scripts/data/import scripts/data/process scripts/data/explore scripts/analysis
+```
+
+Git does not track empty folders, only files, so each new folder will not actually appear in Git's history until it contains something. A common convention is to drop a placeholder file (often named `.gitkeep`, an otherwise meaningless empty file whose only purpose is to make an empty folder trackable) inside each one for now:
+
+```bash
+touch scripts/data/import/.gitkeep scripts/data/process/.gitkeep scripts/data/explore/.gitkeep scripts/analysis/.gitkeep
+```
+
+Stage, commit, and push these changes through the Git pane as you've practiced before.
+
+### Step 6: Convert This Repository into a GitHub Template
+
+Now that your structure is in place, let's make it officially reusable. On your repository's GitHub page, go to **Settings**, and under the **General** tab, tick the checkbox labeled **Template repository**.
+
+From now on, anyone visiting your repo (including future-you) will see a green **Use this template** button instead of just **Code**. Clicking it creates a brand-new repository with this entire folder structure, README, `.gitignore`, and license already in place, but with a clean Git history, no inherited commits from today's setup work. This is exactly the "start from a template: yes" option you declined back in Step 1, except now *you're* the one providing the template for next time.
+
+## `.gitignore`: What to **NOT** Track in Git
+
+So far we've treated `.gitignore` as something GitHub generates for us. Now let's understand what it actually does, and why some files belong there deliberately.
+
+### Why Deliberately Exclude Files?
+
+Two categories of files are usually poor fits for Git tracking, even though it might feel natural to include everything:
+
+*   **Data files.** Raw data is often large (Git is not designed to efficiently store large binary files, every version lives in history forever, bloating the repository), and in public health contexts, is frequently sensitive: patient records, identifiable survey responses, or data under a restrictive sharing agreement. Committing such data to a *public* GitHub repository, even by accident, can constitute a serious data breach.
+*   **Computed outputs.** Rendered plots, generated tables, and intermediate processed datasets are usually products of your code applied to your data. Since they can always be reproduced by re-running your scripts, there is little reason to track every version of them in Git, and doing so adds clutter without adding information. Importantly, outputs can also indirectly leak sensitive information from the underlying data (for example, a summary table with very small cell counts in a demographic breakdown), so the same caution around sensitivity applies.
+
+The general principle: **track what can't be regenerated (your code), and exclude what can (data and outputs).**
+
+### Understanding `.gitignore` Syntax
+
+A `.gitignore` file is just a plain text file, one pattern per line, placed at the root of your repository. A few core rules:
+
+*   A plain filename (`notes.txt`) ignores any file with that exact name, anywhere in the repo.
+*   A trailing slash (`data/`) ignores an entire folder and everything inside it.
+*   A wildcard asterisk (`*.csv`) ignores every file matching that pattern, regardless of name.
+*   A leading `!` negates a pattern, meaning "don't ignore this," useful for carving out an exception within an otherwise-ignored folder.
+*   Lines starting with `#` are comments and are ignored by Git itself.
+
+::: {.exercise}
+**Exercise 4.1:**
+
+1.  Inside your `project-template` repo, create a new folder `scripts/data/import/raw/` and place a dummy file inside it, for example `touch scripts/data/import/raw/patient_data.csv`.
+2.  Run `git status` in the Terminal tab. Confirm that Git currently sees this new file as untracked.
+3.  Open `.gitignore` and add a line to ignore this file specifically: `scripts/data/import/raw/patient_data.csv`. Run `git status` again; the file should no longer appear.
+4.  Now replace that line with a broader pattern, `*.csv`, so that *any* CSV file anywhere in the project is ignored. Create one or two more dummy `.csv` files in different folders, and confirm via `git status` that none of them show up as untracked.
+5.  Finally, add an exception: suppose you *do* want to track a small lookup table, `scripts/data/import/raw/lookup_table.csv`. Add a line `!scripts/data/import/raw/lookup_table.csv` beneath your `*.csv` line, and confirm via `git status` that this one file reappears as trackable while the others remain ignored.
+:::

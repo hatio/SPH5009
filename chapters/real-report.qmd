@@ -1,0 +1,226 @@
+## Real-world Reports {#real-reports}
+
+Last week, you learned the basics of Quarto, writing `.qmd` files and rendering them with the default **Render** button in RStudio. That's fine for quick, one-off documents, but it doesn't fit into the reproducible pipeline you've spent this week building: if rendering your report requires you to manually click a button in RStudio, it isn't fully automated, and someone (or something) other than a human at a keyboard can't reliably reproduce it.
+
+### Rendering from `main.R`
+
+Quarto documents can be rendered programmatically, from R itself, using the `quarto` package:
+
+```r
+quarto::quarto_render("report.qmd")
+```
+
+Add a line like this to the end of your `main.R`, after your analysis steps, and your final report becomes just another stage of the pipeline, generated automatically every time `main.R` runs end-to-end.
+
+
+
+### Rendering a `.qmd` with Input Parameters
+
+So far, your `.qmd` files have likely been written for one specific dataset or one specific analysis. But what if you want the *same* report structure to run against different inputs, say, a monthly surveillance report that should regenerate automatically with each new month's data, without you rewriting the `.qmd` file each time?
+
+This is exactly what Quarto's **parameters** feature is for. At the top of your `.qmd` file, inside the YAML header, declare a `params` field with default values:
+
+```yaml
+---
+title: "Monthly Surveillance Report"
+format: html
+params:
+  month: "2024-01"
+  region: "all"
+---
+```
+
+Inside the document body, these become available as a named list, `params$month`, `params$region`, and so on, exactly like any other R object:
+
+```r
+#| echo: false
+cat("Report for region:", params$region, "— month:", params$month)
+```
+
+To render with different parameter values than the defaults, without touching the `.qmd` file at all, pass them from R:
+
+```r
+quarto::quarto_render(
+  "report.qmd",
+  execute_params = list(month = "2024-02", region = "west")
+)
+```
+
+::: {.callout-tip}
+## Why this matters for reproducibility
+
+A parameterized report, combined with `renv` and Git, means the exact same `.qmd` file can honestly regenerate a different, correct report for a different month or region, with the only changing input being an explicit, logged parameter value, not a manual edit buried somewhere in the document that's easy to forget or mis-apply.
+:::
+
+::: {.exercise}
+**Exercise 4.5:**
+
+1.  In your forked `project-template`, create `report.qmd` file under `scripts/analysis/` to include `params` field to its YAML header with at least one parameter (for example, a `threshold` value used to filter your data).
+2.  Reference `params$threshold` somewhere in the document body, for example, to filter rows or label a plot title.
+3.  Add a line to `main.R` that renders this report via `quarto::quarto_render()`, passing in a parameter value different from the default.
+4.  Run `main.R` end to end and confirm the rendered report reflects the parameter value you passed in, not the default.
+:::
+
+## 7. Tweaking Rendered Output: From Script to Report
+
+A rendered `.qmd` using entirely default settings tends to look like a script with some text around it: every chunk's code is visible, every warning and message prints inline, and plots appear at whatever size Quarto happens to pick. A real report, the kind you'd hand to a stakeholder who doesn't code, needs these tweaked deliberately.
+
+### Chunk Options: `echo`, `eval`, `warning`, and Friends
+
+Each code chunk accepts options, written as `#|` comment lines at the top of the chunk, that control what appears in the rendered output:
+
+```r
+#| echo: false
+#| warning: false
+#| message: false
+
+summary_table =
+  df %>%
+  group_by(group) %>%
+  summarise(mean_value = mean(value))
+```
+
+*   `echo: false` hides the code itself, showing only its output. Use this for any chunk your final audience doesn't need to see to understand the result.
+*   `eval: false` shows the code but does *not* run it, useful for documentation or demonstrating syntax without executing it.
+*   `warning: false` and `message: false` suppress R's warning and message output from cluttering the report. Errors are not suppressed by default, you generally want to know if something actually broke.
+
+You can also set these options once, for the *entire document*, in the YAML header, and override them for individual chunks as needed:
+
+```yaml
+---
+title: "Monthly Surveillance Report"
+format: html
+execute:
+  echo: false
+  warning: false
+---
+```
+
+### Controlling Plot Size
+
+Default plot dimensions rarely look right in a finished report; figures often render too small to read, or too large relative to surrounding text. Set figure dimensions (in inches) per chunk:
+
+```r
+#| fig-width: 8
+#| fig-height: 5
+#| fig-cap: "Distribution of values by group"
+
+ggplot(df, aes(x = group, y = value)) +
+  geom_boxplot()
+```
+
+`fig-cap` adds a proper, numbered caption beneath the figure, a small touch that makes a substantial difference in how polished the final document feels.
+
+### Using QMD Templates for Consistent Formatting
+
+If you (or your team) produce the same style of report repeatedly, it's worth creating a **template `.qmd`** with your preferred YAML defaults (theme, table of contents settings, standard chunk options) already filled in, so you're not re-configuring formatting from scratch every time. A minimal example:
+
+```yaml
+---
+title: "Report Title"
+format:
+  html:
+    toc: true
+    theme: cosmo
+    code-fold: true
+execute:
+  echo: false
+  warning: false
+---
+```
+
+`code-fold: true` is a nice middle ground for technical audiences: it hides code by default but keeps it one click away via a small toggle, rather than removing it from the document entirely.
+
+`cosmo` is just one of many built-in themes Quarto ships with via the [Bootswatch](https://bootswatch.com) library; others worth trying include `flatly` (clean, muted colors, popular for reports), `litera` (serif-leaning, reads like a printed document), `journal` (bold headers, magazine-like), and `darkly` (dark mode). Swapping between them is just a matter of changing the one word after `theme:` in your YAML header, so it's worth trying a few against your own report to see what reads best, rather than defaulting to the first one you saw.
+
+::: {.exercise}
+**Exercise 4.6:**
+
+1.  In `report.qmd` in Exercise 4.5, set `echo: false` and `warning: false` at the document level, in the YAML header.
+2.  In any plot-producing chunk in your report, explicitly set `fig-width`, `fig-height`, and `fig-cap`.
+3.  Re-render the report (via `main.R`, as in Exercise 4.5) and compare it to the earlier version. In 2-3 sentences, note what changed and whether it reads more like a polished report now.
+:::
+
+
+### Rendering to PDF and Word
+
+Everything above works identically regardless of output format, `echo`, `fig-width`, `params`, and the rest all carry over unchanged. The only thing that changes is the `format` field in your YAML header. So far you've been rendering to `html`, but for public health reporting, your actual audience (a supervisor, a health department, a policy team) will often expect a **Word document** they can mark up with track changes, or a **PDF** they can archive, print, or email as a fixed, non-editable record.
+
+Switching is a one-line change:
+
+```yaml
+---
+title: "Monthly Surveillance Report"
+format: docx
+---
+```
+
+```yaml
+---
+title: "Monthly Surveillance Report"
+format: pdf
+---
+```
+
+You can even render to multiple formats from the exact same `.qmd`, with no duplicated code, by listing them together:
+
+```yaml
+---
+title: "Monthly Surveillance Report"
+format:
+  html:
+    toc: true
+  docx: default
+  pdf: default
+---
+```
+
+Running `quarto::quarto_render("report.qmd")` with this header produces an `.html`, `.docx`, and `.pdf` version in one call, all from the same source file and the same underlying data.
+
+::: {.callout-note}
+## PDF rendering needs LaTeX
+
+Unlike HTML and Word, PDF output requires a LaTeX installation on your machine, which most people don't have by default. The first time you try to render to PDF, you may see an error about a missing LaTeX engine. Quarto provides a lightweight, R-friendly way to install one:
+
+```r
+install.packages("tinytex")
+tinytex::install_tinytex()
+```
+
+You only need to do this once per machine.
+:::
+
+::: {.callout-tip}
+## Matching a house style in Word
+
+By default, `.docx` output uses Quarto's generic styling. If your institution has a standard Word template (specific fonts, header/footer, logo), you can point Quarto at it instead of starting from a blank style:
+
+```yaml
+format:
+  docx:
+    reference-doc: my-institution-template.docx
+```
+
+Quarto will copy the styles (headings, body text, tables) from `my-institution-template.docx` into your rendered output, so your report matches house style without manual reformatting after the fact.
+:::
+
+::: {.exercise}
+**Exercise 4.7:**
+
+1.  In `report.qmd` from Exercise 4.6, change the `format` field to render to `docx` instead of `html`.
+2.  Re-render via `main.R` and open the resulting Word document. Confirm your chunk options (`echo: false`, figure captions, etc.) carried over correctly.
+3.  *If you have a LaTeX distribution installed (or are willing to install `tinytex`)*, try rendering to `pdf` as well, using the multi-format YAML syntax shown above, so that `main.R` produces `.html`, `.docx`, and `.pdf` versions from a single render call.
+:::
+
+
+Alternatively, you don't need to edit the file at all to render a different format one time. `quarto_render()` accepts an `output_format` argument that overrides the YAML for that call only:
+
+```r
+quarto::quarto_render("report.qmd", output_format = "docx")
+```
+
+This is a handy way to keep a single default format in your `.qmd` for everyday use (quick previews while writing, say), while still being able to generate a Word or PDF version on demand from `main.R` without touching the source file, an example of the same principle from Exercise 4.5's `execute_params` argument: keep the `.qmd` itself stable, and control variation from the calling R code instead.
+
+---
+
+**Congrats!** You've now built a complete, real-world analytical workflow: a structured repo created from a reusable template, data handled safely outside of Git with provenance tracked via hashes, a modular pipeline orchestrated from a single `main.R`, and a parameterized, polished report generated as its final output.

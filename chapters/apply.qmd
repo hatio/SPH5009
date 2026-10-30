@@ -1,7 +1,66 @@
 #  Real-world public health analytical workflows {#workflow}
 
-```{r}
-#| label: setup
-#| include: false
-source("_common.R")
-```
+You have gradually built a workflow through exercises. To equip you with the confidence that you can go back and start building workflows on your own, today we will focus on *building a structured workflow from scratch*.
+
+1. Building a template repo, step-by-step 
+    - how to create new GitHub repo on the website
+        - repo name: `project-template`
+        - explain the different options (1-2 sentences)
+            - public vs private
+            - start from template: choose no
+            - README: yes
+            - .gitignore: R
+            - license; pick a few (MIT, GNU GPL, No license) what do they imply
+    - clone repo to local
+    - explain the existing files/folders (created by the GitHub repo creation options) in the cloned repo
+    - recap steps to turn repo into Rstudio project (leads to creation of project.Rproj?)
+    - ask them to create folders such that it has the following structure
+        - project-template.Rproj
+        - scripts/
+            - data/
+                - process/
+                - explore/
+                - import/
+            - analysis/
+        - README.md
+        - .gitignore
+    - convert to GitHub template
+
+2. .gitignore: What to **NOT** track in Git
+    - data
+    - (most) computed outputs -- as can be reproduced through code; often are products of the data which may still be sensitive
+    - Understanding contents and syntax of .gitignore
+    - try adding certain patterns to .gitignore and check via `git status`
+
+3. An example template from Instructor
+4. symlink: Having data there but not there
+5. Project is more than one script
+6. Render qmd with input parameters
+7. Tweaking looks of qmd
+
+
+    - provide link to instructor's premade template that they can fork
+        - steps to fork repo
+        - steps to see how it shows up in their own GitHub account
+    (will come back to work on this template later. So just placeholder for explaining template contents for now.)
+
+
+    
+4. symlink: Having data there but not there
+    - 
+
+
+-----
+
+- provide contents for README.md for instructor's premade template
+    - cloning
+    - setup `renv`
+    - Data sensitivity
+        - Note that there is no directory called `data`
+        - How to NOT put your data on Git but still keep track of what data was used?
+        - Store it in an external system; Keep track of hash check
+        - alternatively, symlink data to project directory for different OS (Linux, Mac, Windows)
+
+------
+
+Cheat sheet for what has been learnt so far (each week)
