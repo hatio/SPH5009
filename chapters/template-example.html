@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Real-world public health analytical workflows – Public health coding with R</title>
+
+
+<title>An Example Template – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -26,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../chapters/assist.html" rel="next">
-<link href="../chapters/reproducible-report.html" rel="prev">
+<link href="../chapters/real-report.html" rel="next">
+<link href="../chapters/real-workflow.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -37,7 +41,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -63,25 +68,35 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 </head>
+
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apply.html">4 - PH workflows</a></li><li class="breadcrumb-item"><a href="../chapters/apply.html"><span class="chapter-title">Real-world public health analytical workflows</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/real-workflow.html">4 - PH workflows</a></li><li class="breadcrumb-item"><a href="../chapters/template-example.html"><span class="chapter-title">An Example Template</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Public health coding with R</a> 
         <div class="sidebar-tools-main">
@@ -101,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
@@ -114,8 +129,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/feel-home.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Feeling at home with R</span></a>
   </div>
@@ -146,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -155,8 +170,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
@@ -177,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -186,8 +201,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Why workflow?</span></a>
   </div>
@@ -213,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
@@ -222,14 +237,24 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/apply.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Real-world public health analytical workflows</span></a>
+  <a href="../chapters/real-workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world Public Health Analytical Workflows</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/template-example.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">An Example Template</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/real-report.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world Reports</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="false">
@@ -238,24 +263,37 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/assist.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a>
   </div>
 </li>
       </ul>
-</li>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#forking-the-template-to-your-own-github" id="toc-forking-the-template-to-your-own-github" class="nav-link active" data-scroll-target="#forking-the-template-to-your-own-github">Forking the Template to Your Own GitHub</a></li>
+  <li><a href="#step-by-step-forking-sph5009-project-template" id="toc-step-by-step-forking-sph5009-project-template" class="nav-link" data-scroll-target="#step-by-step-forking-sph5009-project-template">Step-by-Step: Forking <code>sph5009-project-template</code></a></li>
+  <li><a href="#symlinks-having-data-there-but-not-there" id="toc-symlinks-having-data-there-but-not-there" class="nav-link" data-scroll-target="#symlinks-having-data-there-but-not-there">Symlinks: Having Data There but Not There</a></li>
+  <li><a href="#a-project-is-more-than-one-script" id="toc-a-project-is-more-than-one-script" class="nav-link" data-scroll-target="#a-project-is-more-than-one-script">A Project Is More Than One Script</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/template-example.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/template-example.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/apply.html">4 - PH workflows</a></li><li class="breadcrumb-item"><a href="../chapters/apply.html"><span class="chapter-title">Real-world public health analytical workflows</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="workflow" class="quarto-section-identifier"><span class="chapter-title">Real-world public health analytical workflows</span></span></h1>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/real-workflow.html">4 - PH workflows</a></li><li class="breadcrumb-item"><a href="../chapters/template-example.html"><span class="chapter-title">An Example Template</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sph5009-project-template" class="quarto-section-identifier"><span class="chapter-title">An Example Template</span></span></h1>
 </div>
 
 
@@ -272,7 +310,126 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<p><strong><a href="https://github.com/hatio/sph5009-project-template">sph5009-project-template</a></strong> is a fuller, production-style template example expanding the exact same skeleton you built in Section 1. Expansions: a real <code>main.R</code> pipeline, working scripts in each <code>scripts/</code> subfolder, a committed <code>renv.lock</code>, and importantly, a much more thorough <code>README.md</code>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Read the README first
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Before touching any code, open the root <code>README.md</code>. It walks through cloning the repo, restoring the <code>renv</code> environment, and (most importantly for this week) explains the project’s approach to data sensitivity. Treat this as the model for how <em>your</em> future project READMEs should read: assume the reader has never seen your project before.</p>
+</div>
+</div>
+<p>Spend a few minutes exploring the repo structure. Notice that most folders (<code>scripts/data/import/</code>, <code>scripts/data/process/</code>, <code>scripts/data/explore/</code>, <code>scripts/analysis/</code>) have their own short, local <code>README.md</code> explaining what belongs in that specific folder. This is a useful habit for larger projects: a root README explains the project as a whole, while folder-level READMEs explain local conventions exactly where someone would need them.</p>
+<section id="forking-the-template-to-your-own-github" class="level3">
+<h3 class="anchored" data-anchor-id="forking-the-template-to-your-own-github">Forking the Template to Your Own GitHub</h3>
+<p>Before cloning <code>sph5009-project-template</code> to your computer, let’s get it onto <em>your</em> GitHub account first. Your instructor’s copy lives in their GitHub repository; to work with it, track your own changes, and push your own commits, you need your own copy of that repository on GitHub, linked back to the original.</p>
+<p>This is exactly what <strong>forking</strong> does. A fork creates a full copy of someone else’s repository under your own account, complete with its entire commit history, but as an independent repository you fully own and control. You can commit, push, and modify your fork freely without affecting the original, and GitHub keeps track of the relationship between the two, so you can later open a <strong>Pull Request</strong> if you ever want to propose your changes back to the original repository (not required for this exercise, but it’s how most open-source collaboration works in practice).</p>
+<p>Forking differs from the <code>use_github()</code> cloning you’ve done before in one key way: cloning on its own just downloads a copy of a repo to your computer, your local copy still points back at the <em>original</em> remote (<code>origin</code>), and you likely won’t have permission to push to it. Forking instead creates a new, separate repository on GitHub itself, one that <em>you</em> own and can push to, before you ever clone anything to your machine.</p>
+</section>
+<section id="step-by-step-forking-sph5009-project-template" class="level3">
+<h3 class="anchored" data-anchor-id="step-by-step-forking-sph5009-project-template">Step-by-Step: Forking <code>sph5009-project-template</code></h3>
+<ol type="1">
+<li>Navigate to your instructor’s <strong><a href="https://github.com/hatio/sph5009-project-template">sph5009-project-template</a></strong> repository on GitHub.</li>
+<li>Click the <strong>Fork</strong> button near the top right of the page.</li>
+<li>GitHub will ask which account to fork it into; choose your own account. You can optionally rename the fork (for this exercise, keeping the default name <code>sph5009-project-template</code> is fine) and add a brief description.</li>
+<li>Click <strong>Create fork</strong>. After a few seconds, GitHub redirects you to your own copy of the repository, now living at <code>github.com/&lt;your-username&gt;/sph5009-project-template</code>. Notice the small text under the repo name reading “forked from <code>&lt;instructor-username&gt;/sph5009-project-template</code>”, this is GitHub’s record of the fork relationship.</li>
+</ol>
+<p>From this point on, this forked repository is yours: you can clone it, commit to it, and push to it exactly as you would any repository you created yourself.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Fork vs.&nbsp;Clone vs.&nbsp;Template
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>These three GitHub features sound similar but serve different purposes. A <strong>template</strong> (Section 1) creates a brand-new, independent repository with no shared history or connection to the original, appropriate when you’re starting a fresh project that merely reuses a <em>structure</em>. A <strong>fork</strong> creates a copy that retains a tracked connection to the original, appropriate when you intend to build on top of someone else’s actual codebase (as you’re doing now) or eventually contribute changes back to it. A <strong>clone</strong> doesn’t involve GitHub creating anything new at all, it just downloads an existing GitHub repository (yours, forked, or someone else’s you have access to) onto your local computer.</p>
+</div>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.2:</strong></p>
+<ol type="1">
+<li>Clone <strong>your forked copy</strong> of <code>sph5009-project-template</code> (not the instructor’s original) to your computer, using <strong>File → New Project → Version Control → Git</strong> in RStudio and your fork’s URL (<code>github.com/&lt;your-username&gt;/sph5009-project-template</code>).</li>
+<li>Run <code>renv::restore()</code> following the instructions in the root <code>README.md</code>.</li>
+<li>Open each sub-folder’s local <code>README.md</code> under <code>scripts/</code>. In one sentence per folder, note what kind of script belongs there.</li>
+<li>Run <code>main.R</code> from start to finish. Confirm it runs without errors.</li>
+</ol>
+</div>
+</section>
+<section id="symlinks-having-data-there-but-not-there" class="level2">
+<h2 class="anchored" data-anchor-id="symlinks-having-data-there-but-not-there">Symlinks: Having Data There but Not There</h2>
+<p>Look closely at <code>sph5009-project-template</code>: there is <strong>no <code>data/</code> folder</strong>. This is deliberate, not an oversight, and the root <code>README.md</code>’s “Data Sensitivity” section explains the reasoning in full. The short version:</p>
+<p>Data files are excluded from Git entirely (recall Section 2), but a project that reads data still needs <em>some</em> consistent file path to read it from. The template’s solution is to keep the actual data in an external location outside the Git repo altogether (a shared drive, a secure data server, or similar), and create a <strong>symbolic link</strong> (“symlink”) inside the project that points to it. To your R scripts, the symlinked folder looks and behaves exactly like a normal local folder, <code>read.csv("data/raw/survey.csv")</code> works fine, but nothing about the data itself is ever tracked by Git, since Git only sees a tiny pointer file, not the data.</p>
+<p>The exact command differs by operating system, but the README documents all three:</p>
+<ul>
+<li><strong>macOS / Linux:</strong> <code>ln -s /path/to/external/data data</code></li>
+<li><strong>Windows (Command Prompt, as Administrator):</strong> <code>mklink /D data C:\path\to\external\data</code></li>
+<li><strong>Windows (PowerShell):</strong> <code>New-Item -ItemType SymbolicLink -Path data -Target C:\path\to\external\data</code></li>
+</ul>
+<p>This solves <em>access</em>, but not <em>provenance</em>: if the data itself isn’t in Git, how do you prove which exact version of the data your results came from? The template’s answer is a <strong>hash manifest</strong>: <code>data_manifest.csv</code> at the project root records a cryptographic hash (a fixed-length fingerprint that changes if even one byte of the file changes) for each data file your project depends on. The script <code>scripts/data/import/verify_data_hash.R</code> recomputes the hash of your current data and compares it against the recorded value, flagging a mismatch if the data has changed since the hash was recorded.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Why a hash instead of just a filename or date?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Filenames and modification dates can be wrong or misleading. Someone could fix a typo in a dataset without renaming it, or your computer’s reported file date could be unreliable after copying between systems. A hash is a precise, bit-for-bit fingerprint, it cannot lie about whether the content has changed, even by one cell.</p>
+</div>
+</div>
+<div class="exercise">
+<p><strong>Exercise 4.3:</strong></p>
+<ol type="1">
+<li>Create a small dummy dataset somewhere <em>outside</em> your <code>sph5009-project-template</code> folder (for example, <code>~/external-data/dummy.csv</code> with a few made-up rows).</li>
+<li>Create a symlink inside your project pointing <code>data/</code> to that external folder, using the command appropriate to your operating system from the README.</li>
+<li>Run <code>scripts/data/import/generate_data_hash.R</code> to compute a real hash for your dummy file and automatically write it into <code>data_manifest.csv</code>, replacing the placeholder value.</li>
+<li>Edit your dummy CSV slightly (change one value), then run the verification script. Confirm it correctly flags a mismatch.</li>
+<li>Run <code>git status</code> and confirm that your actual data file does <strong>not</strong> appear as trackable, only your updated <code>data_manifest.csv</code> and any script changes do. Only once you’ve verified this, stage and commit those changes.</li>
+</ol>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Two scripts, two purposes
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>generate_data_hash.R</code> computes hashes for your current data and writes them into <code>data_manifest.csv</code>, run this once when you first add data, or deliberately whenever the data legitimately changes. <code>verify_data_hash.R</code> does the opposite: it checks your current data <em>against</em> the manifest and reports a mismatch if something’s different. You (or a collaborator) will run <code>verify_data_hash.R</code> far more often than <code>generate_data_hash.R</code>, since generating a new hash should be a deliberate, rare action, not something run reflexively.</p>
+</div>
+</div>
+</section>
+<section id="a-project-is-more-than-one-script" class="level2">
+<h2 class="anchored" data-anchor-id="a-project-is-more-than-one-script">A Project Is More Than One Script</h2>
+<p>As your pipeline grows (import, then process, then explore, then analyze), resist the temptation to cram everything into one ever-growing script. The <code>sph5009-project-template</code> demonstrates the <code>main.R</code> as table-of-contents pattern discussed earlier today: open <code>main.R</code> now and look at its contents.</p>
+<p>Each stage of the pipeline lives in its own file, under the folder matching its purpose, and <code>main.R</code> simply <code>source()</code>s them in order. This has a few concrete advantages worth noticing as you read through it: you can re-run a single stage in isolation while developing (just run that one script directly, rather than the whole pipeline); each file is small enough to understand at a glance.</p>
+<div class="exercise">
+<p><strong>Exercise 4.4:</strong></p>
+<ol type="1">
+<li>In <code>sph5009-project-template</code>, add a new script under <code>scripts/data/process/</code> that performs one additional transformation of your choosing on the data from Exercise 4.3 (for example, filtering out rows, or adding a derived column).</li>
+<li>Add a <code>source()</code> line for your new script into <code>main.R</code>, in the correct position in the pipeline.</li>
+<li>Re-run <code>main.R</code> end to end and confirm it still runs without errors, and that your new processing step took effect.</li>
+<li>Commit and push your changes, with a commit message describing what you added.</li>
+</ol>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -730,33 +887,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
-      <a href="../chapters/reproducible-report.html" class="pagination-link" aria-label="From Workflow to Reproducible Report">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">From Workflow to Reproducible Report</span></span>
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/real-workflow.html" class="pagination-link" aria-label="Real-world Public Health Analytical Workflows">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Real-world Public Health Analytical Workflows</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/assist.html" class="pagination-link" aria-label="Best Practices in Using Coding Support Tools">
-        <span class="nav-page-text"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/real-report.html" class="pagination-link" aria-label="Real-world Reports">
+        <span class="nav-page-text"><span class="chapter-title">Real-world Reports</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <div class="footer-logos">
-<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"><img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
+<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"> <img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
 </div>
 <p>Released under the <a href="https://github.com/CERM-NUS/r-intro/blob/main/LICENSE">MIT Licence</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/apply.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/apply.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/template-example.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/template-example.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>
