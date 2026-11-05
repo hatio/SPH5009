@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Best Practices in Using Coding Support Tools – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
@@ -19,6 +22,7 @@ ul.task-list li input[type="checkbox"] {
 }
 </style>
 
+
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../site_libs/quarto-nav/headroom.min.js"></script>
 <script src="../site_libs/clipboard/clipboard.min.js"></script>
@@ -26,6 +30,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../chapters/local-llm.html" rel="next">
 <link href="../chapters/real-report.html" rel="prev">
 <link href="../assets/favicon.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -36,7 +41,8 @@ ul.task-list li input[type="checkbox"] {
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light"><script id="quarto-search-options" type="application/json">{
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
   "collapse-after": 3,
@@ -62,12 +68,18 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><style>html{ scroll-behavior: smooth; }</style>
+}</script>
+<style>html{ scroll-behavior: smooth; }</style>
+
+
 </head>
+
 <body class="nav-sidebar docked">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="quarto-secondary-nav"><div class="container-fluid d-flex">
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
@@ -78,9 +90,13 @@ ul.task-list li input[type="checkbox"] {
         <i class="bi bi-search"></i>
       </button>
     </div>
-  </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto"><div class="pt-lg-2 mt-2 text-left sidebar-header">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Public health coding with R</a> 
         <div class="sidebar-tools-main">
@@ -100,7 +116,7 @@ ul.task-list li input[type="checkbox"] {
         </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
-<li class="sidebar-item">
+        <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Welcome</span></a>
   </div>
@@ -113,8 +129,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/feel-home.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Feeling at home with R</span></a>
   </div>
@@ -145,7 +161,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
@@ -154,8 +170,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/stats.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Summaries and Statistical Tests</span></a>
   </div>
@@ -176,7 +192,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
@@ -185,8 +201,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Why workflow?</span></a>
   </div>
@@ -212,7 +228,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="false">
@@ -221,8 +237,8 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 ">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/real-workflow.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Real-world Public Health Analytical Workflows</span></a>
   </div>
@@ -238,7 +254,7 @@ ul.task-list li input[type="checkbox"] {
   </div>
 </li>
       </ul>
-</li>
+  </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
@@ -247,23 +263,53 @@ ul.task-list li input[type="checkbox"] {
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">
-<li class="sidebar-item">
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../chapters/assist.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a>
   </div>
 </li>
-      </ul>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/local-llm.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Local LLM and RStudio</span></a>
+  </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/scaffolding.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What is Scaffolding?</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/final-exercise.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Final Exercise</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
-</div>
-</nav><div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#ai-assistance" id="toc-ai-assistance" class="nav-link active" data-scroll-target="#ai-assistance">AI Assistance</a>
+  <ul class="collapse">
+  <li><a href="#chat-copy-paste" id="toc-chat-copy-paste" class="nav-link" data-scroll-target="#chat-copy-paste">Chat: Copy-Paste</a></li>
+  <li><a href="#auto-complete" id="toc-auto-complete" class="nav-link" data-scroll-target="#auto-complete">Auto-Complete</a></li>
+  <li><a href="#agentic-coding" id="toc-agentic-coding" class="nav-link" data-scroll-target="#agentic-coding">Agentic Coding</a></li>
+  </ul></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/assist.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/assist.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/assist.html"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a></li></ol></nav><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/assist.html"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></a></li></ol></nav>
+<div class="quarto-title">
 <h1 class="title"><span id="assist" class="quarto-section-identifier"><span class="chapter-title">Best Practices in Using Coding Support Tools</span></span></h1>
 </div>
 
@@ -281,7 +327,34 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<p>Over the past four weeks, you have gradually accumulated knowledge on R vocabulary and how these building blocks can be combined into functioning workflows. Four weeks is not a lot of time, so naturally we could only cover so much ground. Today, we shift gears slightly: rather than adding another R concept to your toolkit, we will explore how AI assistance can help you accomplish more, and do so <em>productively</em>. By “productively,” I mean coding in a way where you still know exactly what you built, can stand behind it when questioned, produce work that can be maintained in the long run, and continue to expand your own knowledge over time, rather than letting the tool think for you while your own skills quietly atrophy.</p>
+<section id="ai-assistance" class="level2">
+<h2 class="anchored" data-anchor-id="ai-assistance">AI Assistance</h2>
+<p>AI assistance in coding is not a single, uniform thing. It shows up in several distinct forms, each with its own risks and appropriate uses.</p>
+<section id="chat-copy-paste" class="level3">
+<h3 class="anchored" data-anchor-id="chat-copy-paste">Chat: Copy-Paste</h3>
+<p>The most familiar form is simply chatting with an AI model in a separate window, then copying its output into your script. You are probably already doing this, pasting an error message into a chat window and copying back a fix, or asking for a function and transplanting it into your <code>.R</code> or <code>.qmd</code> file. It is simple and flexible, but because the AI’s output is detached from your actual working file, it is easy to lose track of <em>why</em> a particular piece of code was suggested, and whether it still fits once you have made further edits.</p>
+</section>
+<section id="auto-complete" class="level3">
+<h3 class="anchored" data-anchor-id="auto-complete">Auto-Complete</h3>
+<p>Auto-complete used to be a modest convenience: your editor would suggest a function name, close a bracket, or complete a variable you had already typed elsewhere. It was predictable and easy to verify at a glance.</p>
+<p>Modern auto-complete is a different beast entirely. It can now generate whole chunks of code, a full <code>dplyr</code> pipeline, an entire <code>ggplot2</code> call, even a small function, based on a few words of context or a comment you wrote. This raises an important question you should always ask yourself: <em>are these AI guesses really what you intended?</em> The suggestion may run without error and even produce plausible-looking output, while still subtly misrepresenting your data, using the wrong grouping variable, or silently dropping missing values in a way you did not intend. The fluency of the output does not guarantee its correctness.</p>
+</section>
+<section id="agentic-coding" class="level3">
+<h3 class="anchored" data-anchor-id="agentic-coding">Agentic Coding</h3>
+<p>The most powerful, and most hands-off, form of AI assistance is agentic coding, where the AI is given a broader goal and allowed to plan, write, and sometimes execute multiple steps on its own. This generally takes one of two shapes:</p>
+<ul>
+<li><strong>Incremental</strong>: the agent works in small, reviewable steps, pausing for your input or confirmation along the way.</li>
+<li><strong>One-shot</strong>: the agent is given a task and produces a complete solution in a single pass, with no intermediate checkpoints.</li>
+</ul>
+<p>The more autonomy you hand over, the more deliberate you need to be about <em>how</em> you direct and review that work.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -739,30 +812,38 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
 });
-</script><nav class="page-navigation"><div class="nav-page nav-page-previous">
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
       <a href="../chapters/real-report.html" class="pagination-link" aria-label="Real-world Reports">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Real-world Reports</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../chapters/local-llm.html" class="pagination-link" aria-label="Local LLM and RStudio">
+        <span class="nav-page-text"><span class="chapter-title">Local LLM and RStudio</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
-<footer class="footer"><div class="nav-footer">
+<footer class="footer">
+  <div class="nav-footer">
     <div class="nav-footer-left">
 <div class="footer-logos">
-<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"><img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
+<p><img class="logo-sshsph" src="../assets/logos/sshsph.png" alt="NUS Saw Swee Hock School of Public Health"> <img class="logo-cerm" src="../assets/logos/cerm.png" alt="Centre for Epidemic Research and Modelling"></p>
 </div>
 <p>Released under the <a href="https://github.com/CERM-NUS/r-intro/blob/main/LICENSE">MIT Licence</a>.</p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
-    <div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/assist.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/assist.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
+    <div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/assist.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/assist.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></div>
     <div class="nav-footer-right">
 <p>Built with <a href="https://quarto.org">Quarto</a>. <a href="https://github.com/CERM-NUS/r-intro/issues">Report a problem</a>.</p>
 </div>
   </div>
 </footer>
+
+
 
 
 <script src="../site_libs/quarto-html/zenscroll-min.js"></script>

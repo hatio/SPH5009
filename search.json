@@ -689,5 +689,236 @@
       "4 - PH workflows",
       "<span class='chapter-number'>19</span>  <span class='chapter-title'>Real-world Reports</span>"
     ]
+  },
+  {
+    "objectID": "chapters/assist.html",
+    "href": "chapters/assist.html",
+    "title": "Best Practices in Using Coding Support Tools",
+    "section": "",
+    "text": "AI Assistance\nAI assistance in coding is not a single, uniform thing. It shows up in several distinct forms, each with its own risks and appropriate uses.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Best Practices in Using Coding Support Tools</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/assist.html#ai-assistance",
+    "href": "chapters/assist.html#ai-assistance",
+    "title": "Best Practices in Using Coding Support Tools",
+    "section": "",
+    "text": "Chat: Copy-Paste\nThe most familiar form is simply chatting with an AI model in a separate window, then copying its output into your script. You are probably already doing this, pasting an error message into a chat window and copying back a fix, or asking for a function and transplanting it into your .R or .qmd file. It is simple and flexible, but because the AI’s output is detached from your actual working file, it is easy to lose track of why a particular piece of code was suggested, and whether it still fits once you have made further edits.\n\n\nAuto-Complete\nAuto-complete used to be a modest convenience: your editor would suggest a function name, close a bracket, or complete a variable you had already typed elsewhere. It was predictable and easy to verify at a glance.\nModern auto-complete is a different beast entirely. It can now generate whole chunks of code, a full dplyr pipeline, an entire ggplot2 call, even a small function, based on a few words of context or a comment you wrote. This raises an important question you should always ask yourself: are these AI guesses really what you intended? The suggestion may run without error and even produce plausible-looking output, while still subtly misrepresenting your data, using the wrong grouping variable, or silently dropping missing values in a way you did not intend. The fluency of the output does not guarantee its correctness.\n\n\nAgentic Coding\nThe most powerful, and most hands-off, form of AI assistance is agentic coding, where the AI is given a broader goal and allowed to plan, write, and sometimes execute multiple steps on its own. This generally takes one of two shapes:\n\nIncremental: the agent works in small, reviewable steps, pausing for your input or confirmation along the way.\nOne-shot: the agent is given a task and produces a complete solution in a single pass, with no intermediate checkpoints.\n\nThe more autonomy you hand over, the more deliberate you need to be about how you direct and review that work.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Best Practices in Using Coding Support Tools</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html",
+    "href": "chapters/local-llm.html",
+    "title": "Local LLM and RStudio",
+    "section": "",
+    "text": "Step 1: Install Ollama (one-time, outside R)\nOllama is a free, open-source application that downloads, manages, and runs open LLMs (such as Llama, Qwen, or Mistral) directly on your own computer. Once a model is downloaded, it runs fully offline, with no internet connection or API key required.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-1-install-ollama-one-time-outside-r",
+    "href": "chapters/local-llm.html#step-1-install-ollama-one-time-outside-r",
+    "title": "Local LLM and RStudio",
+    "section": "",
+    "text": "Go to https://ollama.com/download and install Ollama for your operating system.\nConfirm it installed correctly by opening a terminal and running:\n\nollama --version",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-2-pull-a-local-model-one-time-outside-r",
+    "href": "chapters/local-llm.html#step-2-pull-a-local-model-one-time-outside-r",
+    "title": "Local LLM and RStudio",
+    "section": "Step 2: Pull a local model (one-time, outside R)",
+    "text": "Step 2: Pull a local model (one-time, outside R)\nhttps://ollama.com/search lists all the models you can interact with via ollama. In your terminal (not the R console), download a small code-capable model qwen2.5-coder:7b:\nollama pull qwen2.5-coder:7b\n\n# Alternative models to try if your laptop has limited RAM:\n# ollama pull llama3.2:3b\n# ollama pull codellama:7b\n\nTip: qwen2.5-coder:7b needs ~5-6 GB RAM. If your laptop struggles, use llama3.2:3b instead.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-3-install-the-r-packages",
+    "href": "chapters/local-llm.html#step-3-install-the-r-packages",
+    "title": "Local LLM and RStudio",
+    "section": "Step 3: Install the R packages",
+    "text": "Step 3: Install the R packages\n\ninstall.packages(c(\"ellmer\", \"chattr\"))\n\n\n\nellmer is the underlying engine. It handles the actual connection to an LLM, local or cloud, sending your prompt to the model and returning the response as a usable R object.\n\nchattr is the user-facing layer built on top of ellmer. It adds the RStudio-friendly interface: a chat app that opens in the Viewer pane, plus Addins like “Send prompt” that let you query the model without writing any connection code.\n\nIn short, ellmer does the talking to the model; chattr gives you a convenient way to talk to ellmer from inside RStudio.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-4-configure-chattr-to-use-your-local-ollama-model",
+    "href": "chapters/local-llm.html#step-4-configure-chattr-to-use-your-local-ollama-model",
+    "title": "Local LLM and RStudio",
+    "section": "Step 4: Configure chattr to use your local Ollama model",
+    "text": "Step 4: Configure chattr to use your local Ollama model\n\nlibrary(chattr)\n\n# set chattr's backend to the local Ollama model you pulled\nchattr_use(\"ollama/qwen2.5-coder:7b\")\n\n# quick connectivity check: sends a prompt and prints the response in the console\nchattr(\"Write an R function that calculates BMI given weight in kg and height in m.\")\n\nUnder the hood, chattr_use() configures ellmer for you. If it does not recognise the \"ollama/...\" shorthand (this interface has shifted across package versions), configure ellmer directly instead:\n\n# If chattr_use() doesn't recognise \"ollama/...\", configure ellmer directly:\nlibrary(ellmer)\n\nchat &lt;- chat_ollama(model = \"qwen2.5-coder:7b\")\nchattr_use(chat)\n\n# try connectivity check again: sends a prompt and prints the response in the console\nchattr(\"Write an R function that calculates BMI given weight in kg and height in m.\")",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-5-your-first-interaction-via-the-shiny-gadget",
+    "href": "chapters/local-llm.html#step-5-your-first-interaction-via-the-shiny-gadget",
+    "title": "Local LLM and RStudio",
+    "section": "Step 5: Your first interaction, via the Shiny gadget",
+    "text": "Step 5: Your first interaction, via the Shiny gadget\n\nRun chattr_app() in R console. A chat panel opens in the RStudio Viewer pane.\nType the following prompt into the chat box:\n\n\n“Write an R function that calculates BMI given weight in kg and height in m.”\n\n\nReview the code the model returns, then copy it into a script to test it.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-6-your-first-interaction-via-the-rstudio-add-in",
+    "href": "chapters/local-llm.html#step-6-your-first-interaction-via-the-rstudio-add-in",
+    "title": "Local LLM and RStudio",
+    "section": "Step 6: Your first interaction, via the RStudio Add-in",
+    "text": "Step 6: Your first interaction, via the RStudio Add-in\n\nIn a new .R script, type a plain-English question as a comment:\n\n\n# Write an R function `bmi_category` that flags BMI values as underweight, normal,\n# overweight, or obese based on standard WHO cutoffs\n\n\nHighlight that comment line.\nGo to Addins → chattr: Send prompt (or use the keyboard shortcut if configured).\nThe response appears in the chattr panel; copy the generated function back into your script.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-7-see-whats-actually-sent",
+    "href": "chapters/local-llm.html#step-7-see-whats-actually-sent",
+    "title": "Local LLM and RStudio",
+    "section": "Step 7: See what’s actually sent",
+    "text": "Step 7: See what’s actually sent\nSo far, chattr has sent your prompt plus some additional context (like surrounding script content) without showing you what that looks like. Use preview = TRUE to see the full payload without calling the model:\n\n# Normal use: sends the prompt (plus context) to the model and returns a response\nchattr(\"Write an R function that calculates BMI given weight in kg and height in m.\")\n\n# Dry run: shows the exact text/context that would be sent, without calling the model\nchattr(\n  \"Write an R function that calculates BMI given weight in kg and height in m.\"\n  , preview = TRUE\n)\n\nCompare the two outputs. What extra context, if any, got added to your prompt?",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-8-test-the-generated-code",
+    "href": "chapters/local-llm.html#step-8-test-the-generated-code",
+    "title": "Local LLM and RStudio",
+    "section": "Step 8: Test the generated code",
+    "text": "Step 8: Test the generated code\n\n# Paste the AI-generated function here and test it\nbmi_category(weight = 70, height = 1.75)",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/local-llm.html#step-9-reflect",
+    "href": "chapters/local-llm.html#step-9-reflect",
+    "title": "Local LLM and RStudio",
+    "section": "Step 9: Reflect",
+    "text": "Step 9: Reflect\nIn 2-3 sentences, note:\n\nDid the local model’s code run correctly on the first try?\nHow did the response compare to what you’d expect from a cloud model like ChatGPT or Claude?\nWhat are the privacy/speed trade-offs you noticed?",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Local LLM and RStudio</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/scaffolding.html",
+    "href": "chapters/scaffolding.html",
+    "title": "What is Scaffolding?",
+    "section": "",
+    "text": "Step-by-Step Guide to Scaffolding\n1. Discuss project structure with AI\nBefore any code is written, talk through the shape of the project with the AI, treating it as a sounding board rather than a builder.\n2. Set up the folder structure\nTranslate the discussion above into an actual, if mostly empty, folder and file layout. This is still just words and placeholders, no real logic yet.\n3. Add comments\nInside each empty or near-empty file, write comments describing what that file is supposed to do, before any function body exists.\n4. Define function names and interfaces (inputs, outputs)\nDecide, and write down, the names of your key functions and what goes in and comes out of each one. You are not implementing the logic yet, only pinning down the contract each function must honor.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>What is Scaffolding?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/scaffolding.html#step-by-step-guide-to-scaffolding",
+    "href": "chapters/scaffolding.html#step-by-step-guide-to-scaffolding",
+    "title": "What is Scaffolding?",
+    "section": "",
+    "text": "Ask for critiques of existing projects or structures, especially if you are working in a domain that is unfamiliar to you. Show the AI a folder layout or an existing script and ask it to point out weaknesses, rather than asking it to design from scratch.\nDo not let the AI implement anything at this stage. It will keep pushing to write code for you, because that is what it is optimized to do. Resist that. Your job here is to think, not to produce.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>What is Scaffolding?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/scaffolding.html#example-a-scaffold-for-a-simple-analysis-project",
+    "href": "chapters/scaffolding.html#example-a-scaffold-for-a-simple-analysis-project",
+    "title": "What is Scaffolding?",
+    "section": "Example: A Scaffold for a Simple Analysis Project",
+    "text": "Example: A Scaffold for a Simple Analysis Project\nLet’s extend last week’s to have scaffold inside it, deciding what each script is responsible for and what it hands off to the next.\nproject-template/\n├── project-template.Rproj\n├── README.md\n├── .gitignore\n├── LICENSE\n└── scripts/\n    ├── data/\n    │   ├── import/\n    │   │   └── import_data.R\n    │   ├── process/\n    │   │   └── clean_data.R\n    │   └── explore/\n    └── analysis/\nWe will zoom into just two scripts, clean_data.R and import_data.R, to see what good scaffolding looks like in more detail, but the same principle extends to the rest.\nA scaffold for scripts/data/process/clean_data.R:\n\n# clean_data.R\n# Purpose: read raw survey data, clean it, and write an analysis-ready\n#          file to disk.\n# Boundary: this script should never be sourced directly by explore/ or\n#           analysis/ scripts. they should only ever go through import_data.R.\n\n# clean_data(): orchestrates the cleaning pipeline. kept deliberately thin,\n# each step below is its own small function with one job, so that each\n# step's boundary is clear and each can be tested or swapped independently.\n\n# Input:  path to raw CSV file (character)\n# Output: none (invisible NULL). clean_data() exists only to run the\n#         pipeline and write to disk, it does not hand data back directly.\n# Side effect: writes the cleaned data frame to data/clean/clean_data.rds,\n#              to be loaded via import_data(), the only sanctioned way for\n#              explore/ and analysis/ scripts to get the cleaned data.\nclean_data = function(raw_path) {\n  raw = read_raw(raw_path)\n  # TODO: implement, likely steps:\n  # raw %&gt;%\n  #     remove_duplicates() %&gt;%\n  #     recode_diagnosis() %&gt;%\n  #     handle_missing_age() %&gt;%\n  #     write_clean()\n  return(NULL) # return nothing; just execute the data cleaning pipeline\n}\n\n# Input:  path to raw CSV file (character)\n# Output: raw data frame, unmodified, as read from disk\nread_raw = function(raw_path) {\n  # TODO: implement\n}\n\n# Input:  raw data frame\n# Output: data frame with duplicate rows (by id) removed\nremove_duplicates = function(data) {\n  # TODO: implement\n}\n\n# Input:  data frame with a `diagnosis` column using raw/inconsistent labels\n# Output: same data frame, `diagnosis` recoded to a fixed set of categories\nrecode_diagnosis = function(data) {\n  # TODO: implement\n}\n\n# Input:  data frame with an `age` column that may contain missing values\n# Output: same data frame, missing `age` values handled (e.g., imputed or\n#         flagged), no missing `id` values\nhandle_missing_age = function(data) {\n  # TODO: implement\n}\n\n# Input:  cleaned data frame\n# Output: none. writes data frame to data/clean/clean_data.rds\nwrite_clean = function(data) {\n  # TODO: implement\n}\n\nNote that clean_data() only defines the pipeline, sourcing this file does not run anything by itself. It must be explicitly called, e.g. clean_data(\"data/raw/survey.csv\"), before any cleaning happens. It deliberately returns nothing: its only job is to run the cleaning steps and write the result to disk, so there is exactly one path for getting cleaned data back into memory afterward, through import_data(), rather than two competing ones.\nA scaffold for scripts/data/import/import_data.R:\n\n# import_data.R\n# Purpose: load the already-cleaned data from disk, for use by explore/\n#          and analysis/ scripts. this is the ONLY script they should\n#          source to get data, clean_data() itself returns nothing, so\n#          this is the single path back into memory.\n# Boundary: this script should never clean, filter, or recode anything.\n#           it only loads. if the expected file does not exist, it should\n#           error clearly rather than return NULL silently (e.g., the\n#           cleaning pipeline has not been run yet).\n\n# Input:  path to cleaned data file (character), defaults to\n#         data/clean/clean_data.rds, the file written by clean_data()\n# Output: a data frame, one row per respondent, columns: id, age, diagnosis\n#         no missing `id` values\nimport_data = function(clean_path = \"data/clean/clean_data.rds\") {\n  # TODO: implement, likely steps:\n  # if (!file.exists(clean_path)) {\n  #   stop(\"Cleaned data not found at '\", clean_path, \"'. \",\n  #        \"Have you run clean_data() yet?\")\n  # }\n  # readRDS(clean_path)\n}",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>What is Scaffolding?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/scaffolding.html#micro-one-shot",
+    "href": "chapters/scaffolding.html#micro-one-shot",
+    "title": "What is Scaffolding?",
+    "section": "\nMicro One-Shot",
+    "text": "Micro One-Shot\nCarlos’s own practice, once the architecture is settled, is to hand a large task to the agent in a single pass and let it produce a complete solution in one shot. For many of us, though, reviewing a one-shot of an entire project in one sitting can be daunting. The diff is enormous, your attention inevitably drifts, and subtle problems slip through simply because there is too much to hold in your head at once. Also, for a local AI model, large one-shot generations tend to perform poorly compared to their cloud counterparts, since local models are typically smaller and less capable of holding an entire project’s context in mind at once.\nSo here, we adapt Carlos’s philosophy to micro one-shots, keeping the underlying principle, clear boundaries before execution, while shrinking the scale at which we apply it:\n\nStill write a good scaffold first. This part does not change.\nOne-shot small, digestible sections, one function, one file, one well-defined chunk at a time, rather than the whole project at once.\nReview the output, run it, and if it does not work or you cannot fully understand it, throw it away and revise your instructions rather than patching broken code you do not understand.\n\nThis keeps the review burden manageable, works even on local models with limited context, and still gives you the core benefit of scaffolding: you always know what each piece is supposed to do before the AI writes it.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>22</span>  <span class='chapter-title'>What is Scaffolding?</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/final-exercise.html",
+    "href": "chapters/final-exercise.html",
+    "title": "Final Exercise",
+    "section": "",
+    "text": "1. Create a new R project\nSet up a new R project as we covered in earlier sessions.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Final Exercise</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/final-exercise.html#create-main.r-at-the-root-of-your-project-directory",
+    "href": "chapters/final-exercise.html#create-main.r-at-the-root-of-your-project-directory",
+    "title": "Final Exercise",
+    "section": "2. Create main.R at the root of your project directory",
+    "text": "2. Create main.R at the root of your project directory\nmain.R acts as a single entry point for your whole pipeline: it documents, in order, every step your project involves, and runs each one by sourcing the corresponding script. Populate it with comments describing your planned steps, then write out the source() calls needed to execute each script in order, keeping in mind the directory and file structures you learnt last week. For example:\n# clean data: import raw data from data/raw, clean it, and write for downstream use\nsource('scripts/data/cases/process.R')  # output to: data/processed\n\n# data exploration plots\nsource('scripts/explore/cases.R')       # output to: output/explore\n\n# analyse data\nsource('scripts/analyse/stats.R')       # output to: output/stats\nsource('scripts/analyse/regression.R')  # output to: output/regression\n\n# synthesize report from all exploration and analyses\nsource('scripts/report/prelim.R')",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Final Exercise</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/final-exercise.html#create-directories-and-empty-files-as-per-your-main.r",
+    "href": "chapters/final-exercise.html#create-directories-and-empty-files-as-per-your-main.r",
+    "title": "Final Exercise",
+    "section": "3. Create directories and empty files as per your main.R",
+    "text": "3. Create directories and empty files as per your main.R\nSet up the folder structure and empty script files that your main.R refers to, so everything is in place before you start filling them in.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Final Exercise</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/final-exercise.html#build-out-each-script-in-procedural-order",
+    "href": "chapters/final-exercise.html#build-out-each-script-in-procedural-order",
+    "title": "Final Exercise",
+    "section": "4. Build out each script, in procedural order",
+    "text": "4. Build out each script, in procedural order\nWork through your files in the order your pipeline actually runs, starting with data cleaning and moving downstream from there.\n4.1 Scaffold each file. For each file, populate it with rough scaffolds (comments) outlining the steps needed inside it.\n4.2 Validate the plan with your LLM. Brainstorm with your LLM whether these steps make sense. Try asking for better ways to do it, and push back on its suggestions to see how it responds.\n4.3 Define interfaces within one file. Once you are happy with the overall plan, go through the scaffolds in the script, one scaffold at a time, and ask the LLM to define the boundaries and interfaces of each step, that is, what inputs it needs and what outputs it should produce, whether that step ends up as a function, a block of code, or something else. Remember that you can mix R code with free text in scaffolding. The LLM should be able to handle this. Review and refine the scaffolds until the logic is clear and correct.\n4.4 Micro one-shot each scaffold. Try micro one-shotting each scaffold: asking the LLM to generate the full implementation for just one small, well-defined function at a time, rather than the whole script at once. Converse with it along the way to learn from its reasoning, not just copy its output. Remember your good old ?help is also there to help you.",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Final Exercise</span>"
+    ]
+  },
+  {
+    "objectID": "chapters/final-exercise.html#reflect",
+    "href": "chapters/final-exercise.html#reflect",
+    "title": "Final Exercise",
+    "section": "Reflect",
+    "text": "Reflect\nIn 2 to 3 sentences, note:\n\nWhere did the local LLM help you most today, and where did it struggle?\nWere there moments you wished you had a more capable cloud model instead? What made you feel that way?\nHow might you use this scaffold-and-verify workflow on your own projects going forward?",
+    "crumbs": [
+      "5 - Coding support tools",
+      "<span class='chapter-number'>23</span>  <span class='chapter-title'>Final Exercise</span>"
+    ]
   }
 ]
