@@ -1,0 +1,134 @@
+# Local LLM and RStudio {#local-llm}
+
+Artificial intelligence (AI) is a broad field. Today we focus on one part of it: Large Language Models (LLMs), which are trained on huge amounts of text to predict and generate language, including code.
+
+Privacy and data sensitivity are general concerns in public health, so we will go through one of the many ways to set up an LLM locally rather than relying on a cloud service. The trade-off is that local models are less capable than large cloud models like GPT or Claude, so expect drafts that need more checking.
+
+To get there, we first set up an LLM locally. Then we connect it to RStudio so you do not have to keep copying and pasting between a browser and your script.
+
+
+## Step 1: Install Ollama (one-time, outside R)
+
+Ollama is a free, open-source application that downloads, manages, and runs open LLMs (such as Llama, Qwen, or Mistral) directly on your own computer. Once a model is downloaded, it runs fully offline, with no internet connection or API key required.
+
+1. Go to <https://ollama.com/download> and install Ollama for your operating system.
+2. Confirm it installed correctly by opening a terminal and running:
+
+```bash
+ollama --version
+```
+
+## Step 2: Pull a local model (one-time, outside R)
+
+[https://ollama.com/search](https://ollama.com/search) lists all the models you can interact with via ollama.
+In your terminal (not the R console), download a small code-capable model `qwen2.5-coder:7b`:
+
+```bash
+ollama pull qwen2.5-coder:7b
+
+# Alternative models to try if your laptop has limited RAM:
+# ollama pull llama3.2:3b
+# ollama pull codellama:7b
+```
+> Tip: `qwen2.5-coder:7b` needs ~5-6 GB RAM. If your laptop struggles, use `llama3.2:3b` instead.
+
+
+## Step 3: Install the R packages
+
+```{r}
+#| eval: false
+install.packages(c("ellmer", "chattr"))
+```
+
+- `ellmer` is the underlying engine. It handles the actual connection to an LLM, local or cloud, sending your prompt to the model and returning the response as a usable R object.
+- `chattr` is the user-facing layer built on top of `ellmer`. It adds the RStudio-friendly interface: a chat app that opens in the Viewer pane, plus Addins like "Send prompt" that let you query the model without writing any connection code.
+
+In short, ellmer does the talking to the model; chattr gives you a convenient way to talk to ellmer from inside RStudio.
+
+
+## Step 4: Configure chattr to use your local Ollama model
+
+```{r}
+#| eval: false
+library(chattr)
+
+# set chattr's backend to the local Ollama model you pulled
+chattr_use("ollama/qwen2.5-coder:7b")
+
+# quick connectivity check: sends a prompt and prints the response in the console
+chattr("Write an R function that calculates BMI given weight in kg and height in m.")
+```
+
+Under the hood, `chattr_use()` configures ellmer for you. If it does not recognise the `"ollama/..."` shorthand (this interface has shifted across package versions), configure `ellmer` directly instead:
+
+```{r}
+#| eval: false
+# If chattr_use() doesn't recognise "ollama/...", configure ellmer directly:
+library(ellmer)
+
+chat <- chat_ollama(model = "qwen2.5-coder:7b")
+chattr_use(chat)
+
+# try connectivity check again: sends a prompt and prints the response in the console
+chattr("Write an R function that calculates BMI given weight in kg and height in m.")
+```
+
+
+## Step 5: Your first interaction, via the Shiny gadget
+
+1. Run `chattr_app()` in R console. A chat panel opens in the RStudio Viewer pane.
+2. Type the following prompt into the chat box:
+
+> "Write an R function that calculates BMI given weight in kg and height in m."
+
+3. Review the code the model returns, then copy it into a script to test it.
+
+## Step 6: Your first interaction, via the RStudio Add-in
+
+1. In a new `.R` script, type a plain-English question as a comment:
+
+```{r}
+#| eval: false
+# Write an R function `bmi_category` that flags BMI values as underweight, normal,
+# overweight, or obese based on standard WHO cutoffs
+```
+
+2. Highlight that comment line.
+3. Go to **Addins → chattr: Send prompt** (or use the keyboard shortcut if configured).
+4. The response appears in the chattr panel; copy the generated function back into your script.
+
+
+## Step 7: See what's actually sent
+
+So far, chattr has sent your prompt plus some additional context (like surrounding script content) without showing you what that looks like. Use `preview = TRUE` to see the full payload without calling the model:
+
+```{r}
+#| eval: false
+# Normal use: sends the prompt (plus context) to the model and returns a response
+chattr("Write an R function that calculates BMI given weight in kg and height in m.")
+
+# Dry run: shows the exact text/context that would be sent, without calling the model
+chattr(
+  "Write an R function that calculates BMI given weight in kg and height in m."
+  , preview = TRUE
+)
+```
+
+Compare the two outputs. What extra context, if any, got added to your prompt?
+
+
+## Step 8: Test the generated code
+
+```{r}
+#| eval: false
+# Paste the AI-generated function here and test it
+bmi_category(weight = 70, height = 1.75)
+```
+
+## Step 9: Reflect
+
+In 2-3 sentences, note:
+
+1. Did the local model's code run correctly on the first try?
+2. How did the response compare to what you'd expect from a cloud model like ChatGPT or Claude?
+3. What are the privacy/speed trade-offs you noticed?

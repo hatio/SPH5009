@@ -1,0 +1,160 @@
+# What is Scaffolding? {#scaffolding}
+
+"Best practices" for using AI in coding is a rapidly expanding, and rapidly contradicting, body of advice. Everyone seems to be saying something slightly different, and much of it is still being figured out in real time. Rather than trying to survey all of it, this session focuses on one particular idea: **scaffolding**. This approach follows an [interview of Carlos Kelkboom](https://www.ai.joaoqueiros.com/blog/carlos-kelkboom-coding-agents-scaffolding-worktrees-review), a leading Software Architect, whose framing of the problem I personally find especially compelling and practical.
+
+**Scaffolding** means building the "skeleton" of your project out of plain words and empty files before you let the AI write a single line of actual R code. Think of it this way: the AI is a remarkably fast builder, but you are the Chief Architect. If you do not draw up the blueprint first, the AI will cheerfully build the wrong house, quickly, confidently, and with code that runs without error.
+
+Scaffolding means deciding upfront which part of the code is responsible for what, and exactly what data gets passed between those parts, while those decisions are still easy to change, before a lot of implementation gets built on top of them. Once an agent has already written five hundred lines of interdependent code, restructuring becomes expensive and risky. Deciding before that point what talks to what, what a function is responsible for, and what it should never touch, costs you a few minutes of thinking instead of hours of untangling.
+
+## Step-by-Step Guide to Scaffolding
+
+**1. Discuss project structure with AI**
+
+Before any code is written, talk through the shape of the project with the AI, treating it as a sounding board rather than a builder.
+
+- Ask for critiques of existing projects or structures, especially if you are working in a domain that is unfamiliar to you. Show the AI a folder layout or an existing script and ask it to point out weaknesses, rather than asking it to design from scratch.
+- Do not let the AI implement anything at this stage. It will keep pushing to write code for you, because that is what it is optimized to do. Resist that. Your job here is to think, not to produce.
+
+**2. Set up the folder structure**
+
+Translate the discussion above into an actual, if mostly empty, folder and file layout. This is still just words and placeholders, no real logic yet.
+
+**3. Add comments**
+
+Inside each empty or near-empty file, write comments describing what that file is supposed to do, before any function body exists.
+
+**4. Define function names and interfaces (inputs, outputs)**
+
+Decide, and write down, the names of your key functions and what goes in and comes out of each one. You are not implementing the logic yet, only pinning down the contract each function must honor.
+
+## Example: A Scaffold for a Simple Analysis Project
+
+Let's extend last week's to have scaffold *inside* it, deciding what each script is responsible for and what it hands off to the next.
+
+```
+project-template/
+├── project-template.Rproj
+├── README.md
+├── .gitignore
+├── LICENSE
+└── scripts/
+    ├── data/
+    │   ├── import/
+    │   │   └── import_data.R
+    │   ├── process/
+    │   │   └── clean_data.R
+    │   └── explore/
+    └── analysis/
+```
+
+We will zoom into just two scripts, `clean_data.R` and `import_data.R`, to see what good scaffolding looks like in more detail, but the same principle extends to the rest.
+
+A scaffold for `scripts/data/process/clean_data.R`:
+
+```{r}
+#| eval: false
+
+# clean_data.R
+# Purpose: read raw survey data, clean it, and write an analysis-ready
+#          file to disk.
+# Boundary: this script should never be sourced directly by explore/ or
+#           analysis/ scripts. they should only ever go through import_data.R.
+
+# clean_data(): orchestrates the cleaning pipeline. kept deliberately thin,
+# each step below is its own small function with one job, so that each
+# step's boundary is clear and each can be tested or swapped independently.
+
+# Input:  path to raw CSV file (character)
+# Output: none (invisible NULL). clean_data() exists only to run the
+#         pipeline and write to disk, it does not hand data back directly.
+# Side effect: writes the cleaned data frame to data/clean/clean_data.rds,
+#              to be loaded via import_data(), the only sanctioned way for
+#              explore/ and analysis/ scripts to get the cleaned data.
+clean_data = function(raw_path) {
+  raw = read_raw(raw_path)
+  # TODO: implement, likely steps:
+  # raw %>%
+  #     remove_duplicates() %>%
+  #     recode_diagnosis() %>%
+  #     handle_missing_age() %>%
+  #     write_clean()
+  return(NULL) # return nothing; just execute the data cleaning pipeline
+}
+
+# Input:  path to raw CSV file (character)
+# Output: raw data frame, unmodified, as read from disk
+read_raw = function(raw_path) {
+  # TODO: implement
+}
+
+# Input:  raw data frame
+# Output: data frame with duplicate rows (by id) removed
+remove_duplicates = function(data) {
+  # TODO: implement
+}
+
+# Input:  data frame with a `diagnosis` column using raw/inconsistent labels
+# Output: same data frame, `diagnosis` recoded to a fixed set of categories
+recode_diagnosis = function(data) {
+  # TODO: implement
+}
+
+# Input:  data frame with an `age` column that may contain missing values
+# Output: same data frame, missing `age` values handled (e.g., imputed or
+#         flagged), no missing `id` values
+handle_missing_age = function(data) {
+  # TODO: implement
+}
+
+# Input:  cleaned data frame
+# Output: none. writes data frame to data/clean/clean_data.rds
+write_clean = function(data) {
+  # TODO: implement
+}
+```
+
+Note that `clean_data()` only defines the pipeline, sourcing this file does not run anything by itself. It must be explicitly called, e.g. `clean_data("data/raw/survey.csv")`, before any cleaning happens. It deliberately returns nothing: its only job is to run the cleaning steps and write the result to disk, so there is exactly one path for getting cleaned data back into memory afterward, through `import_data()`, rather than two competing ones.
+
+A scaffold for `scripts/data/import/import_data.R`:
+
+```{r}
+#| eval: false
+
+# import_data.R
+# Purpose: load the already-cleaned data from disk, for use by explore/
+#          and analysis/ scripts. this is the ONLY script they should
+#          source to get data, clean_data() itself returns nothing, so
+#          this is the single path back into memory.
+# Boundary: this script should never clean, filter, or recode anything.
+#           it only loads. if the expected file does not exist, it should
+#           error clearly rather than return NULL silently (e.g., the
+#           cleaning pipeline has not been run yet).
+
+# Input:  path to cleaned data file (character), defaults to
+#         data/clean/clean_data.rds, the file written by clean_data()
+# Output: a data frame, one row per respondent, columns: id, age, diagnosis
+#         no missing `id` values
+import_data = function(clean_path = "data/clean/clean_data.rds") {
+  # TODO: implement, likely steps:
+  # if (!file.exists(clean_path)) {
+  #   stop("Cleaned data not found at '", clean_path, "'. ",
+  #        "Have you run clean_data() yet?")
+  # }
+  # readRDS(clean_path)
+}
+```
+
+
+
+## *Micro* One-Shot
+
+Carlos's own practice, once the architecture is settled, is to hand a large task to the agent in a single pass and let it produce a complete solution in one shot. For many of us, though, reviewing a one-shot of an *entire* project in one sitting can be daunting. The diff is enormous, your attention inevitably drifts, and subtle problems slip through simply because there is too much to hold in your head at once. Also, for a local AI model, large one-shot generations tend to perform poorly compared to their cloud counterparts, since local models are typically smaller and less capable of holding an entire project's context in mind at once.
+
+So here, we adapt Carlos's philosophy to *micro* one-shots, keeping the underlying principle, clear boundaries before execution, while shrinking the scale at which we apply it:
+
+- Still write a good scaffold first. This part does not change.
+- One-shot small, digestible sections, one function, one file, one well-defined chunk at a time, rather than the whole project at once.
+- Review the output, run it, and if it does not work or you cannot fully understand it, throw it away and revise your instructions rather than patching broken code you do not understand.
+
+This keeps the review burden manageable, works even on local models with limited context, and still gives you the core benefit of scaffolding: you always know what each piece is supposed to do before the AI writes it.
+

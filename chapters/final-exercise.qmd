@@ -1,0 +1,52 @@
+# Final Exercise {#final-exercise}
+
+As promised, each of you will be working on your very own project today. You'll now put the local LLM you just configured to work, using it to scaffold and build out your project step by step. Here are some common steps and structure to guide you through this journey.
+
+## 1. Create a new R project
+
+Set up a new R project as we covered in earlier sessions.
+
+## 2. Create `main.R` at the root of your project directory
+
+`main.R` acts as a single entry point for your whole pipeline: it documents, in order, every step your project involves, and runs each one by sourcing the corresponding script. Populate it with comments describing your planned steps, then write out the `source()` calls needed to execute each script in order, keeping in mind the directory and file structures you learnt last week. For example:
+
+```r
+# clean data: import raw data from data/raw, clean it, and write for downstream use
+source('scripts/data/cases/process.R')  # output to: data/processed
+
+# data exploration plots
+source('scripts/explore/cases.R')       # output to: output/explore
+
+# analyse data
+source('scripts/analyse/stats.R')       # output to: output/stats
+source('scripts/analyse/regression.R')  # output to: output/regression
+
+# synthesize report from all exploration and analyses
+source('scripts/report/prelim.R')
+```
+
+## 3. Create directories and empty files as per your `main.R`
+
+Set up the folder structure and empty script files that your `main.R` refers to, so everything is in place before you start filling them in.
+
+## 4. Build out each script, in procedural order
+
+Work through your files in the order your pipeline actually runs, starting with data cleaning and moving downstream from there.
+
+**4.1 Scaffold each file.** For each file, populate it with rough scaffolds (comments) outlining the steps needed inside it.
+
+**4.2 Validate the plan with your LLM.** Brainstorm with your LLM whether these steps make sense. Try asking for better ways to do it, and push back on its suggestions to see how it responds.
+
+**4.3 Define interfaces within one file.** Once you are happy with the overall plan, go through the scaffolds in the script, one scaffold at a time, and ask the LLM to define the boundaries and interfaces of each step, that is, what inputs it needs and what outputs it should produce, whether that step ends up as a function, a block of code, or something else. Remember that you can mix R code with free text in scaffolding. The LLM should be able to handle this. Review and refine the scaffolds until the logic is clear and correct.
+
+**4.4 Micro one-shot each scaffold.** Try *micro* one-shotting each scaffold: asking the LLM to generate the full implementation for just one small, well-defined function at a time, rather than the whole script at once. Converse with it along the way to learn from its reasoning, not just copy its output. Remember your good old ?help is also there to help you.
+
+
+## Reflect
+
+In 2 to 3 sentences, note:
+
+1. Where did the local LLM help you most today, and where did it struggle?
+2. Were there moments you wished you had a more capable cloud model instead? What made you feel that way?
+3. How might you use this scaffold-and-verify workflow on your own projects going forward?
+

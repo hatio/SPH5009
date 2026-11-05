@@ -1,7 +1,27 @@
-#  Best Practices in Using Coding Support Tools {#assist}
+# Best Practices in Using Coding Support Tools {#assist}
 
-```{r}
-#| label: setup
-#| include: false
-source("_common.R")
-```
+Over the past four weeks, you have gradually accumulated knowledge on R vocabulary and how these building blocks can be combined into functioning workflows. Four weeks is not a lot of time, so naturally we could only cover so much ground. Today, we shift gears slightly: rather than adding another R concept to your toolkit, we will explore how AI assistance can help you accomplish more, and do so *productively*. By "productively," I mean coding in a way where you still know exactly what you built, can stand behind it when questioned, produce work that can be maintained in the long run, and continue to expand your own knowledge over time, rather than letting the tool think for you while your own skills quietly atrophy.
+
+## AI Assistance
+
+AI assistance in coding is not a single, uniform thing. It shows up in several distinct forms, each with its own risks and appropriate uses.
+
+### Chat: Copy-Paste
+
+The most familiar form is simply chatting with an AI model in a separate window, then copying its output into your script. You are probably already doing this, pasting an error message into a chat window and copying back a fix, or asking for a function and transplanting it into your `.R` or `.qmd` file. It is simple and flexible, but because the AI's output is detached from your actual working file, it is easy to lose track of *why* a particular piece of code was suggested, and whether it still fits once you have made further edits.
+
+### Auto-Complete
+
+Auto-complete used to be a modest convenience: your editor would suggest a function name, close a bracket, or complete a variable you had already typed elsewhere. It was predictable and easy to verify at a glance.
+
+Modern auto-complete is a different beast entirely. It can now generate whole chunks of code, a full `dplyr` pipeline, an entire `ggplot2` call, even a small function, based on a few words of context or a comment you wrote. This raises an important question you should always ask yourself: *are these AI guesses really what you intended?* The suggestion may run without error and even produce plausible-looking output, while still subtly misrepresenting your data, using the wrong grouping variable, or silently dropping missing values in a way you did not intend. The fluency of the output does not guarantee its correctness.
+
+### Agentic Coding
+
+The most powerful, and most hands-off, form of AI assistance is agentic coding, where the AI is given a broader goal and allowed to plan, write, and sometimes execute multiple steps on its own. This generally takes one of two shapes:
+
+- **Incremental**: the agent works in small, reviewable steps, pausing for your input or confirmation along the way.
+- **One-shot**: the agent is given a task and produces a complete solution in a single pass, with no intermediate checkpoints.
+
+The more autonomy you hand over, the more deliberate you need to be about *how* you direct and review that work.
+
