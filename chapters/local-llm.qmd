@@ -6,7 +6,6 @@ Privacy and data sensitivity are general concerns in public health, so we will g
 
 To get there, we first set up an LLM locally. Then we connect it to RStudio so you do not have to keep copying and pasting between a browser and your script.
 
-
 ## Step 1: Install Ollama (one-time, outside R)
 
 Ollama is a free, open-source application that downloads, manages, and runs open LLMs (such as Llama, Qwen, or Mistral) directly on your own computer. Once a model is downloaded, it runs fully offline, with no internet connection or API key required.
@@ -20,115 +19,165 @@ ollama --version
 
 ## Step 2: Pull a local model (one-time, outside R)
 
-[https://ollama.com/search](https://ollama.com/search) lists all the models you can interact with via ollama.
-In your terminal (not the R console), download a small code-capable model `qwen2.5-coder:7b`:
+<https://ollama.com/search> lists all the models you can interact with via Ollama.
+
+In your terminal (not the R console), download a small code-capable model `qwen3:4b-instruct-2507-q4_K_M`:
 
 ```bash
-ollama pull qwen2.5-coder:7b
+ollama pull qwen3:4b-instruct-2507-q4_K_M
 
-# Alternative models to try if your laptop has limited RAM:
+# If your laptop has limited RAM (smaller, weaker):
 # ollama pull llama3.2:3b
-# ollama pull codellama:7b
+# ollama pull qwen3:1.7b
 ```
-> Tip: `qwen2.5-coder:7b` needs ~5-6 GB RAM. If your laptop struggles, use `llama3.2:3b` instead.
-
 
 ## Step 3: Install the R packages
 
 ```{r}
 #| eval: false
-install.packages(c("ellmer", "chattr"))
+install.packages(c("ellmer", "btw"))
 ```
 
 - `ellmer` is the underlying engine. It handles the actual connection to an LLM, local or cloud, sending your prompt to the model and returning the response as a usable R object.
-- `chattr` is the user-facing layer built on top of `ellmer`. It adds the RStudio-friendly interface: a chat app that opens in the Viewer pane, plus Addins like "Send prompt" that let you query the model without writing any connection code.
+- `btw` gives the model context from your R session. It turns objects, data frames, function documentation and package help into text the model can read, so you don't have to paste them into your prompt. It can also optionally give the model tools to look things up in your session.
 
-In short, ellmer does the talking to the model; chattr gives you a convenient way to talk to ellmer from inside RStudio.
-
-
-## Step 4: Configure chattr to use your local Ollama model
+## Step 4: Chat with your local Ollama model via ellmer
 
 ```{r}
 #| eval: false
-library(chattr)
-
-# set chattr's backend to the local Ollama model you pulled
-chattr_use("ollama/qwen2.5-coder:7b")
-
-# quick connectivity check: sends a prompt and prints the response in the console
-chattr("Write an R function that calculates BMI given weight in kg and height in m.")
-```
-
-Under the hood, `chattr_use()` configures ellmer for you. If it does not recognise the `"ollama/..."` shorthand (this interface has shifted across package versions), configure `ellmer` directly instead:
-
-```{r}
-#| eval: false
-# If chattr_use() doesn't recognise "ollama/...", configure ellmer directly:
 library(ellmer)
 
-chat <- chat_ollama(model = "qwen2.5-coder:7b")
-chattr_use(chat)
+chat = chat_ollama(model = "qwen3:4b-instruct-2507-q4_K_M")
 
-# try connectivity check again: sends a prompt and prints the response in the console
-chattr("Write an R function that calculates BMI given weight in kg and height in m.")
+# create a very simple dataset for the model to work on
+dat = data.frame(age = 1:10, sex = c('M'))
+dat[1, 2] = NA  # introduce some missing value
+
+# ask model to describe the data
+chat$chat("describe `dat`")
 ```
 
+`dat` is in our R environment (we have just created it), but the model has no way to see your R session. It only ever sees the text you send it. So when you ask it to describe `dat` without passing any actual values, it has nothing concrete to work with and falls back on a vague, generic answer, or it may even invent a plausible-sounding description that has nothing to do with your real data.
 
-## Step 5: Your first interaction, via the Shiny gadget
+## Step 5: Contextualized chat via btw
 
-1. Run `chattr_app()` in R console. A chat panel opens in the RStudio Viewer pane.
-2. Type the following prompt into the chat box:
+`btw` closes that gap by giving the model access to what is actually in your R session. There are two ways to use it: wrapping your `chat` object so the model can look things up as needed, or explicitly passing an object's content into a single prompt.
 
-> "Write an R function that calculates BMI given weight in kg and height in m."
-
-3. Review the code the model returns, then copy it into a script to test it.
-
-## Step 6: Your first interaction, via the RStudio Add-in
-
-1. In a new `.R` script, type a plain-English question as a comment:
+**Wrapping the chat object.** `btw_client()` takes an existing `ellmer` chat and layers session-awareness on top of it, so the model can inspect objects, data, and documentation when it needs to:
 
 ```{r}
 #| eval: false
-# Write an R function `bmi_category` that flags BMI values as underweight, normal,
-# overweight, or obese based on standard WHO cutoffs
+library(btw)
+
+# create btw client from the chat we just had
+client = btw_client(client = chat)
+
+# ask the client to describe the data
+client$chat("describe `dat`")
 ```
 
-2. Highlight that comment line.
-3. Go to **Addins → chattr: Send prompt** (or use the keyboard shortcut if configured).
-4. The response appears in the chattr panel; copy the generated function back into your script.
-
-
-## Step 7: See what's actually sent
-
-So far, chattr has sent your prompt plus some additional context (like surrounding script content) without showing you what that looks like. Use `preview = TRUE` to see the full payload without calling the model:
+Is this any better than Step 4's response? Compare it to a *fresh* chat and client below, which has never seen `dat` mentioned before:
 
 ```{r}
 #| eval: false
-# Normal use: sends the prompt (plus context) to the model and returns a response
-chattr("Write an R function that calculates BMI given weight in kg and height in m.")
+# remove the chat and client we created earlier
+rm(chat, client)
 
-# Dry run: shows the exact text/context that would be sent, without calling the model
-chattr(
-  "Write an R function that calculates BMI given weight in kg and height in m."
-  , preview = TRUE
-)
+# create a new chat
+chat = chat_ollama(model = "qwen3:4b-instruct-2507-q4_K_M")
+
+# create btw client from this new chat
+client = btw_client(client = chat)
+
+# ask the client to describe the data
+client$chat("describe `dat`")
 ```
 
-Compare the two outputs. What extra context, if any, got added to your prompt?
+Do the two responses differ? Why might that be, given both clients technically have the same tools available?
 
-
-## Step 8: Test the generated code
+**Passing exact context directly.** Rather than relying on the model to realise it should look something up (which, as you may have just seen, small local models do not always do reliably), you can skip the guesswork entirely and hand it the exact object you are asking about:
 
 ```{r}
 #| eval: false
-# Paste the AI-generated function here and test it
-bmi_category(weight = 70, height = 1.75)
+# specifically pass `dat` to the chat and ask it to describe
+chat$chat(btw(dat, "describe"))
 ```
 
-## Step 9: Reflect
+`btw()` here converts `dat` into a compact text representation (structure, types, a preview of values) and bundles it directly into your prompt, so the model is reasoning over your actual data rather than guessing from the variable name alone. This tends to be the more reliable approach with smaller local models.
 
-In 2-3 sentences, note:
+## Step 6: Interactive chat
 
-1. Did the local model's code run correctly on the first try?
-2. How did the response compare to what you'd expect from a cloud model like ChatGPT or Claude?
-3. What are the privacy/speed trade-offs you noticed?
+There may be times you want a back-and-forth conversation rather than one-off questions. Chat history does carry over from call to call of `chat$chat()` (the object remembers earlier turns), but typing the function out for every message is tedious. Two more convenient options:
+
+**Live console**, for a lightweight, terminal-style back-and-forth without leaving the console:
+
+```{r}
+#| eval: false
+ellmer::live_console(chat)
+```
+
+Type your messages directly and press Enter to send; press `esc` to exit back to your normal R console.
+
+**`btw_app()`**, for a more familiar, formatted, web-based chat window:
+
+```{r}
+#| eval: false
+btw_app(client = chat)
+```
+
+This gives you a nicer interface (message bubbles, scrollback, markdown rendering), but it comes at a cost: every message you send still carries the model's full running conversation history, and with small local models, more history in context tends to mean slower responses and, often, noticeably lower-quality answers once the context starts to fill up. We will look at how to manage this next.
+
+## Step 7: View the conversation log
+
+Every `chat` object keeps a record of the full conversation it has had so far, not just what is shown on screen. You can inspect this directly:
+
+```{r}
+#| eval: false
+# view the full back-and-forth so far, as a list of turns
+chat$get_turns()
+
+# a quicker, readable summary in the console
+chat
+```
+
+This is useful for two reasons: you can check exactly what context the model has accumulated (including anything `btw` silently added via tool calls), and you can confirm whether something you expected it to "remember" from earlier in the conversation is actually still there.
+
+## Step 8: Running multiple chats in parallel
+
+Because a `chat` object is just an R object, you are not limited to one conversation at a time. You can create several, give them different names, and use each for a different line of thinking:
+
+```{r}
+#| eval: false
+chat_cleaning = chat_ollama(model = "qwen3:4b-instruct-2507-q4_K_M")
+chat_viz      = chat_ollama(model = "qwen3:4b-instruct-2507-q4_K_M")
+
+chat_cleaning$chat("Suggest steps to clean a messy clinical dataset with missing ages.")
+chat_viz$chat("Suggest a good ggplot2 chart to compare case counts across regions.")
+```
+
+Each object keeps its own separate history, so asking `chat_viz` something does not bloat or confuse the conversation you were having in `chat_cleaning`, and vice versa.
+
+Once a conversation is no longer useful to you, delete it:
+
+```{r}
+#| eval: false
+rm(chat_cleaning)
+```
+
+**Why this matters for response quality, not just tidiness.** Local models have a limited context window (the maximum number of tokens they can "see" at once, including your whole conversation history). As a chat's history grows, each new prompt has to carry all of that earlier text along with it. Once you approach the model's context limit, you will often notice slower responses, truncated answers, or replies that seem to have "forgotten" earlier instructions, since older parts of the conversation may get dropped or crowded out. This tends to show up much sooner with small local models than with large cloud models.
+
+The practical habit to build is: keep each chat focused on one task or one file, start a new chat rather than continuing an old, long, unrelated conversation, and discard (`rm()`) a chat once you are done with it rather than letting several bloated conversations pile up in your environment. This keeps each chat's context small and relevant, which tends to produce noticeably better answers than one long, meandering conversation covering several unrelated tasks.
+
+## Step 9: Checking the generated code
+
+A local model's code is a draft, not a guarantee. Before relying on anything it gives you, check it the same way you would check any new piece of code:
+
+1. **Read it before running it.** Does the logic make sense given what you asked for? Does it use functions and arguments you recognise, or are they things you should look up in `?help` first?
+2. **Run it on a small, known example.** Test the generated code on simple data where you already know what the correct answer should be, not directly on your real analysis dataset.
+3. **Compare output to expectations.** Check dimensions, types, and a few known values. For example, if you asked for a cleaning function, confirm the number of rows and columns is what you expect, and spot-check a few values by hand.
+4. **Watch for confident-sounding mistakes.** Local models can produce code that runs without error but is subtly wrong (incorrect formula, wrong column referenced, silently dropped rows). A lack of an error message is not the same as correctness.
+5. **Ask the model to explain its own code**, then check that explanation against what the code actually does line by line. Mismatches between the explanation and the behaviour are a useful signal that something may be off.
+
+----
+
+Now that you have an LLM working locally, let's return to the actual topic of today **best practices.**

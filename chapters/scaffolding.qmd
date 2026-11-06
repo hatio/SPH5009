@@ -1,6 +1,9 @@
-# What is Scaffolding? {#scaffolding}
+# Scaffolding {#scaffolding}
 
 "Best practices" for using AI in coding is a rapidly expanding, and rapidly contradicting, body of advice. Everyone seems to be saying something slightly different, and much of it is still being figured out in real time. Rather than trying to survey all of it, this session focuses on one particular idea: **scaffolding**. This approach follows an [interview of Carlos Kelkboom](https://www.ai.joaoqueiros.com/blog/carlos-kelkboom-coding-agents-scaffolding-worktrees-review), a leading Software Architect, whose framing of the problem I personally find especially compelling and practical.
+
+
+## What is Scaffolding?
 
 **Scaffolding** means building the "skeleton" of your project out of plain words and empty files before you let the AI write a single line of actual R code. Think of it this way: the AI is a remarkably fast builder, but you are the Chief Architect. If you do not draw up the blueprint first, the AI will cheerfully build the wrong house, quickly, confidently, and with code that runs without error.
 
@@ -157,4 +160,3 @@ So here, we adapt Carlos's philosophy to *micro* one-shots, keeping the underlyi
 - Review the output, run it, and if it does not work or you cannot fully understand it, throw it away and revise your instructions rather than patching broken code you do not understand.
 
 This keeps the review burden manageable, works even on local models with limited context, and still gives you the core benefit of scaffolding: you always know what each piece is supposed to do before the AI writes it.
-
