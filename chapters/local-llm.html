@@ -295,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/scaffolding.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">What is Scaffolding?</span></a>
+  <a href="../chapters/scaffolding.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Scaffolding</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -316,12 +316,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#step-1-install-ollama-one-time-outside-r" id="toc-step-1-install-ollama-one-time-outside-r" class="nav-link active" data-scroll-target="#step-1-install-ollama-one-time-outside-r">Step 1: Install Ollama (one-time, outside R)</a></li>
   <li><a href="#step-2-pull-a-local-model-one-time-outside-r" id="toc-step-2-pull-a-local-model-one-time-outside-r" class="nav-link" data-scroll-target="#step-2-pull-a-local-model-one-time-outside-r">Step 2: Pull a local model (one-time, outside R)</a></li>
   <li><a href="#step-3-install-the-r-packages" id="toc-step-3-install-the-r-packages" class="nav-link" data-scroll-target="#step-3-install-the-r-packages">Step 3: Install the R packages</a></li>
-  <li><a href="#step-4-configure-chattr-to-use-your-local-ollama-model" id="toc-step-4-configure-chattr-to-use-your-local-ollama-model" class="nav-link" data-scroll-target="#step-4-configure-chattr-to-use-your-local-ollama-model">Step 4: Configure chattr to use your local Ollama model</a></li>
-  <li><a href="#step-5-your-first-interaction-via-the-shiny-gadget" id="toc-step-5-your-first-interaction-via-the-shiny-gadget" class="nav-link" data-scroll-target="#step-5-your-first-interaction-via-the-shiny-gadget">Step 5: Your first interaction, via the Shiny gadget</a></li>
-  <li><a href="#step-6-your-first-interaction-via-the-rstudio-add-in" id="toc-step-6-your-first-interaction-via-the-rstudio-add-in" class="nav-link" data-scroll-target="#step-6-your-first-interaction-via-the-rstudio-add-in">Step 6: Your first interaction, via the RStudio Add-in</a></li>
-  <li><a href="#step-7-see-whats-actually-sent" id="toc-step-7-see-whats-actually-sent" class="nav-link" data-scroll-target="#step-7-see-whats-actually-sent">Step 7: See what’s actually sent</a></li>
-  <li><a href="#step-8-test-the-generated-code" id="toc-step-8-test-the-generated-code" class="nav-link" data-scroll-target="#step-8-test-the-generated-code">Step 8: Test the generated code</a></li>
-  <li><a href="#step-9-reflect" id="toc-step-9-reflect" class="nav-link" data-scroll-target="#step-9-reflect">Step 9: Reflect</a></li>
+  <li><a href="#step-4-chat-with-your-local-ollama-model-via-ellmer" id="toc-step-4-chat-with-your-local-ollama-model-via-ellmer" class="nav-link" data-scroll-target="#step-4-chat-with-your-local-ollama-model-via-ellmer">Step 4: Chat with your local Ollama model via ellmer</a></li>
+  <li><a href="#step-5-contextualized-chat-via-btw" id="toc-step-5-contextualized-chat-via-btw" class="nav-link" data-scroll-target="#step-5-contextualized-chat-via-btw">Step 5: Contextualized chat via btw</a></li>
+  <li><a href="#step-6-interactive-chat" id="toc-step-6-interactive-chat" class="nav-link" data-scroll-target="#step-6-interactive-chat">Step 6: Interactive chat</a></li>
+  <li><a href="#step-7-view-the-conversation-log" id="toc-step-7-view-the-conversation-log" class="nav-link" data-scroll-target="#step-7-view-the-conversation-log">Step 7: View the conversation log</a></li>
+  <li><a href="#step-8-running-multiple-chats-in-parallel" id="toc-step-8-running-multiple-chats-in-parallel" class="nav-link" data-scroll-target="#step-8-running-multiple-chats-in-parallel">Step 8: Running multiple chats in parallel</a></li>
+  <li><a href="#step-9-checking-the-generated-code" id="toc-step-9-checking-the-generated-code" class="nav-link" data-scroll-target="#step-9-checking-the-generated-code">Step 9: Checking the generated code</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/local-llm.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/local-llm.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
@@ -351,94 +351,123 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> <span class="at">--version</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section><section id="step-2-pull-a-local-model-one-time-outside-r" class="level2"><h2 class="anchored" data-anchor-id="step-2-pull-a-local-model-one-time-outside-r">Step 2: Pull a local model (one-time, outside R)</h2>
-<p><a href="https://ollama.com/search">https://ollama.com/search</a> lists all the models you can interact with via ollama. In your terminal (not the R console), download a small code-capable model <code>qwen2.5-coder:7b</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull qwen2.5-coder:7b</span>
+<p><a href="https://ollama.com/search" class="uri">https://ollama.com/search</a> lists all the models you can interact with via Ollama.</p>
+<p>In your terminal (not the R console), download a small code-capable model <code>qwen3:4b-instruct-2507-q4_K_M</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">ollama</span> pull qwen3:4b-instruct-2507-q4_K_M</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternative models to try if your laptop has limited RAM:</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># If your laptop has limited RAM (smaller, weaker):</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># ollama pull llama3.2:3b</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ollama pull codellama:7b</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<blockquote class="blockquote">
-<p>Tip: <code>qwen2.5-coder:7b</code> needs ~5-6 GB RAM. If your laptop struggles, use <code>llama3.2:3b</code> instead.</p>
-</blockquote>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ollama pull qwen3:1.7b</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section><section id="step-3-install-the-r-packages" class="level2"><h2 class="anchored" data-anchor-id="step-3-install-the-r-packages">Step 3: Install the R packages</h2>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ellmer"</span>, <span class="st">"chattr"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ellmer"</span>, <span class="st">"btw"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>
 <code>ellmer</code> is the underlying engine. It handles the actual connection to an LLM, local or cloud, sending your prompt to the model and returning the response as a usable R object.</li>
 <li>
-<code>chattr</code> is the user-facing layer built on top of <code>ellmer</code>. It adds the RStudio-friendly interface: a chat app that opens in the Viewer pane, plus Addins like “Send prompt” that let you query the model without writing any connection code.</li>
-</ul>
-<p>In short, ellmer does the talking to the model; chattr gives you a convenient way to talk to ellmer from inside RStudio.</p>
-</section><section id="step-4-configure-chattr-to-use-your-local-ollama-model" class="level2"><h2 class="anchored" data-anchor-id="step-4-configure-chattr-to-use-your-local-ollama-model">Step 4: Configure chattr to use your local Ollama model</h2>
+<code>btw</code> gives the model context from your R session. It turns objects, data frames, function documentation and package help into text the model can read, so you don’t have to paste them into your prompt. It can also optionally give the model tools to look things up in your session.</li>
+</ul></section><section id="step-4-chat-with-your-local-ollama-model-via-ellmer" class="level2"><h2 class="anchored" data-anchor-id="step-4-chat-with-your-local-ollama-model-via-ellmer">Step 4: Chat with your local Ollama model via ellmer</h2>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mlverse/chattr">chattr</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># set chattr's backend to the local Ollama model you pulled</span></span>
-<span><span class="fu">chattr_use</span><span class="op">(</span><span class="st">"ollama/qwen2.5-coder:7b"</span><span class="op">)</span></span>
+<span><span class="va">chat</span> <span class="op">=</span> <span class="fu">chat_ollama</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"qwen3:4b-instruct-2507-q4_K_M"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># quick connectivity check: sends a prompt and prints the response in the console</span></span>
-<span><span class="fu">chattr</span><span class="op">(</span><span class="st">"Write an R function that calculates BMI given weight in kg and height in m."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># create a very simple dataset for the model to work on</span></span>
+<span><span class="va">dat</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>age <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'M'</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">dat</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span> <span class="op">=</span> <span class="cn">NA</span>  <span class="co"># introduce some missing value</span></span>
+<span></span>
+<span><span class="co"># ask model to describe the data</span></span>
+<span><span class="va">chat</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"describe `dat`"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Under the hood, <code>chattr_use()</code> configures ellmer for you. If it does not recognise the <code>"ollama/..."</code> shorthand (this interface has shifted across package versions), configure <code>ellmer</code> directly instead:</p>
+<p><code>dat</code> is in our R environment (we have just created it), but the model has no way to see your R session. It only ever sees the text you send it. So when you ask it to describe <code>dat</code> without passing any actual values, it has nothing concrete to work with and falls back on a vague, generic answer, or it may even invent a plausible-sounding description that has nothing to do with your real data.</p>
+</section><section id="step-5-contextualized-chat-via-btw" class="level2"><h2 class="anchored" data-anchor-id="step-5-contextualized-chat-via-btw">Step 5: Contextualized chat via btw</h2>
+<p><code>btw</code> closes that gap by giving the model access to what is actually in your R session. There are two ways to use it: wrapping your <code>chat</code> object so the model can look things up as needed, or explicitly passing an object’s content into a single prompt.</p>
+<p><strong>Wrapping the chat object.</strong> <code>btw_client()</code> takes an existing <code>ellmer</code> chat and layers session-awareness on top of it, so the model can inspect objects, data, and documentation when it needs to:</p>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># If chattr_use() doesn't recognise "ollama/...", configure ellmer directly:</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ellmer.tidyverse.org">ellmer</a></span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/posit-dev/btw">btw</a></span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">chat</span> <span class="op">&lt;-</span> <span class="fu">chat_ollama</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"qwen2.5-coder:7b"</span><span class="op">)</span></span>
-<span><span class="fu">chattr_use</span><span class="op">(</span><span class="va">chat</span><span class="op">)</span></span>
+<span><span class="co"># create btw client from the chat we just had</span></span>
+<span><span class="va">client</span> <span class="op">=</span> <span class="fu">btw_client</span><span class="op">(</span>client <span class="op">=</span> <span class="va">chat</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># try connectivity check again: sends a prompt and prints the response in the console</span></span>
-<span><span class="fu">chattr</span><span class="op">(</span><span class="st">"Write an R function that calculates BMI given weight in kg and height in m."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># ask the client to describe the data</span></span>
+<span><span class="va">client</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"describe `dat`"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section><section id="step-5-your-first-interaction-via-the-shiny-gadget" class="level2"><h2 class="anchored" data-anchor-id="step-5-your-first-interaction-via-the-shiny-gadget">Step 5: Your first interaction, via the Shiny gadget</h2>
+<p>Is this any better than Step 4’s response? Compare it to a <em>fresh</em> chat and client below, which has never seen <code>dat</code> mentioned before:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># remove the chat and client we created earlier</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">chat</span>, <span class="va">client</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create a new chat</span></span>
+<span><span class="va">chat</span> <span class="op">=</span> <span class="fu">chat_ollama</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"qwen3:4b-instruct-2507-q4_K_M"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># create btw client from this new chat</span></span>
+<span><span class="va">client</span> <span class="op">=</span> <span class="fu">btw_client</span><span class="op">(</span>client <span class="op">=</span> <span class="va">chat</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># ask the client to describe the data</span></span>
+<span><span class="va">client</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"describe `dat`"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Do the two responses differ? Why might that be, given both clients technically have the same tools available?</p>
+<p><strong>Passing exact context directly.</strong> Rather than relying on the model to realise it should look something up (which, as you may have just seen, small local models do not always do reliably), you can skip the guesswork entirely and hand it the exact object you are asking about:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># specifically pass `dat` to the chat and ask it to describe</span></span>
+<span><span class="va">chat</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="fu">btw</span><span class="op">(</span><span class="va">dat</span>, <span class="st">"describe"</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><code>btw()</code> here converts <code>dat</code> into a compact text representation (structure, types, a preview of values) and bundles it directly into your prompt, so the model is reasoning over your actual data rather than guessing from the variable name alone. This tends to be the more reliable approach with smaller local models.</p>
+</section><section id="step-6-interactive-chat" class="level2"><h2 class="anchored" data-anchor-id="step-6-interactive-chat">Step 6: Interactive chat</h2>
+<p>There may be times you want a back-and-forth conversation rather than one-off questions. Chat history does carry over from call to call of <code>chat$chat()</code> (the object remembers earlier turns), but typing the function out for every message is tedious. Two more convenient options:</p>
+<p><strong>Live console</strong>, for a lightweight, terminal-style back-and-forth without leaving the console:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">ellmer</span><span class="fu">::</span><span class="fu">live_console</span><span class="op">(</span><span class="va">chat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Type your messages directly and press Enter to send; press <code>esc</code> to exit back to your normal R console.</p>
+<p><strong><code>btw_app()</code></strong>, for a more familiar, formatted, web-based chat window:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu">btw_app</span><span class="op">(</span>client <span class="op">=</span> <span class="va">chat</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This gives you a nicer interface (message bubbles, scrollback, markdown rendering), but it comes at a cost: every message you send still carries the model’s full running conversation history, and with small local models, more history in context tends to mean slower responses and, often, noticeably lower-quality answers once the context starts to fill up. We will look at how to manage this next.</p>
+</section><section id="step-7-view-the-conversation-log" class="level2"><h2 class="anchored" data-anchor-id="step-7-view-the-conversation-log">Step 7: View the conversation log</h2>
+<p>Every <code>chat</code> object keeps a record of the full conversation it has had so far, not just what is shown on screen. You can inspect this directly:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># view the full back-and-forth so far, as a list of turns</span></span>
+<span><span class="va">chat</span><span class="op">$</span><span class="fu">get_turns</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># a quicker, readable summary in the console</span></span>
+<span><span class="va">chat</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is useful for two reasons: you can check exactly what context the model has accumulated (including anything <code>btw</code> silently added via tool calls), and you can confirm whether something you expected it to “remember” from earlier in the conversation is actually still there.</p>
+</section><section id="step-8-running-multiple-chats-in-parallel" class="level2"><h2 class="anchored" data-anchor-id="step-8-running-multiple-chats-in-parallel">Step 8: Running multiple chats in parallel</h2>
+<p>Because a <code>chat</code> object is just an R object, you are not limited to one conversation at a time. You can create several, give them different names, and use each for a different line of thinking:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">chat_cleaning</span> <span class="op">=</span> <span class="fu">chat_ollama</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"qwen3:4b-instruct-2507-q4_K_M"</span><span class="op">)</span></span>
+<span><span class="va">chat_viz</span>      <span class="op">=</span> <span class="fu">chat_ollama</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"qwen3:4b-instruct-2507-q4_K_M"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">chat_cleaning</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Suggest steps to clean a messy clinical dataset with missing ages."</span><span class="op">)</span></span>
+<span><span class="va">chat_viz</span><span class="op">$</span><span class="fu">chat</span><span class="op">(</span><span class="st">"Suggest a good ggplot2 chart to compare case counts across regions."</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Each object keeps its own separate history, so asking <code>chat_viz</code> something does not bloat or confuse the conversation you were having in <code>chat_cleaning</code>, and vice versa.</p>
+<p>Once a conversation is no longer useful to you, delete it:</p>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/rm.html">rm</a></span><span class="op">(</span><span class="va">chat_cleaning</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Why this matters for response quality, not just tidiness.</strong> Local models have a limited context window (the maximum number of tokens they can “see” at once, including your whole conversation history). As a chat’s history grows, each new prompt has to carry all of that earlier text along with it. Once you approach the model’s context limit, you will often notice slower responses, truncated answers, or replies that seem to have “forgotten” earlier instructions, since older parts of the conversation may get dropped or crowded out. This tends to show up much sooner with small local models than with large cloud models.</p>
+<p>The practical habit to build is: keep each chat focused on one task or one file, start a new chat rather than continuing an old, long, unrelated conversation, and discard (<code><a href="https://rdrr.io/r/base/rm.html">rm()</a></code>) a chat once you are done with it rather than letting several bloated conversations pile up in your environment. This keeps each chat’s context small and relevant, which tends to produce noticeably better answers than one long, meandering conversation covering several unrelated tasks.</p>
+</section><section id="step-9-checking-the-generated-code" class="level2"><h2 class="anchored" data-anchor-id="step-9-checking-the-generated-code">Step 9: Checking the generated code</h2>
+<p>A local model’s code is a draft, not a guarantee. Before relying on anything it gives you, check it the same way you would check any new piece of code:</p>
 <ol type="1">
-<li>Run <code>chattr_app()</code> in R console. A chat panel opens in the RStudio Viewer pane.</li>
-<li>Type the following prompt into the chat box:</li>
+<li>
+<strong>Read it before running it.</strong> Does the logic make sense given what you asked for? Does it use functions and arguments you recognise, or are they things you should look up in <code><a href="https://rdrr.io/r/utils/help.html">?help</a></code> first?</li>
+<li>
+<strong>Run it on a small, known example.</strong> Test the generated code on simple data where you already know what the correct answer should be, not directly on your real analysis dataset.</li>
+<li>
+<strong>Compare output to expectations.</strong> Check dimensions, types, and a few known values. For example, if you asked for a cleaning function, confirm the number of rows and columns is what you expect, and spot-check a few values by hand.</li>
+<li>
+<strong>Watch for confident-sounding mistakes.</strong> Local models can produce code that runs without error but is subtly wrong (incorrect formula, wrong column referenced, silently dropped rows). A lack of an error message is not the same as correctness.</li>
+<li>
+<strong>Ask the model to explain its own code</strong>, then check that explanation against what the code actually does line by line. Mismatches between the explanation and the behaviour are a useful signal that something may be off.</li>
 </ol>
-<blockquote class="blockquote">
-<p>“Write an R function that calculates BMI given weight in kg and height in m.”</p>
-</blockquote>
-<ol start="3" type="1">
-<li>Review the code the model returns, then copy it into a script to test it.</li>
-</ol></section><section id="step-6-your-first-interaction-via-the-rstudio-add-in" class="level2"><h2 class="anchored" data-anchor-id="step-6-your-first-interaction-via-the-rstudio-add-in">Step 6: Your first interaction, via the RStudio Add-in</h2>
-<ol type="1">
-<li>In a new <code>.R</code> script, type a plain-English question as a comment:</li>
-</ol>
-<div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Write an R function `bmi_category` that flags BMI values as underweight, normal,</span></span>
-<span><span class="co"># overweight, or obese based on standard WHO cutoffs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<ol start="2" type="1">
-<li>Highlight that comment line.</li>
-<li>Go to <strong>Addins → chattr: Send prompt</strong> (or use the keyboard shortcut if configured).</li>
-<li>The response appears in the chattr panel; copy the generated function back into your script.</li>
-</ol></section><section id="step-7-see-whats-actually-sent" class="level2"><h2 class="anchored" data-anchor-id="step-7-see-whats-actually-sent">Step 7: See what’s actually sent</h2>
-<p>So far, chattr has sent your prompt plus some additional context (like surrounding script content) without showing you what that looks like. Use <code>preview = TRUE</code> to see the full payload without calling the model:</p>
-<div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Normal use: sends the prompt (plus context) to the model and returns a response</span></span>
-<span><span class="fu">chattr</span><span class="op">(</span><span class="st">"Write an R function that calculates BMI given weight in kg and height in m."</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Dry run: shows the exact text/context that would be sent, without calling the model</span></span>
-<span><span class="fu">chattr</span><span class="op">(</span></span>
-<span>  <span class="st">"Write an R function that calculates BMI given weight in kg and height in m."</span></span>
-<span>  , preview <span class="op">=</span> <span class="cn">TRUE</span></span>
-<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Compare the two outputs. What extra context, if any, got added to your prompt?</p>
-</section><section id="step-8-test-the-generated-code" class="level2"><h2 class="anchored" data-anchor-id="step-8-test-the-generated-code">Step 8: Test the generated code</h2>
-<div class="cell">
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Paste the AI-generated function here and test it</span></span>
-<span><span class="fu">bmi_category</span><span class="op">(</span>weight <span class="op">=</span> <span class="fl">70</span>, height <span class="op">=</span> <span class="fl">1.75</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section><section id="step-9-reflect" class="level2"><h2 class="anchored" data-anchor-id="step-9-reflect">Step 9: Reflect</h2>
-<p>In 2-3 sentences, note:</p>
-<ol type="1">
-<li>Did the local model’s code run correctly on the first try?</li>
-<li>How did the response compare to what you’d expect from a cloud model like ChatGPT or Claude?</li>
-<li>What are the privacy/speed trade-offs you noticed?</li>
-</ol>
+<hr>
+<p>Now that you have an LLM working locally, let’s return to the actual topic of today <strong>best practices.</strong></p>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -905,8 +934,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../chapters/scaffolding.html" class="pagination-link" aria-label="What is Scaffolding?">
-        <span class="nav-page-text"><span class="chapter-title">What is Scaffolding?</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../chapters/scaffolding.html" class="pagination-link" aria-label="Scaffolding">
+        <span class="nav-page-text"><span class="chapter-title">Scaffolding</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

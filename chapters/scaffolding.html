@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-1.5.57">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>What is Scaffolding? – Public health coding with R</title>
+<title>Scaffolding – Public health coding with R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -106,7 +106,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/scaffolding.html"><span class="chapter-title">What is Scaffolding?</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/scaffolding.html"><span class="chapter-title">Scaffolding</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -295,7 +295,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../chapters/scaffolding.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">What is Scaffolding?</span></a>
+  <a href="../chapters/scaffolding.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Scaffolding</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -313,14 +313,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#step-by-step-guide-to-scaffolding" id="toc-step-by-step-guide-to-scaffolding" class="nav-link active" data-scroll-target="#step-by-step-guide-to-scaffolding">Step-by-Step Guide to Scaffolding</a></li>
+<li><a href="#what-is-scaffolding" id="toc-what-is-scaffolding" class="nav-link active" data-scroll-target="#what-is-scaffolding">What is Scaffolding?</a></li>
+  <li><a href="#step-by-step-guide-to-scaffolding" id="toc-step-by-step-guide-to-scaffolding" class="nav-link" data-scroll-target="#step-by-step-guide-to-scaffolding">Step-by-Step Guide to Scaffolding</a></li>
   <li><a href="#example-a-scaffold-for-a-simple-analysis-project" id="toc-example-a-scaffold-for-a-simple-analysis-project" class="nav-link" data-scroll-target="#example-a-scaffold-for-a-simple-analysis-project">Example: A Scaffold for a Simple Analysis Project</a></li>
   <li><a href="#micro-one-shot" id="toc-micro-one-shot" class="nav-link" data-scroll-target="#micro-one-shot"><em>Micro</em> One-Shot</a></li>
   </ul><div class="toc-actions"><ul><li><a href="https://github.com/hatio/SPH5009/edit/main/chapters/scaffolding.qmd" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/hatio/SPH5009/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li><li><a href="https://github.com/hatio/SPH5009/blob/main/chapters/scaffolding.qmd" class="toc-action"><i class="bi empty"></i>View source</a></li></ul></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/scaffolding.html"><span class="chapter-title">What is Scaffolding?</span></a></li></ol></nav><div class="quarto-title">
-<h1 class="title"><span id="scaffolding" class="quarto-section-identifier"><span class="chapter-title">What is Scaffolding?</span></span></h1>
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/assist.html">5 - Coding support tools</a></li><li class="breadcrumb-item"><a href="../chapters/scaffolding.html"><span class="chapter-title">Scaffolding</span></a></li></ol></nav><div class="quarto-title">
+<h1 class="title"><span id="scaffolding" class="quarto-section-identifier"><span class="chapter-title">Scaffolding</span></span></h1>
 </div>
 
 
@@ -335,9 +336,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><p>“Best practices” for using AI in coding is a rapidly expanding, and rapidly contradicting, body of advice. Everyone seems to be saying something slightly different, and much of it is still being figured out in real time. Rather than trying to survey all of it, this session focuses on one particular idea: <strong>scaffolding</strong>. This approach follows an <a href="https://www.ai.joaoqueiros.com/blog/carlos-kelkboom-coding-agents-scaffolding-worktrees-review">interview of Carlos Kelkboom</a>, a leading Software Architect, whose framing of the problem I personally find especially compelling and practical.</p>
+<section id="what-is-scaffolding" class="level2"><h2 class="anchored" data-anchor-id="what-is-scaffolding">What is Scaffolding?</h2>
 <p><strong>Scaffolding</strong> means building the “skeleton” of your project out of plain words and empty files before you let the AI write a single line of actual R code. Think of it this way: the AI is a remarkably fast builder, but you are the Chief Architect. If you do not draw up the blueprint first, the AI will cheerfully build the wrong house, quickly, confidently, and with code that runs without error.</p>
 <p>Scaffolding means deciding upfront which part of the code is responsible for what, and exactly what data gets passed between those parts, while those decisions are still easy to change, before a lot of implementation gets built on top of them. Once an agent has already written five hundred lines of interdependent code, restructuring becomes expensive and risky. Deciding before that point what talks to what, what a function is responsible for, and what it should never touch, costs you a few minutes of thinking instead of hours of untangling.</p>
-<section id="step-by-step-guide-to-scaffolding" class="level2"><h2 class="anchored" data-anchor-id="step-by-step-guide-to-scaffolding">Step-by-Step Guide to Scaffolding</h2>
+</section><section id="step-by-step-guide-to-scaffolding" class="level2"><h2 class="anchored" data-anchor-id="step-by-step-guide-to-scaffolding">Step-by-Step Guide to Scaffolding</h2>
 <p><strong>1. Discuss project structure with AI</strong></p>
 <p>Before any code is written, talk through the shape of the project with the AI, treating it as a sounding board rather than a builder.</p>
 <ul>
